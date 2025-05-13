@@ -59,12 +59,148 @@
 		3EC86A072DD21A5500949918 /* FilterPicker */ = {
 			isa = PBXGroup;
 			children = (
+				3EC86A1C2DD353CD00949918 /* App */,
+				3EC86A1E2DD3543F00949918 /* Core */,
+				3EC86A232DD3546300949918 /* Features */,
+				3EC86A282DD3549500949918 /* Shared */,
+				3EC86A312DD354D600949918 /* Config */,
 				3EC86A032DD21A5500949918 /* Preview Content */,
-				3EC86A042DD21A5500949918 /* Assets.xcassets */,
 				3EC86A052DD21A5500949918 /* ContentView.swift */,
-				3EC86A062DD21A5500949918 /* FilterPickerApp.swift */,
 			);
 			path = FilterPicker;
+			sourceTree = "<group>";
+		};
+		3EC86A1C2DD353CD00949918 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				3EC86A062DD21A5500949918 /* FilterPickerApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		3EC86A1E2DD3543F00949918 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				3EC86A1F2DD3544800949918 /* Network */,
+				3EC86A202DD3544C00949918 /* Repository */,
+				3EC86A212DD3545200949918 /* UseCase */,
+				3EC86A222DD3545700949918 /* Model */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		3EC86A1F2DD3544800949918 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		3EC86A202DD3544C00949918 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		3EC86A212DD3545200949918 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		3EC86A222DD3545700949918 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3EC86A232DD3546300949918 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				3EC86A242DD3547900949918 /* Auth */,
+				3EC86A252DD3547C00949918 /* FilterList */,
+				3EC86A262DD3548100949918 /* FilterDetail */,
+				3EC86A272DD3548700949918 /* MyFilters */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		3EC86A242DD3547900949918 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		3EC86A252DD3547C00949918 /* FilterList */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FilterList;
+			sourceTree = "<group>";
+		};
+		3EC86A262DD3548100949918 /* FilterDetail */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FilterDetail;
+			sourceTree = "<group>";
+		};
+		3EC86A272DD3548700949918 /* MyFilters */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MyFilters;
+			sourceTree = "<group>";
+		};
+		3EC86A282DD3549500949918 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				3EC86A292DD3549D00949918 /* DesignSystem */,
+				3EC86A2B2DD354AF00949918 /* Extensions */,
+				3EC86A2C2DD354BE00949918 /* Resources */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		3EC86A292DD3549D00949918 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				3EC86A2A2DD354A300949918 /* Components */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		3EC86A2A2DD354A300949918 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		3EC86A2B2DD354AF00949918 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3EC86A2C2DD354BE00949918 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3EC86A042DD21A5500949918 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		3EC86A312DD354D600949918 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
