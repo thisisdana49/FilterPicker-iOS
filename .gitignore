@@ -1,4 +1,5 @@
 APIKey.swift
+AppConfig.swift
 *.xcconfig
 
 # Created by https://www.toptal.com/developers/gitignore/api/swift,xcode
