@@ -15,6 +15,7 @@
 		3EC86A352DD36C5E00949918 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A342DD36C5E00949918 /* Debug.xcconfig */; };
 		3EC86A372DD36C6B00949918 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A362DD36C6B00949918 /* Release.xcconfig */; };
 		3EC86A3A2DD36F1C00949918 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A392DD36F1C00949918 /* AppConfig.swift */; };
+		3EC86A3C2DD3786C00949918 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A3B2DD3786C00949918 /* APIRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		3EC86A362DD36C6B00949918 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		3EC86A382DD36D7300949918 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3EC86A392DD36F1C00949918 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		3EC86A3B2DD3786C00949918 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 		3EC86A1F2DD3544800949918 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				3EC86A3B2DD3786C00949918 /* APIRequest.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 			files = (
 				3EC86A3A2DD36F1C00949918 /* AppConfig.swift in Sources */,
 				3EC86A0A2DD21A5500949918 /* ContentView.swift in Sources */,
+				3EC86A3C2DD3786C00949918 /* APIRequest.swift in Sources */,
 				3EC86A0B2DD21A5500949918 /* FilterPickerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
