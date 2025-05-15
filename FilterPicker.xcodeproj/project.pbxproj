@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E3CF1502DD5676B00B5D650 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF14F2DD5676B00B5D650 /* APIService.swift */; };
+		3E3CF1522DD567AD00B5D650 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1512DD567AD00B5D650 /* NetworkError.swift */; };
+		3E3CF1542DD56B7700B5D650 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1532DD56B7700B5D650 /* AuthRepository.swift */; };
+		3E3CF1562DD5F0B300B5D650 /* AuthTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1552DD5F0B300B5D650 /* AuthTokenResponse.swift */; };
+		3E3CF15B2DD5F7C000B5D650 /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF15A2DD5F7C000B5D650 /* TokenStorage.swift */; };
+		3E3CF15F2DD5FAB700B5D650 /* AuthIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF15E2DD5FAB700B5D650 /* AuthIntent.swift */; };
+		3E3CF1612DD5FAF700B5D650 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1602DD5FAF700B5D650 /* AuthState.swift */; };
+		3E3CF1632DD5FB0900B5D650 /* AuthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1622DD5FB0900B5D650 /* AuthStore.swift */; };
+		3E3CF1652DD5FB2500B5D650 /* AuthReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1642DD5FB2500B5D650 /* AuthReducer.swift */; };
+		3E3CF1672DD5FB4A00B5D650 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1662DD5FB4A00B5D650 /* AuthView.swift */; };
 		3EC86A082DD21A5500949918 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A022DD21A5500949918 /* Preview Assets.xcassets */; };
 		3EC86A092DD21A5500949918 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A042DD21A5500949918 /* Assets.xcassets */; };
 		3EC86A0A2DD21A5500949918 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A052DD21A5500949918 /* ContentView.swift */; };
@@ -15,9 +25,20 @@
 		3EC86A352DD36C5E00949918 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A342DD36C5E00949918 /* Debug.xcconfig */; };
 		3EC86A372DD36C6B00949918 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A362DD36C6B00949918 /* Release.xcconfig */; };
 		3EC86A3A2DD36F1C00949918 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A392DD36F1C00949918 /* AppConfig.swift */; };
+		3EC86A3C2DD3786C00949918 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A3B2DD3786C00949918 /* APIRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E3CF14F2DD5676B00B5D650 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		3E3CF1512DD567AD00B5D650 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		3E3CF1532DD56B7700B5D650 /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
+		3E3CF1552DD5F0B300B5D650 /* AuthTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenResponse.swift; sourceTree = "<group>"; };
+		3E3CF15A2DD5F7C000B5D650 /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
+		3E3CF15E2DD5FAB700B5D650 /* AuthIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthIntent.swift; sourceTree = "<group>"; };
+		3E3CF1602DD5FAF700B5D650 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
+		3E3CF1622DD5FB0900B5D650 /* AuthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStore.swift; sourceTree = "<group>"; };
+		3E3CF1642DD5FB2500B5D650 /* AuthReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthReducer.swift; sourceTree = "<group>"; };
+		3E3CF1662DD5FB4A00B5D650 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		3EC869E82DD21A0E00949918 /* FilterPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC86A022DD21A5500949918 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3EC86A042DD21A5500949918 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -28,6 +49,7 @@
 		3EC86A362DD36C6B00949918 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		3EC86A382DD36D7300949918 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3EC86A392DD36F1C00949918 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		3EC86A3B2DD3786C00949918 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +63,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E3CF1572DD5F61800B5D650 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				3E3CF15A2DD5F7C000B5D650 /* TokenStorage.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
 		3EC869DF2DD21A0E00949918 = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +125,7 @@
 				3EC86A202DD3544C00949918 /* Repository */,
 				3EC86A212DD3545200949918 /* UseCase */,
 				3EC86A222DD3545700949918 /* Model */,
+				3E3CF1572DD5F61800B5D650 /* Storage */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -102,6 +133,9 @@
 		3EC86A1F2DD3544800949918 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				3EC86A3B2DD3786C00949918 /* APIRequest.swift */,
+				3E3CF14F2DD5676B00B5D650 /* APIService.swift */,
+				3E3CF1512DD567AD00B5D650 /* NetworkError.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -109,6 +143,7 @@
 		3EC86A202DD3544C00949918 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				3E3CF1532DD56B7700B5D650 /* AuthRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -123,6 +158,7 @@
 		3EC86A222DD3545700949918 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3E3CF1552DD5F0B300B5D650 /* AuthTokenResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -141,6 +177,11 @@
 		3EC86A242DD3547900949918 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				3E3CF1662DD5FB4A00B5D650 /* AuthView.swift */,
+				3E3CF1622DD5FB0900B5D650 /* AuthStore.swift */,
+				3E3CF1602DD5FAF700B5D650 /* AuthState.swift */,
+				3E3CF15E2DD5FAB700B5D650 /* AuthIntent.swift */,
+				3E3CF1642DD5FB2500B5D650 /* AuthReducer.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -294,7 +335,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EC86A3A2DD36F1C00949918 /* AppConfig.swift in Sources */,
+				3E3CF1632DD5FB0900B5D650 /* AuthStore.swift in Sources */,
+				3E3CF1502DD5676B00B5D650 /* APIService.swift in Sources */,
 				3EC86A0A2DD21A5500949918 /* ContentView.swift in Sources */,
+				3E3CF15F2DD5FAB700B5D650 /* AuthIntent.swift in Sources */,
+				3E3CF1612DD5FAF700B5D650 /* AuthState.swift in Sources */,
+				3E3CF1522DD567AD00B5D650 /* NetworkError.swift in Sources */,
+				3E3CF1562DD5F0B300B5D650 /* AuthTokenResponse.swift in Sources */,
+				3E3CF1672DD5FB4A00B5D650 /* AuthView.swift in Sources */,
+				3E3CF1542DD56B7700B5D650 /* AuthRepository.swift in Sources */,
+				3EC86A3C2DD3786C00949918 /* APIRequest.swift in Sources */,
+				3E3CF15B2DD5F7C000B5D650 /* TokenStorage.swift in Sources */,
+				3E3CF1652DD5FB2500B5D650 /* AuthReducer.swift in Sources */,
 				3EC86A0B2DD21A5500949918 /* FilterPickerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -436,12 +488,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FilterPicker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -472,12 +525,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FilterPicker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
