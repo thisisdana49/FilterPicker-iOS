@@ -36,6 +36,7 @@ struct AuthReducer {
                 newState.isLoggedIn = true
                 newState.isLoading = false
             } catch {
+                print("❌ login error:", error)
                 newState.errorMessage = "로그인에 실패했습니다."
                 newState.isLoading = false
             }

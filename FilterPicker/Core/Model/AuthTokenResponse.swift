@@ -13,4 +13,12 @@ struct AuthTokenResponse: Decodable {
     let nick: String
     let accessToken: String
     let refreshToken: String
+    
+    enum CodingKeys: String, CodingKey {
+        case userId = "user_id"
+        case email
+        case nick
+        case accessToken
+        case refreshToken
+    }
 }
