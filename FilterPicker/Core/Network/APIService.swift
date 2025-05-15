@@ -18,10 +18,22 @@ final class DefaultAPIService: APIService {
             throw NetworkError.invalidRequest
         }
 
+        // MARK: - 🔍 로그 요청 출력
+        print("🌐 [Request] \(request.method.rawValue) \(request.path)")
+        if let body = request.body {
+            print("📤 Body: \(body)")
+        }
+
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse
+        }
+
+        // MARK: - 🔍 로그 응답 출력
+        print("📬 [Response] Status: \(httpResponse.statusCode)")
+        if let jsonString = String(data: data, encoding: .utf8) {
+            print("📦 Data: \(jsonString)")
         }
 
         guard 200..<300 ~= httpResponse.statusCode else {
@@ -49,6 +61,9 @@ private extension DefaultAPIService {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = request.method.rawValue
 
+        urlRequest.setValue(AppConfig.apiKey, forHTTPHeaderField: "SesacKey")
+
+        // 사용자 정의 헤더
         if let headers = request.headers {
             for (key, value) in headers {
                 urlRequest.setValue(value, forHTTPHeaderField: key)
