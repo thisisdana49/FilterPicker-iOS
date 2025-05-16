@@ -22,6 +22,7 @@
 		3E3CF16F2DD71E4400B5D650 /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF16A2DD71E4400B5D650 /* AppRoute.swift */; };
 		3E3CF1702DD71E4400B5D650 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF16C2DD71E4400B5D650 /* AppStore.swift */; };
 		3E3CF1712DD71E4400B5D650 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1692DD71E4400B5D650 /* AppReducer.swift */; };
+		3E3CF1732DD7321200B5D650 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1722DD7321200B5D650 /* TokenResponse.swift */; };
 		3EC86A082DD21A5500949918 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A022DD21A5500949918 /* Preview Assets.xcassets */; };
 		3EC86A092DD21A5500949918 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A042DD21A5500949918 /* Assets.xcassets */; };
 		3EC86A0A2DD21A5500949918 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A052DD21A5500949918 /* ContentView.swift */; };
@@ -49,6 +50,7 @@
 		3E3CF16A2DD71E4400B5D650 /* AppRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoute.swift; sourceTree = "<group>"; };
 		3E3CF16B2DD71E4400B5D650 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		3E3CF16C2DD71E4400B5D650 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		3E3CF1722DD7321200B5D650 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
 		3EC869E82DD21A0E00949918 /* FilterPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC86A022DD21A5500949918 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3EC86A042DD21A5500949918 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				3E3CF1552DD5F0B300B5D650 /* AuthTokenResponse.swift */,
+				3E3CF1722DD7321200B5D650 /* TokenResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				3E3CF1522DD567AD00B5D650 /* NetworkError.swift in Sources */,
 				3E3CF1562DD5F0B300B5D650 /* AuthTokenResponse.swift in Sources */,
 				3E3CF1672DD5FB4A00B5D650 /* AuthView.swift in Sources */,
+				3E3CF1732DD7321200B5D650 /* TokenResponse.swift in Sources */,
 				3E3CF1542DD56B7700B5D650 /* AuthRepository.swift in Sources */,
 				3EC86A3C2DD3786C00949918 /* APIRequest.swift in Sources */,
 				3E3CF15B2DD5F7C000B5D650 /* TokenStorage.swift in Sources */,

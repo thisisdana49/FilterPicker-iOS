@@ -10,6 +10,7 @@ import Foundation
 protocol AuthRepository {
     func signup(email: String, password: String, nickname: String) async throws -> AuthTokenResponse
     func login(email: String, password: String) async throws -> AuthTokenResponse
+    func refreshToken() async throws -> TokenResponse
 }
 
 final class DefaultAuthRepository: AuthRepository {
@@ -47,4 +48,28 @@ final class DefaultAuthRepository: AuthRepository {
         let response: AuthTokenResponse = try await apiService.request(request)
         return response
     }
+    
+    func refreshToken() async throws -> TokenResponse {
+        guard let refreshToken = TokenStorage.refreshToken else {
+            throw AuthError.noRefreshToken
+        }
+        
+        let request = APIRequest(
+            path: "/v1/auth/refresh",
+            method: .get,
+            headers: [
+                "RefreshToken": refreshToken,
+                "Authorization": TokenStorage.accessToken ?? ""
+            ]
+        )
+        
+        let response: TokenResponse = try await apiService.request(request)
+        return response
+    }
+}
+
+enum AuthError: Error {
+    case noRefreshToken
+    case refreshTokenExpired
+    case refreshFailed
 }

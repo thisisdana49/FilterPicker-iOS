@@ -36,8 +36,17 @@ struct AuthReducer {
                     email: state.email,
                     password: state.password
                 )
+                print("\n🔐 로그인 성공 - 토큰 저장")
                 TokenStorage.accessToken = token.accessToken
                 TokenStorage.refreshToken = token.refreshToken
+                
+                // 토큰 만료 시간 설정 (현재 시간 + 2분)
+                TokenStorage.accessTokenExpiration = Date().addingTimeInterval(120)
+                // 리프레시 토큰 만료 시간 설정 (현재 시간 + 5분)
+                TokenStorage.refreshTokenExpiration = Date().addingTimeInterval(300)
+                
+                TokenStorage.printTokenStatus()
+                
                 newState.isLoggedIn = true
                 newState.isLoading = false
                 await appStore.send(.loginSucceeded)
