@@ -9,9 +9,14 @@ import Foundation
 
 struct AuthReducer {
     private let authRepository: AuthRepository
+    private let appStore: AppStore
 
-    init(authRepository: AuthRepository = DefaultAuthRepository()) {
+    init(
+        authRepository: AuthRepository = DefaultAuthRepository(),
+        appStore: AppStore
+    ) {
         self.authRepository = authRepository
+        self.appStore = appStore
     }
 
     func reduce(state: AuthState, intent: AuthIntent) async -> AuthState {
@@ -35,10 +40,12 @@ struct AuthReducer {
                 TokenStorage.refreshToken = token.refreshToken
                 newState.isLoggedIn = true
                 newState.isLoading = false
+                await appStore.send(.loginSucceeded)
             } catch {
                 print("❌ login error:", error)
                 newState.errorMessage = "로그인에 실패했습니다."
                 newState.isLoading = false
+                await appStore.send(.loginFailed("로그인에 실패했습니다."))
             }
 
         case .loginSucceeded:
