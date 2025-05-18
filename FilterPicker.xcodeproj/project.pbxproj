@@ -31,6 +31,13 @@
 		3E3CF1862DD9D06400B5D650 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3CF1852DD9D06400B5D650 /* KakaoSDKUser */; };
 		3E3CF1982DD9D71D00B5D650 /* KakaoSignInHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1972DD9D71D00B5D650 /* KakaoSignInHandler.swift */; };
 		3E3CF19A2DD9FF3300B5D650 /* FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1992DD9FF3300B5D650 /* FontStyle.swift */; };
+		3E3CF19C2DD9FFAD00B5D650 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF19B2DD9FFAD00B5D650 /* View+Extension.swift */; };
+		3E3CF1A02DDA063900B5D650 /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3E3CF19D2DDA063900B5D650 /* Pretendard-Bold.ttf */; };
+		3E3CF1A12DDA063900B5D650 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3E3CF19E2DDA063900B5D650 /* Pretendard-Medium.ttf */; };
+		3E3CF1A22DDA063900B5D650 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3E3CF19F2DDA063900B5D650 /* Pretendard-Regular.ttf */; };
+		3E3CF1A52DDA064900B5D650 /* Mulgyeol-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3E3CF1A32DDA064900B5D650 /* Mulgyeol-Bold.ttf */; };
+		3E3CF1A62DDA064900B5D650 /* Mulgyeol-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3E3CF1A42DDA064900B5D650 /* Mulgyeol-Regular.ttf */; };
+		3E3CF1A92DDA086E00B5D650 /* CustomFontName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1A82DDA086E00B5D650 /* CustomFontName.swift */; };
 		3EC86A082DD21A5500949918 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A022DD21A5500949918 /* Preview Assets.xcassets */; };
 		3EC86A092DD21A5500949918 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A042DD21A5500949918 /* Assets.xcassets */; };
 		3EC86A0A2DD21A5500949918 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A052DD21A5500949918 /* ContentView.swift */; };
@@ -65,6 +72,13 @@
 		3E3CF17E2DD9CDB400B5D650 /* AppleSignInHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInHandler.swift; sourceTree = "<group>"; };
 		3E3CF1972DD9D71D00B5D650 /* KakaoSignInHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSignInHandler.swift; sourceTree = "<group>"; };
 		3E3CF1992DD9FF3300B5D650 /* FontStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontStyle.swift; sourceTree = "<group>"; };
+		3E3CF19B2DD9FFAD00B5D650 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		3E3CF19D2DDA063900B5D650 /* Pretendard-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.ttf"; sourceTree = "<group>"; };
+		3E3CF19E2DDA063900B5D650 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.ttf"; sourceTree = "<group>"; };
+		3E3CF19F2DDA063900B5D650 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
+		3E3CF1A32DDA064900B5D650 /* Mulgyeol-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mulgyeol-Bold.ttf"; sourceTree = "<group>"; };
+		3E3CF1A42DDA064900B5D650 /* Mulgyeol-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mulgyeol-Regular.ttf"; sourceTree = "<group>"; };
+		3E3CF1A82DDA086E00B5D650 /* CustomFontName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFontName.swift; sourceTree = "<group>"; };
 		3EC869E82DD21A0E00949918 /* FilterPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC86A022DD21A5500949918 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3EC86A042DD21A5500949918 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -106,6 +120,14 @@
 				3E3CF1742DD735C000B5D650 /* JWTDecoder.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		3E3CF1A72DDA086400B5D650 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				3E3CF1A82DDA086E00B5D650 /* CustomFontName.swift */,
+			);
+			path = Foundation;
 			sourceTree = "<group>";
 		};
 		3EC869DF2DD21A0E00949918 = {
@@ -268,6 +290,7 @@
 		3EC86A292DD3549D00949918 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
+				3E3CF1A72DDA086400B5D650 /* Foundation */,
 				3EC86A2A2DD354A300949918 /* Components */,
 				3E3CF1992DD9FF3300B5D650 /* FontStyle.swift */,
 			);
@@ -284,6 +307,7 @@
 		3EC86A2B2DD354AF00949918 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				3E3CF19B2DD9FFAD00B5D650 /* View+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -292,6 +316,11 @@
 			isa = PBXGroup;
 			children = (
 				3EC86A042DD21A5500949918 /* Assets.xcassets */,
+				3E3CF19D2DDA063900B5D650 /* Pretendard-Bold.ttf */,
+				3E3CF19E2DDA063900B5D650 /* Pretendard-Medium.ttf */,
+				3E3CF19F2DDA063900B5D650 /* Pretendard-Regular.ttf */,
+				3E3CF1A32DDA064900B5D650 /* Mulgyeol-Bold.ttf */,
+				3E3CF1A42DDA064900B5D650 /* Mulgyeol-Regular.ttf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -376,6 +405,11 @@
 			files = (
 				3EC86A352DD36C5E00949918 /* Debug.xcconfig in Resources */,
 				3EC86A082DD21A5500949918 /* Preview Assets.xcassets in Resources */,
+				3E3CF1A02DDA063900B5D650 /* Pretendard-Bold.ttf in Resources */,
+				3E3CF1A12DDA063900B5D650 /* Pretendard-Medium.ttf in Resources */,
+				3E3CF1A52DDA064900B5D650 /* Mulgyeol-Bold.ttf in Resources */,
+				3E3CF1A62DDA064900B5D650 /* Mulgyeol-Regular.ttf in Resources */,
+				3E3CF1A22DDA063900B5D650 /* Pretendard-Regular.ttf in Resources */,
 				3EC86A092DD21A5500949918 /* Assets.xcassets in Resources */,
 				3EC86A332DD36C5700949918 /* Base.xcconfig in Resources */,
 				3EC86A372DD36C6B00949918 /* Release.xcconfig in Resources */,
@@ -399,10 +433,12 @@
 				3E3CF1502DD5676B00B5D650 /* APIService.swift in Sources */,
 				3EC86A0A2DD21A5500949918 /* ContentView.swift in Sources */,
 				3E3CF17F2DD9CDB400B5D650 /* AppleSignInHandler.swift in Sources */,
+				3E3CF19C2DD9FFAD00B5D650 /* View+Extension.swift in Sources */,
 				3E3CF15F2DD5FAB700B5D650 /* AuthIntent.swift in Sources */,
 				3E3CF1612DD5FAF700B5D650 /* AuthState.swift in Sources */,
 				3E3CF1522DD567AD00B5D650 /* NetworkError.swift in Sources */,
 				3E3CF1562DD5F0B300B5D650 /* AuthTokenResponse.swift in Sources */,
+				3E3CF1A92DDA086E00B5D650 /* CustomFontName.swift in Sources */,
 				3E3CF1672DD5FB4A00B5D650 /* AuthView.swift in Sources */,
 				3E3CF1732DD7321200B5D650 /* TokenResponse.swift in Sources */,
 				3E3CF1982DD9D71D00B5D650 /* KakaoSignInHandler.swift in Sources */,
