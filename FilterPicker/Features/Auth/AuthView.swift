@@ -60,28 +60,13 @@ struct AuthView: View {
                         request.requestedScopes = [.fullName, .email]
                     },
                     onCompletion: { result in
-                        switch result {
-                        case .success(let authResults):
-                            print("✅ Apple 로그인 성공:", authResults)
-                            
-                            // Apple ID 토큰 추출
-                            guard let appleIDCredential = authResults.credential as? ASAuthorizationAppleIDCredential,
-                                  let idToken = appleIDCredential.identityToken,
-                                  let tokenString = String(data: idToken, encoding: .utf8) else {
-                                store.send(.appleLoginFailed("Apple 로그인 정보를 가져오는데 실패했습니다."))
-                                return
+                        AppleSignInHandler.handleSignInResult(result) { signInResult in
+                            switch signInResult {
+                            case .success(let (idToken, nick)):
+                                store.send(.appleLoginSucceeded(idToken: idToken, nick: nick))
+                            case .failure(let error):
+                                store.send(.appleLoginFailed(error.localizedDescription))
                             }
-                            
-                            // 닉네임 추출 (첫 로그인 시에만 제공됨)
-                            let nick = [appleIDCredential.fullName?.givenName, appleIDCredential.fullName?.familyName]
-                                .compactMap { $0 }
-                                .joined(separator: " ")
-                            
-                            store.send(.appleLoginSucceeded(idToken: tokenString, nick: nick.isEmpty ? nil : nick))
-                            
-                        case .failure(let error):
-                            print("❌ Apple 로그인 실패:", error)
-                            store.send(.appleLoginFailed(error.localizedDescription))
                         }
                     }
                 )
