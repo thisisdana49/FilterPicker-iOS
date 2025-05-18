@@ -16,4 +16,7 @@ enum AuthIntent {
     case appleLoginTapped
     case appleLoginSucceeded(idToken: String, nick: String?)
     case appleLoginFailed(String)
+    case kakaoLoginTapped
+    case kakaoLoginSucceeded(accessToken: String, nick: String?)
+    case kakaoLoginFailed(String)
 }
