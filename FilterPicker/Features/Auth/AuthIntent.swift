@@ -11,7 +11,9 @@ enum AuthIntent {
     case emailChanged(String)
     case passwordChanged(String)
     case loginTapped
-    case loginSucceeded
+    case loginSucceeded(AuthTokenResponse)
     case loginFailed(String)
-    case appleLoginTapped  // Apple 로그인 버튼 탭
+    case appleLoginTapped
+    case appleLoginSucceeded(idToken: String, nick: String?)
+    case appleLoginFailed(String)
 }

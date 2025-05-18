@@ -31,44 +31,64 @@ struct AuthReducer {
 
         case .loginTapped:
             newState.isLoading = true
+            newState.errorMessage = nil
             do {
-                let token = try await authRepository.login(
+                let response = try await authRepository.login(
                     email: state.email,
                     password: state.password
                 )
-                print("\n🔐 로그인 성공 - 토큰 저장")
-                TokenStorage.accessToken = token.accessToken
-                TokenStorage.refreshToken = token.refreshToken
-                
-                // 토큰 만료 시간 설정 (현재 시간 + 2분)
-                TokenStorage.accessTokenExpiration = Date().addingTimeInterval(120)
-                // 리프레시 토큰 만료 시간 설정 (현재 시간 + 5분)
-                TokenStorage.refreshTokenExpiration = Date().addingTimeInterval(300)
-                
-                TokenStorage.printTokenStatus()
-                
+                TokenStorage.accessToken = response.accessToken
+                TokenStorage.refreshToken = response.refreshToken
                 newState.isLoggedIn = true
                 newState.isLoading = false
-                await appStore.send(.loginSucceeded)
             } catch {
-                print("❌ login error:", error)
-                newState.errorMessage = "로그인에 실패했습니다."
+                newState.errorMessage = error.localizedDescription
                 newState.isLoading = false
                 await appStore.send(.loginFailed("로그인에 실패했습니다."))
             }
 
-        case .loginSucceeded:
+        case .loginSucceeded(let response):
+            TokenStorage.accessToken = response.accessToken
+            TokenStorage.refreshToken = response.refreshToken
             newState.isLoggedIn = true
+            newState.isLoading = false
+            
+            await appStore.send(.loginSucceeded)
 
         case .loginFailed(let message):
             newState.errorMessage = message
-            
+            newState.isLoading = false
+
         case .appleLoginTapped:
-            // TODO: Apple 로그인 SDK 연동
-            print("🍎 Apple 로그인 버튼 탭")
-            // SDK 연동 전까지는 임시로 에러 메시지 표시
-            let timestamp = Date().timeIntervalSince1970
-            newState.errorMessage = "Apple 로그인은 아직 준비 중입니다. (\(Int(timestamp)))"
+            // Apple 로그인 버튼 탭 시 처리 (SignInWithAppleButton에서 처리)
+            break
+
+        case .appleLoginSucceeded(let idToken, let nick):
+            newState.isLoading = true
+            newState.errorMessage = nil
+            do {
+                let response = try await authRepository.loginWithApple(
+                    idToken: idToken,
+                    deviceToken: nil,
+                    nick: nick
+                )
+                TokenStorage.accessToken = response.accessToken
+                TokenStorage.refreshToken = response.refreshToken
+                newState.isLoggedIn = true
+                newState.isLoading = false
+            } catch let error as AuthError {
+                newState.errorMessage = error.errorDescription
+                newState.isLoading = false
+            } catch {
+                newState.errorMessage = "로그인에 실패했습니다."
+                newState.isLoading = false
+            }
+
+            await appStore.send(.loginSucceeded)
+
+        case .appleLoginFailed(let message):
+            newState.errorMessage = message
+            newState.isLoading = false
         }
 
         return newState

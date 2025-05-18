@@ -63,10 +63,25 @@ struct AuthView: View {
                         switch result {
                         case .success(let authResults):
                             print("✅ Apple 로그인 성공:", authResults)
-                            store.send(.appleLoginTapped)
+                            
+                            // Apple ID 토큰 추출
+                            guard let appleIDCredential = authResults.credential as? ASAuthorizationAppleIDCredential,
+                                  let idToken = appleIDCredential.identityToken,
+                                  let tokenString = String(data: idToken, encoding: .utf8) else {
+                                store.send(.appleLoginFailed("Apple 로그인 정보를 가져오는데 실패했습니다."))
+                                return
+                            }
+                            
+                            // 닉네임 추출 (첫 로그인 시에만 제공됨)
+                            let nick = [appleIDCredential.fullName?.givenName, appleIDCredential.fullName?.familyName]
+                                .compactMap { $0 }
+                                .joined(separator: " ")
+                            
+                            store.send(.appleLoginSucceeded(idToken: tokenString, nick: nick.isEmpty ? nil : nick))
+                            
                         case .failure(let error):
                             print("❌ Apple 로그인 실패:", error)
-                            store.send(.loginFailed(error.localizedDescription))
+                            store.send(.appleLoginFailed(error.localizedDescription))
                         }
                     }
                 )
