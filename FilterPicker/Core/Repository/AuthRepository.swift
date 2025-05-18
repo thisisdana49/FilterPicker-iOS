@@ -51,7 +51,8 @@ final class DefaultAuthRepository: AuthRepository {
     
     func refreshToken() async throws -> TokenResponse {
         guard let refreshToken = TokenStorage.refreshToken else {
-            throw AuthError.noRefreshToken
+            print("❌ RefreshToken이 없습니다.")
+            throw AuthError.invalidRefreshToken
         }
         
         let request = APIRequest(
@@ -63,13 +64,28 @@ final class DefaultAuthRepository: AuthRepository {
             ]
         )
         
-        let response: TokenResponse = try await apiService.request(request)
-        return response
+        do {
+            let response: TokenResponse = try await apiService.request(request)
+            print("✅ 토큰 갱신 성공")
+            return response
+        } catch let error as NetworkError {
+            switch error {
+            case .statusCode(401):
+                print("❌ 인증할 수 없는 리프레시 토큰")
+                throw AuthError.invalidRefreshToken
+            case .statusCode(418):
+                print("❌ 리프레시 토큰 만료")
+                throw AuthError.expiredRefreshToken
+            case .invalidRequest, .invalidResponse, .decoding:
+                print("❌ 네트워크 오류")
+                throw AuthError.networkError
+            case .statusCode:
+                print("❌ 알 수 없는 오류")
+                throw AuthError.unknownError
+            }
+        } catch {
+            print("❌ 네트워크 오류:", error.localizedDescription)
+            throw AuthError.networkError
+        }
     }
-}
-
-enum AuthError: Error {
-    case noRefreshToken
-    case refreshTokenExpired
-    case refreshFailed
 }

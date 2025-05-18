@@ -34,11 +34,16 @@ struct AppReducer {
                         print("✅ 토큰 갱신 성공")
                         TokenStorage.printTokenStatus()
                         newState.isLoggedIn = true
+                    } catch let error as AuthError {
+                        print(error.logMessage)
+                        TokenStorage.clear()
+                        newState.isLoggedIn = false
+                        newState.errorMessage = error.errorDescription ?? "알 수 없는 오류가 발생했습니다."
                     } catch {
                         print("❌ 토큰 갱신 실패:", error)
                         TokenStorage.clear()
                         newState.isLoggedIn = false
-                        newState.errorMessage = "세션이 만료되었습니다. 다시 로그인해주세요."
+                        newState.errorMessage = "알 수 없는 오류가 발생했습니다."
                     }
                 } else {
                     print("✅ AccessToken이 유효합니다.")
