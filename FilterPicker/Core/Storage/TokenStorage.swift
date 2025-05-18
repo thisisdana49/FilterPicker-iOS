@@ -17,12 +17,28 @@ enum TokenStorage {
 
     static var accessToken: String? {
         get { UserDefaults.standard.string(forKey: Key.accessToken) }
-        set { UserDefaults.standard.set(newValue, forKey: Key.accessToken) }
+        set { 
+            UserDefaults.standard.set(newValue, forKey: Key.accessToken)
+            if let token = newValue,
+               let payload = JWTDecoder.decode(token) {
+                // Unix timestamp를 Date로 변환
+                accessTokenExpiration = Date(timeIntervalSince1970: TimeInterval(payload.exp))
+                print("🔑 AccessToken 만료 시간 설정:", accessTokenExpiration?.description ?? "nil")
+            }
+        }
     }
 
     static var refreshToken: String? {
         get { UserDefaults.standard.string(forKey: Key.refreshToken) }
-        set { UserDefaults.standard.set(newValue, forKey: Key.refreshToken) }
+        set { 
+            UserDefaults.standard.set(newValue, forKey: Key.refreshToken)
+            if let token = newValue,
+               let payload = JWTDecoder.decode(token) {
+                // Unix timestamp를 Date로 변환
+                refreshTokenExpiration = Date(timeIntervalSince1970: TimeInterval(payload.exp))
+                print("🔄 RefreshToken 만료 시간 설정:", refreshTokenExpiration?.description ?? "nil")
+            }
+        }
     }
     
     static var accessTokenExpiration: Date? {
