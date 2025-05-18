@@ -89,6 +89,36 @@ struct AuthReducer {
         case .appleLoginFailed(let message):
             newState.errorMessage = message
             newState.isLoading = false
+            
+        case .kakaoLoginTapped:
+            // 카카오 로그인 버튼 탭 시 처리 (KakaoSDK에서 처리)
+            break
+            
+        case .kakaoLoginSucceeded(let accessToken, let nick):
+            newState.isLoading = true
+            newState.errorMessage = nil
+            do {
+                let response = try await authRepository.loginWithKakao(
+                    oauthToken: accessToken,
+                    deviceToken: nil // TODO: 실제 DeviceToken으로 수정 필요
+                )
+                TokenStorage.accessToken = response.accessToken
+                TokenStorage.refreshToken = response.refreshToken
+                newState.isLoggedIn = true
+                newState.isLoading = false
+            } catch let error as AuthError {
+                newState.errorMessage = error.errorDescription
+                newState.isLoading = false
+            } catch {
+                newState.errorMessage = "로그인에 실패했습니다."
+                newState.isLoading = false
+            }
+            
+            await appStore.send(.loginSucceeded)
+            
+        case .kakaoLoginFailed(let message):
+            newState.errorMessage = message
+            newState.isLoading = false
         }
 
         return newState

@@ -26,6 +26,10 @@
 		3E3CF1762DD735C000B5D650 /* JWTDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1742DD735C000B5D650 /* JWTDecoder.swift */; };
 		3E3CF17A2DD9ACB300B5D650 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1792DD9ACB300B5D650 /* ErrorResponse.swift */; };
 		3E3CF17F2DD9CDB400B5D650 /* AppleSignInHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF17E2DD9CDB400B5D650 /* AppleSignInHandler.swift */; };
+		3E3CF1822DD9D06400B5D650 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3CF1812DD9D06400B5D650 /* KakaoSDKAuth */; };
+		3E3CF1842DD9D06400B5D650 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3CF1832DD9D06400B5D650 /* KakaoSDKCommon */; };
+		3E3CF1862DD9D06400B5D650 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3CF1852DD9D06400B5D650 /* KakaoSDKUser */; };
+		3E3CF1982DD9D71D00B5D650 /* KakaoSignInHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1972DD9D71D00B5D650 /* KakaoSignInHandler.swift */; };
 		3EC86A082DD21A5500949918 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A022DD21A5500949918 /* Preview Assets.xcassets */; };
 		3EC86A092DD21A5500949918 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A042DD21A5500949918 /* Assets.xcassets */; };
 		3EC86A0A2DD21A5500949918 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A052DD21A5500949918 /* ContentView.swift */; };
@@ -58,6 +62,7 @@
 		3E3CF1792DD9ACB300B5D650 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		3E3CF17B2DD9B91200B5D650 /* FilterPicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FilterPicker.entitlements; sourceTree = "<group>"; };
 		3E3CF17E2DD9CDB400B5D650 /* AppleSignInHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInHandler.swift; sourceTree = "<group>"; };
+		3E3CF1972DD9D71D00B5D650 /* KakaoSignInHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSignInHandler.swift; sourceTree = "<group>"; };
 		3EC869E82DD21A0E00949918 /* FilterPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC86A022DD21A5500949918 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3EC86A042DD21A5500949918 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -76,6 +81,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E3CF1842DD9D06400B5D650 /* KakaoSDKCommon in Frameworks */,
+				3E3CF1822DD9D06400B5D650 /* KakaoSDKAuth in Frameworks */,
+				3E3CF1862DD9D06400B5D650 /* KakaoSDKUser in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				3E3CF17E2DD9CDB400B5D650 /* AppleSignInHandler.swift */,
+				3E3CF1972DD9D71D00B5D650 /* KakaoSignInHandler.swift */,
 				3E3CF1662DD5FB4A00B5D650 /* AuthView.swift */,
 				3E3CF1622DD5FB0900B5D650 /* AuthStore.swift */,
 				3E3CF1602DD5FAF700B5D650 /* AuthState.swift */,
@@ -312,6 +321,9 @@
 			);
 			name = FilterPicker;
 			packageProductDependencies = (
+				3E3CF1812DD9D06400B5D650 /* KakaoSDKAuth */,
+				3E3CF1832DD9D06400B5D650 /* KakaoSDKCommon */,
+				3E3CF1852DD9D06400B5D650 /* KakaoSDKUser */,
 			);
 			productName = FilterPicker;
 			productReference = 3EC869E82DD21A0E00949918 /* FilterPicker.app */;
@@ -341,6 +353,9 @@
 			);
 			mainGroup = 3EC869DF2DD21A0E00949918;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3E3CF1802DD9D06400B5D650 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3EC869E92DD21A0E00949918 /* Products */;
 			projectDirPath = "";
@@ -387,6 +402,7 @@
 				3E3CF1562DD5F0B300B5D650 /* AuthTokenResponse.swift in Sources */,
 				3E3CF1672DD5FB4A00B5D650 /* AuthView.swift in Sources */,
 				3E3CF1732DD7321200B5D650 /* TokenResponse.swift in Sources */,
+				3E3CF1982DD9D71D00B5D650 /* KakaoSignInHandler.swift in Sources */,
 				3E3CF1542DD56B7700B5D650 /* AuthRepository.swift in Sources */,
 				3EC86A3C2DD3786C00949918 /* APIRequest.swift in Sources */,
 				3E3CF15B2DD5F7C000B5D650 /* TokenStorage.swift in Sources */,
@@ -619,6 +635,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3E3CF1802DD9D06400B5D650 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.24.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3E3CF1812DD9D06400B5D650 /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3E3CF1802DD9D06400B5D650 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		3E3CF1832DD9D06400B5D650 /* KakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3E3CF1802DD9D06400B5D650 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommon;
+		};
+		3E3CF1852DD9D06400B5D650 /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3E3CF1802DD9D06400B5D650 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3EC869E02DD21A0E00949918 /* Project object */;
 }

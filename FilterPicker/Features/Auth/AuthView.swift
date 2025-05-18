@@ -72,6 +72,30 @@ struct AuthView: View {
                 )
                 .frame(height: 50)
                 .padding(.horizontal)
+                
+                // 카카오 로그인 버튼
+                Button(action: {
+                    KakaoSignInHandler.handleSignIn { result in
+                        switch result {
+                        case .success(let oauthToken):
+                            store.send(.kakaoLoginSucceeded(accessToken: oauthToken, nick: nil))
+                        case .failure(let error):
+                            store.send(.kakaoLoginFailed(error.localizedDescription))
+                        }
+                    }
+                }) {
+                    HStack {
+                        Image(systemName: "k.circle.fill")
+                            .foregroundColor(.yellow)
+                        Text("카카오로 로그인")
+                            .foregroundColor(.black)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(Color.yellow.opacity(0.2))
+                    .cornerRadius(8)
+                }
+                .padding(.horizontal)
             }
             .padding(.top, 20)
             
