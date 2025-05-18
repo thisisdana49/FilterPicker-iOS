@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import AuthenticationServices
 
 struct AuthView: View {
     @StateObject private var store: AuthStore
+    @State private var showAlert = false
+    @State private var alertMessage = ""
     
     init(appStore: AppStore) {
         _store = StateObject(wrappedValue: AuthStore(
@@ -17,7 +20,7 @@ struct AuthView: View {
     }
     
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 20) {
             TextField("이메일", text: Binding(
                 get: { store.state.email },
                 set: { store.send(.emailChanged($0)) }
@@ -44,11 +47,56 @@ struct AuthView: View {
             if store.state.isLoggedIn {
                 Text("✅ 로그인 완료!")
             }
+            
+            // 소셜 로그인 섹션
+            VStack(spacing: 16) {
+                Text("또는")
+                    .foregroundColor(.gray)
+                    .padding(.vertical, 8)
+                
+                // Apple 로그인 버튼
+                SignInWithAppleButton(
+                    onRequest: { request in
+                        request.requestedScopes = [.fullName, .email]
+                    },
+                    onCompletion: { result in
+                        switch result {
+                        case .success(let authResults):
+                            print("✅ Apple 로그인 성공:", authResults)
+                            store.send(.appleLoginTapped)
+                        case .failure(let error):
+                            print("❌ Apple 로그인 실패:", error)
+                            store.send(.loginFailed(error.localizedDescription))
+                        }
+                    }
+                )
+                .frame(height: 50)
+                .padding(.horizontal)
+            }
+            .padding(.top, 20)
+            
+            Spacer()
         }
         .padding()
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("오류"),
+                message: Text(alertMessage),
+                dismissButton: .default(Text("확인")) {
+                    showAlert = false
+                    alertMessage = ""
+                }
+            )
+        }
+        .onChange(of: store.state.errorMessage) { errorMessage in
+            if let message = errorMessage, !message.isEmpty {
+                alertMessage = message
+                showAlert = true
+            }
+        }
     }
 }
 
-#Preview {
-    AuthView(appStore: AppStore(reducer: AppReducer()))
-}
+//#Preview {
+//    AuthView()
+//}

@@ -62,6 +62,13 @@ struct AuthReducer {
 
         case .loginFailed(let message):
             newState.errorMessage = message
+            
+        case .appleLoginTapped:
+            // TODO: Apple 로그인 SDK 연동
+            print("🍎 Apple 로그인 버튼 탭")
+            // SDK 연동 전까지는 임시로 에러 메시지 표시
+            let timestamp = Date().timeIntervalSince1970
+            newState.errorMessage = "Apple 로그인은 아직 준비 중입니다. (\(Int(timestamp)))"
         }
 
         return newState

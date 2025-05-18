@@ -13,4 +13,5 @@ enum AuthIntent {
     case loginTapped
     case loginSucceeded
     case loginFailed(String)
+    case appleLoginTapped  // Apple 로그인 버튼 탭
 }
