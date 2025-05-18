@@ -8,20 +8,26 @@
 import SwiftUI
 
 struct AuthView: View {
-    @StateObject var store = AuthStore(reducer: AuthReducer())
-
+    @StateObject private var store: AuthStore
+    
+    init(appStore: AppStore) {
+        _store = StateObject(wrappedValue: AuthStore(
+            reducer: AuthReducer(appStore: appStore)
+        ))
+    }
+    
     var body: some View {
         VStack(spacing: 16) {
             TextField("이메일", text: Binding(
                 get: { store.state.email },
                 set: { store.send(.emailChanged($0)) }
             ))
-
+            
             SecureField("비밀번호", text: Binding(
                 get: { store.state.password },
                 set: { store.send(.passwordChanged($0)) }
             ))
-
+            
             if store.state.isLoading {
                 ProgressView()
             } else {
@@ -29,12 +35,12 @@ struct AuthView: View {
                     store.send(.loginTapped)
                 }
             }
-
+            
             if let error = store.state.errorMessage {
                 Text(error)
                     .foregroundColor(.red)
             }
-
+            
             if store.state.isLoggedIn {
                 Text("✅ 로그인 완료!")
             }
@@ -44,5 +50,5 @@ struct AuthView: View {
 }
 
 #Preview {
-    AuthView()
+    AuthView(appStore: AppStore(reducer: AppReducer()))
 }

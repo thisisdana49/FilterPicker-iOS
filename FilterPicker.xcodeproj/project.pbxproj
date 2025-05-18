@@ -17,6 +17,14 @@
 		3E3CF1632DD5FB0900B5D650 /* AuthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1622DD5FB0900B5D650 /* AuthStore.swift */; };
 		3E3CF1652DD5FB2500B5D650 /* AuthReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1642DD5FB2500B5D650 /* AuthReducer.swift */; };
 		3E3CF1672DD5FB4A00B5D650 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1662DD5FB4A00B5D650 /* AuthView.swift */; };
+		3E3CF16D2DD71E4400B5D650 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF16B2DD71E4400B5D650 /* AppState.swift */; };
+		3E3CF16E2DD71E4400B5D650 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1682DD71E4400B5D650 /* AppIntent.swift */; };
+		3E3CF16F2DD71E4400B5D650 /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF16A2DD71E4400B5D650 /* AppRoute.swift */; };
+		3E3CF1702DD71E4400B5D650 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF16C2DD71E4400B5D650 /* AppStore.swift */; };
+		3E3CF1712DD71E4400B5D650 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1692DD71E4400B5D650 /* AppReducer.swift */; };
+		3E3CF1732DD7321200B5D650 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1722DD7321200B5D650 /* TokenResponse.swift */; };
+		3E3CF1762DD735C000B5D650 /* JWTDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1742DD735C000B5D650 /* JWTDecoder.swift */; };
+		3E3CF17A2DD9ACB300B5D650 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1792DD9ACB300B5D650 /* ErrorResponse.swift */; };
 		3EC86A082DD21A5500949918 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A022DD21A5500949918 /* Preview Assets.xcassets */; };
 		3EC86A092DD21A5500949918 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A042DD21A5500949918 /* Assets.xcassets */; };
 		3EC86A0A2DD21A5500949918 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A052DD21A5500949918 /* ContentView.swift */; };
@@ -39,6 +47,14 @@
 		3E3CF1622DD5FB0900B5D650 /* AuthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStore.swift; sourceTree = "<group>"; };
 		3E3CF1642DD5FB2500B5D650 /* AuthReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthReducer.swift; sourceTree = "<group>"; };
 		3E3CF1662DD5FB4A00B5D650 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		3E3CF1682DD71E4400B5D650 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
+		3E3CF1692DD71E4400B5D650 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
+		3E3CF16A2DD71E4400B5D650 /* AppRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoute.swift; sourceTree = "<group>"; };
+		3E3CF16B2DD71E4400B5D650 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		3E3CF16C2DD71E4400B5D650 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		3E3CF1722DD7321200B5D650 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
+		3E3CF1742DD735C000B5D650 /* JWTDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTDecoder.swift; sourceTree = "<group>"; };
+		3E3CF1792DD9ACB300B5D650 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		3EC869E82DD21A0E00949918 /* FilterPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC86A022DD21A5500949918 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3EC86A042DD21A5500949918 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -69,6 +85,14 @@
 				3E3CF15A2DD5F7C000B5D650 /* TokenStorage.swift */,
 			);
 			path = Storage;
+			sourceTree = "<group>";
+		};
+		3E3CF1752DD735C000B5D650 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				3E3CF1742DD735C000B5D650 /* JWTDecoder.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		3EC869DF2DD21A0E00949918 = {
@@ -114,6 +138,11 @@
 			isa = PBXGroup;
 			children = (
 				3EC86A062DD21A5500949918 /* FilterPickerApp.swift */,
+				3E3CF16A2DD71E4400B5D650 /* AppRoute.swift */,
+				3E3CF1682DD71E4400B5D650 /* AppIntent.swift */,
+				3E3CF1692DD71E4400B5D650 /* AppReducer.swift */,
+				3E3CF16B2DD71E4400B5D650 /* AppState.swift */,
+				3E3CF16C2DD71E4400B5D650 /* AppStore.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -125,6 +154,7 @@
 				3EC86A202DD3544C00949918 /* Repository */,
 				3EC86A212DD3545200949918 /* UseCase */,
 				3EC86A222DD3545700949918 /* Model */,
+				3E3CF1752DD735C000B5D650 /* Utils */,
 				3E3CF1572DD5F61800B5D650 /* Storage */,
 			);
 			path = Core;
@@ -159,6 +189,8 @@
 			isa = PBXGroup;
 			children = (
 				3E3CF1552DD5F0B300B5D650 /* AuthTokenResponse.swift */,
+				3E3CF1722DD7321200B5D650 /* TokenResponse.swift */,
+				3E3CF1792DD9ACB300B5D650 /* ErrorResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -334,6 +366,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E3CF16D2DD71E4400B5D650 /* AppState.swift in Sources */,
+				3E3CF16E2DD71E4400B5D650 /* AppIntent.swift in Sources */,
+				3E3CF16F2DD71E4400B5D650 /* AppRoute.swift in Sources */,
+				3E3CF1702DD71E4400B5D650 /* AppStore.swift in Sources */,
+				3E3CF1712DD71E4400B5D650 /* AppReducer.swift in Sources */,
 				3EC86A3A2DD36F1C00949918 /* AppConfig.swift in Sources */,
 				3E3CF1632DD5FB0900B5D650 /* AuthStore.swift in Sources */,
 				3E3CF1502DD5676B00B5D650 /* APIService.swift in Sources */,
@@ -343,11 +380,14 @@
 				3E3CF1522DD567AD00B5D650 /* NetworkError.swift in Sources */,
 				3E3CF1562DD5F0B300B5D650 /* AuthTokenResponse.swift in Sources */,
 				3E3CF1672DD5FB4A00B5D650 /* AuthView.swift in Sources */,
+				3E3CF1732DD7321200B5D650 /* TokenResponse.swift in Sources */,
 				3E3CF1542DD56B7700B5D650 /* AuthRepository.swift in Sources */,
 				3EC86A3C2DD3786C00949918 /* APIRequest.swift in Sources */,
 				3E3CF15B2DD5F7C000B5D650 /* TokenStorage.swift in Sources */,
 				3E3CF1652DD5FB2500B5D650 /* AuthReducer.swift in Sources */,
+				3E3CF17A2DD9ACB300B5D650 /* ErrorResponse.swift in Sources */,
 				3EC86A0B2DD21A5500949918 /* FilterPickerApp.swift in Sources */,
+				3E3CF1762DD735C000B5D650 /* JWTDecoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
