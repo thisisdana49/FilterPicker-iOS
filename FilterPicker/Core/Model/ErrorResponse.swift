@@ -9,6 +9,9 @@ enum AuthError: LocalizedError {
     case expiredRefreshToken
     case networkError
     case unknownError
+    case invalidRequest
+    case invalidCredentials
+    case userAlreadyExists
     
     var errorDescription: String? {
         switch self {
@@ -20,6 +23,12 @@ enum AuthError: LocalizedError {
             return "네트워크 연결을 확인해주세요."
         case .unknownError:
             return "알 수 없는 오류가 발생했습니다."
+        case .invalidRequest:
+            return "필수값을 채워주세요."
+        case .invalidCredentials:
+            return "계정을 확인해주세요."
+        case .userAlreadyExists:
+            return "이미 가입된 유저입니다."
         }
     }
     
@@ -33,6 +42,12 @@ enum AuthError: LocalizedError {
             return "❌ 네트워크 오류"
         case .unknownError:
             return "❌ 알 수 없는 오류"
+        case .invalidRequest:
+            return "❌ 필수값 누락"
+        case .invalidCredentials:
+            return "❌ 계정 확인 필요"
+        case .userAlreadyExists:
+            return "❌ 이미 가입된 유저"
         }
     }
 } 

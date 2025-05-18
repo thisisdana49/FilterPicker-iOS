@@ -11,6 +11,7 @@ protocol AuthRepository {
     func signup(email: String, password: String, nickname: String) async throws -> AuthTokenResponse
     func login(email: String, password: String) async throws -> AuthTokenResponse
     func refreshToken() async throws -> TokenResponse
+    func loginWithApple(idToken: String, deviceToken: String?, nick: String?) async throws -> AuthTokenResponse
 }
 
 final class DefaultAuthRepository: AuthRepository {
@@ -86,6 +87,40 @@ final class DefaultAuthRepository: AuthRepository {
         } catch {
             print("❌ 네트워크 오류:", error.localizedDescription)
             throw AuthError.networkError
+        }
+    }
+
+    func loginWithApple(idToken: String, deviceToken: String? = nil, nick: String? = nil) async throws -> AuthTokenResponse {
+        var body: [String: Any] = ["idToken": idToken]
+        
+        if let deviceToken = deviceToken {
+            body["deviceToken"] = deviceToken
+        }
+        
+        if let nick = nick {
+            body["nick"] = nick
+        }
+        
+        let request = APIRequest(
+            path: "/v1/users/login/apple",
+            method: .post,
+            body: body
+        )
+        
+        do {
+            let response: AuthTokenResponse = try await apiService.request(request)
+            return response
+        } catch let error as NetworkError {
+            switch error {
+            case .statusCode(400):
+                throw AuthError.invalidRequest
+            case .statusCode(401):
+                throw AuthError.invalidCredentials
+            case .statusCode(409):
+                throw AuthError.userAlreadyExists
+            default:
+                throw AuthError.unknownError
+            }
         }
     }
 }
