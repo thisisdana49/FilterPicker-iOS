@@ -13,14 +13,7 @@ struct AppRoute: View {
     var body: some View {
         Group {
             if store.state.isLoggedIn {
-                Text("감성적인 필터")
-                    .fontStyle(.mulgyeolTitle1)
-
-                Text("로그인을 진행해주세요")
-                    .fontStyle(.body1)
-
-                Text("₩1,500")
-                    .fontStyle(.caption1)
+                MainView()
             } else {
                 AuthView(appStore: store)
             }

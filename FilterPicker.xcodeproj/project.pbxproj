@@ -149,10 +149,10 @@
 			isa = PBXGroup;
 			children = (
 				3E3CF1BB2DDC9C8900B5D650 /* MainView.swift */,
-				3E3CF1BA2DDC9C8900B5D650 /* FilterCategorySectionView.swift */,
-				3E3CF1BC2DDC9C8900B5D650 /* TodayCreatorSectionView.swift */,
 				3E3CF1BD2DDC9C8900B5D650 /* TodayFilterSectionView.swift */,
+				3E3CF1BA2DDC9C8900B5D650 /* FilterCategorySectionView.swift */,
 				3E3CF1BE2DDC9C8900B5D650 /* TrendingFilterSectionView.swift */,
+				3E3CF1BC2DDC9C8900B5D650 /* TodayCreatorSectionView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
