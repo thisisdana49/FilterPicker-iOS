@@ -30,6 +30,7 @@ struct MainView: View {
             VStack(spacing: 32) {
                 TodayFilterSectionView(model: mockTodayFilter)
                 FilterCategorySectionView()
+                BannerSectionView()
                 TrendingFilterSectionView()
                 TodayCreatorSectionView()
             }
