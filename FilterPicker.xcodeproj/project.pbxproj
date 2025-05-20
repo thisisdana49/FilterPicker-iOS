@@ -39,6 +39,7 @@
 		3E3CF1A62DDA064900B5D650 /* Mulgyeol-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3E3CF1A42DDA064900B5D650 /* Mulgyeol-Regular.ttf */; };
 		3E3CF1A92DDA086E00B5D650 /* CustomFontName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1A82DDA086E00B5D650 /* CustomFontName.swift */; };
 		3E3CF1AB2DDA11A900B5D650 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1AA2DDA11A900B5D650 /* ColorPalette.swift */; };
+		3E3CF1B92DDC913500B5D650 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1B82DDC913500B5D650 /* Icon.swift */; };
 		3EC86A082DD21A5500949918 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A022DD21A5500949918 /* Preview Assets.xcassets */; };
 		3EC86A092DD21A5500949918 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A042DD21A5500949918 /* Assets.xcassets */; };
 		3EC86A0A2DD21A5500949918 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A052DD21A5500949918 /* ContentView.swift */; };
@@ -81,6 +82,7 @@
 		3E3CF1A42DDA064900B5D650 /* Mulgyeol-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mulgyeol-Regular.ttf"; sourceTree = "<group>"; };
 		3E3CF1A82DDA086E00B5D650 /* CustomFontName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFontName.swift; sourceTree = "<group>"; };
 		3E3CF1AA2DDA11A900B5D650 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
+		3E3CF1B82DDC913500B5D650 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 		3EC869E82DD21A0E00949918 /* FilterPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC86A022DD21A5500949918 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3EC86A042DD21A5500949918 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 		3EC86A2A2DD354A300949918 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				3E3CF1B82DDC913500B5D650 /* Icon.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -430,6 +433,7 @@
 				3E3CF16E2DD71E4400B5D650 /* AppIntent.swift in Sources */,
 				3E3CF16F2DD71E4400B5D650 /* AppRoute.swift in Sources */,
 				3E3CF1702DD71E4400B5D650 /* AppStore.swift in Sources */,
+				3E3CF1B92DDC913500B5D650 /* Icon.swift in Sources */,
 				3E3CF1712DD71E4400B5D650 /* AppReducer.swift in Sources */,
 				3EC86A3A2DD36F1C00949918 /* AppConfig.swift in Sources */,
 				3E3CF1632DD5FB0900B5D650 /* AuthStore.swift in Sources */,
