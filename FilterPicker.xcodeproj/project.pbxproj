@@ -47,6 +47,9 @@
 		3E3CF1C42DDC9C8900B5D650 /* TodayFilterSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1BD2DDC9C8900B5D650 /* TodayFilterSectionView.swift */; };
 		3E3CF1C62DDCACBB00B5D650 /* TrendingBannerSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1C52DDCACBB00B5D650 /* TrendingBannerSectionView.swift */; };
 		3E3CF1C82DDCC9E100B5D650 /* PagingCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1C72DDCC9E000B5D650 /* PagingCarouselView.swift */; };
+		3E3CF1EC2DDD714D00B5D650 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E3CF1EB2DDD714D00B5D650 /* StoreKit.framework */; };
+		3E3CF1EE2DDD719000B5D650 /* ProductTest.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 3E3CF1ED2DDD719000B5D650 /* ProductTest.storekit */; };
+		3E3CF1F02DDD777600B5D650 /* StoreKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1EF2DDD777600B5D650 /* StoreKitViewController.swift */; };
 		3EC86A082DD21A5500949918 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A022DD21A5500949918 /* Preview Assets.xcassets */; };
 		3EC86A092DD21A5500949918 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A042DD21A5500949918 /* Assets.xcassets */; };
 		3EC86A0A2DD21A5500949918 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A052DD21A5500949918 /* ContentView.swift */; };
@@ -97,6 +100,9 @@
 		3E3CF1BE2DDC9C8900B5D650 /* TrendingFilterSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingFilterSectionView.swift; sourceTree = "<group>"; };
 		3E3CF1C52DDCACBB00B5D650 /* TrendingBannerSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingBannerSectionView.swift; sourceTree = "<group>"; };
 		3E3CF1C72DDCC9E000B5D650 /* PagingCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingCarouselView.swift; sourceTree = "<group>"; };
+		3E3CF1EB2DDD714D00B5D650 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		3E3CF1ED2DDD719000B5D650 /* ProductTest.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = ProductTest.storekit; sourceTree = "<group>"; };
+		3E3CF1EF2DDD777600B5D650 /* StoreKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitViewController.swift; sourceTree = "<group>"; };
 		3EC869E82DD21A0E00949918 /* FilterPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC86A022DD21A5500949918 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3EC86A042DD21A5500949918 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -118,6 +124,7 @@
 				3E3CF1842DD9D06400B5D650 /* KakaoSDKCommon in Frameworks */,
 				3E3CF1822DD9D06400B5D650 /* KakaoSDKAuth in Frameworks */,
 				3E3CF1862DD9D06400B5D650 /* KakaoSDKUser in Frameworks */,
+				3E3CF1EC2DDD714D00B5D650 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,8 +160,8 @@
 			isa = PBXGroup;
 			children = (
 				3E3CF1BB2DDC9C8900B5D650 /* MainView.swift */,
-				3E3CF1C72DDCC9E000B5D650 /* PagingCarouselView.swift */,
 				3E3CF1BD2DDC9C8900B5D650 /* TodayFilterSectionView.swift */,
+				3E3CF1C72DDCC9E000B5D650 /* PagingCarouselView.swift */,
 				3E3CF1BA2DDC9C8900B5D650 /* FilterCategorySectionView.swift */,
 				3E3CF1C52DDCACBB00B5D650 /* TrendingBannerSectionView.swift */,
 				3E3CF1BE2DDC9C8900B5D650 /* TrendingFilterSectionView.swift */,
@@ -163,10 +170,21 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		3E3CF1EA2DDD714D00B5D650 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3E3CF1EB2DDD714D00B5D650 /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3EC869DF2DD21A0E00949918 = {
 			isa = PBXGroup;
 			children = (
+				3E3CF1ED2DDD719000B5D650 /* ProductTest.storekit */,
+				3E3CF1EF2DDD777600B5D650 /* StoreKitViewController.swift */,
 				3EC86A072DD21A5500949918 /* FilterPicker */,
+				3E3CF1EA2DDD714D00B5D650 /* Frameworks */,
 				3EC869E92DD21A0E00949918 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -432,6 +450,7 @@
 			files = (
 				3EC86A352DD36C5E00949918 /* Debug.xcconfig in Resources */,
 				3EC86A082DD21A5500949918 /* Preview Assets.xcassets in Resources */,
+				3E3CF1EE2DDD719000B5D650 /* ProductTest.storekit in Resources */,
 				3E3CF1A02DDA063900B5D650 /* Pretendard-Bold.ttf in Resources */,
 				3E3CF1A12DDA063900B5D650 /* Pretendard-Medium.ttf in Resources */,
 				3E3CF1A52DDA064900B5D650 /* Mulgyeol-Bold.ttf in Resources */,
@@ -468,6 +487,7 @@
 				3E3CF15F2DD5FAB700B5D650 /* AuthIntent.swift in Sources */,
 				3E3CF1612DD5FAF700B5D650 /* AuthState.swift in Sources */,
 				3E3CF1522DD567AD00B5D650 /* NetworkError.swift in Sources */,
+				3E3CF1F02DDD777600B5D650 /* StoreKitViewController.swift in Sources */,
 				3E3CF1562DD5F0B300B5D650 /* AuthTokenResponse.swift in Sources */,
 				3E3CF1C02DDC9C8900B5D650 /* FilterCategorySectionView.swift in Sources */,
 				3E3CF1C12DDC9C8900B5D650 /* TrendingFilterSectionView.swift in Sources */,
