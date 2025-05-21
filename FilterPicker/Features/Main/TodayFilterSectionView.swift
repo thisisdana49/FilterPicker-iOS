@@ -32,11 +32,13 @@ struct TodayFilterSectionView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let todayFilter = store.state.todayFilter {
-                VStack {
-                    // TODO: 이미지 처리 로직 추가 필요
+                if let firstFile = todayFilter.files.first,
+                   let url = URL(string: AppConfig.baseURL + "/v1/" + firstFile) {
+                    URLImageView(url: url, showOverlay: true)
+                        .scaledToFill()
+                        .frame(width: UIScreen.main.bounds.width, height: 555)
+                        .clipped()
                 }
-                .frame(maxWidth: .infinity)
-                .frame(height: 400)
                 
                 VStack(alignment: .leading, spacing: 0) {
                     Spacer()
@@ -45,25 +47,26 @@ struct TodayFilterSectionView: View {
                         .foregroundColor(.gray60)
                         .padding(.bottom, 4)
                     Text("\(todayFilter.introduction)\n\(todayFilter.title)")
-                        .lineLimit(nil)
-                        .fixedSize(horizontal: false, vertical: true)
                         .fontStyle(.mulgyeolTitle1)
                         .foregroundColor(.white)
                         .padding(.bottom, 20)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(nil)
                     Text(todayFilter.description)
                         .fontStyle(.caption1)
                         .foregroundColor(.gray60)
+                        .multilineTextAlignment(.leading)
+//                        .padding(.trailing, 34)
                 }
-                .padding(.horizontal, 0)
-                .padding(.bottom, 36)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 128)
                 .background(Color.clear)
-                
+    
                 Button(action: {}) {
                     Text("사용해보기")
                         .fontStyle(.caption1)
                         .foregroundColor(.gray60)
-                        .padding(.horizontal, 20)
                         .padding(.vertical, 10)
                         .background(Color.black.opacity(0.4))
                         .cornerRadius(16)
@@ -72,14 +75,10 @@ struct TodayFilterSectionView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 400)
+        .frame(height: 555)
+        .padding(.horizontal, 20)
         .onAppear {
             store.dispatch(.fetchTodayFilter)
         }
     }
 }
-
-#Preview {
-    TodayFilterSectionView(store: MainStore())
-}
-

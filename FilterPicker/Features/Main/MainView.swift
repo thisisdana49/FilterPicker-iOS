@@ -30,19 +30,19 @@ struct MainView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
-                TodayFilterSectionView(store: store)
-                FilterCategorySectionView()
+                ZStack {
+                    TodayFilterSectionView(store: store)
+                    
+                    FilterCategorySectionView()
+                        .padding(.top, 463)
+                }
                 TrendingBannerSectionView()
                 TrendingFilterSectionView()
                 TodayCreatorSectionView()
             }
             .padding(.vertical, 16)
         }
-        .background(Color.blackTurquoise)
+        .background(Color.black)
         .ignoresSafeArea()
     }
-}
-
-#Preview {
-    MainView()
 }
