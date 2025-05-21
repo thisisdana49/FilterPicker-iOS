@@ -112,7 +112,3 @@ struct TrendingFilterSectionView: View {
         }
     }
 }
-
-#Preview {
-    TrendingFilterSectionView()
-} 

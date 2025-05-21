@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Creator {
+struct CreatorMock {
     let profileImage: String
     let name: String
     let engName: String
@@ -17,7 +17,7 @@ struct Creator {
     let description: String
 }
 
-private let mockCreator = Creator(
+private let mockCreator = CreatorMock(
     profileImage: "creator_profile",
     name: "윤새싹",
     engName: "SESAC YOON",
@@ -28,7 +28,7 @@ private let mockCreator = Creator(
 )
 
 struct TodayCreatorSectionView: View {
-    let creator: Creator = mockCreator
+    let creator: CreatorMock = mockCreator
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -88,7 +88,3 @@ struct TodayCreatorSectionView: View {
         .padding(.horizontal, 16)
     }
 }
-
-#Preview {
-    TodayCreatorSectionView()
-} 

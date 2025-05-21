@@ -54,6 +54,7 @@
 		3E3CF1FE2DDDB5EB00B5D650 /* FilterRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1FD2DDDB5EB00B5D650 /* FilterRepository.swift */; };
 		3E3CF2012DDDCC1400B5D650 /* URLImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF2002DDDCC1400B5D650 /* URLImageView.swift */; };
 		3E3CF2022DDDCC1400B5D650 /* URLImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF1FF2DDDCC1400B5D650 /* URLImageLoader.swift */; };
+		3E95922D2DDE0DDE00DCE664 /* HotTrendResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E95922C2DDE0DDE00DCE664 /* HotTrendResponse.swift */; };
 		3EC86A082DD21A5500949918 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A022DD21A5500949918 /* Preview Assets.xcassets */; };
 		3EC86A092DD21A5500949918 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A042DD21A5500949918 /* Assets.xcassets */; };
 		3EC86A0A2DD21A5500949918 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A052DD21A5500949918 /* ContentView.swift */; };
@@ -111,6 +112,7 @@
 		3E3CF1FD2DDDB5EB00B5D650 /* FilterRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRepository.swift; sourceTree = "<group>"; };
 		3E3CF1FF2DDDCC1400B5D650 /* URLImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageLoader.swift; sourceTree = "<group>"; };
 		3E3CF2002DDDCC1400B5D650 /* URLImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageView.swift; sourceTree = "<group>"; };
+		3E95922C2DDE0DDE00DCE664 /* HotTrendResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotTrendResponse.swift; sourceTree = "<group>"; };
 		3EC869E82DD21A0E00949918 /* FilterPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC86A022DD21A5500949918 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3EC86A042DD21A5500949918 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				3E3CF1F32DDDB5CE00B5D650 /* TodayFilterResponse.swift */,
+				3E95922C2DDE0DDE00DCE664 /* HotTrendResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				3E3CF16E2DD71E4400B5D650 /* AppIntent.swift in Sources */,
 				3E3CF16F2DD71E4400B5D650 /* AppRoute.swift in Sources */,
 				3E3CF1702DD71E4400B5D650 /* AppStore.swift in Sources */,
+				3E95922D2DDE0DDE00DCE664 /* HotTrendResponse.swift in Sources */,
 				3E3CF1B92DDC913500B5D650 /* Icon.swift in Sources */,
 				3E3CF1F92DDDB5CE00B5D650 /* MainIntent.swift in Sources */,
 				3E3CF1FA2DDDB5CE00B5D650 /* MainStore.swift in Sources */,

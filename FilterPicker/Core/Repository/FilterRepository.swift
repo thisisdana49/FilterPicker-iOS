@@ -10,6 +10,7 @@ import Foundation
 
 protocol FilterRepositoryProtocol {
     func fetchTodayFilter() async throws -> TodayFilterResponse
+    func fetchHotTrendFilters() async throws -> [HotTrendFilter]
 }
 
 final class FilterRepository: FilterRepositoryProtocol {
@@ -26,5 +27,14 @@ final class FilterRepository: FilterRepositoryProtocol {
         )
         
         return try await apiService.request(request)
+    }
+    
+    func fetchHotTrendFilters() async throws -> [HotTrendFilter] {
+        let request = APIRequest(
+            path: "/v1/filters/hot-trend",
+            method: .get
+        )
+        let response: HotTrendResponse = try await apiService.request(request)
+        return response.data
     }
 } 
