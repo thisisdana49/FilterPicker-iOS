@@ -18,6 +18,15 @@ struct URLImageView: View {
                             .scaledToFit()
                         : nil
                     )
+            } else if loader.image == nil {
+                ZStack {
+                    Color.blackTurquoise
+                    Image(systemName: "photo.badge.exclamationmark.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 48, height: 48)
+                        .foregroundColor(.gray60)
+                }
             } else {
                 ProgressView()
             }

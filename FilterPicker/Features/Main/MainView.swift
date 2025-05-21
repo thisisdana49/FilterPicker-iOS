@@ -37,7 +37,7 @@ struct MainView: View {
                         .padding(.top, 463)
                 }
                 TrendingBannerSectionView()
-                TrendingFilterSectionView()
+                TrendingFilterSectionView(store: store)
                 TodayCreatorSectionView()
             }
             .padding(.vertical, 16)

@@ -29,8 +29,25 @@ final class MainStore: ObservableObject {
                 }
             }
             
+        case .fetchHotTrendFilters:
+            Task {
+                do {
+                    state.isLoading = true
+                    state.error = nil
+                    let filters = try await filterRepository.fetchHotTrendFilters()
+                    state.hotTrendFilters = filters
+                    state.isLoading = false
+                } catch {
+                    state.error = error
+                    state.isLoading = false
+                }
+            }
+            
         case .setTodayFilter(let filter):
             state.todayFilter = filter
+            
+        case .setHotTrendFilters(let filters):
+            state.hotTrendFilters = filters
             
         case .setLoading(let isLoading):
             state.isLoading = isLoading
