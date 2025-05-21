@@ -54,6 +54,23 @@ final class MainStore: ObservableObject {
             
         case .setError(let error):
             state.error = error
+            
+        case .fetchTodayAuthor:
+            Task {
+                do {
+                    state.isLoading = true
+                    state.error = nil
+                    let response = try await filterRepository.fetchTodayAuthor()
+                    state.todayAuthor = response.author
+                    state.isLoading = false
+                } catch {
+                    state.error = error
+                    state.isLoading = false
+                }
+            }
+            
+        case .setTodayAuthor(let author):
+            state.todayAuthor = author
         }
     }
 } 

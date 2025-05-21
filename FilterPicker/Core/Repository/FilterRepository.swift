@@ -11,6 +11,7 @@ import Foundation
 protocol FilterRepositoryProtocol {
     func fetchTodayFilter() async throws -> TodayFilterResponse
     func fetchHotTrendFilters() async throws -> [HotTrendFilter]
+    func fetchTodayAuthor() async throws -> TodayAuthorResponse
 }
 
 final class FilterRepository: FilterRepositoryProtocol {
@@ -36,5 +37,13 @@ final class FilterRepository: FilterRepositoryProtocol {
         )
         let response: HotTrendResponse = try await apiService.request(request)
         return response.data
+    }
+    
+    func fetchTodayAuthor() async throws -> TodayAuthorResponse {
+        let request = APIRequest(
+            path: "/v1/users/today-author",
+            method: .get
+        )
+        return try await apiService.request(request)
     }
 } 
