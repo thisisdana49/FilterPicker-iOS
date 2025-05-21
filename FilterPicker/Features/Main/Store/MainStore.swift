@@ -1,0 +1,42 @@
+import Foundation
+
+@MainActor
+final class MainStore: ObservableObject {
+    @Published private(set) var state: MainState
+    private let filterRepository: FilterRepositoryProtocol
+    
+    init(
+        initialState: MainState = .initial,
+        filterRepository: FilterRepositoryProtocol = FilterRepository()
+    ) {
+        self.state = initialState
+        self.filterRepository = filterRepository
+    }
+    
+    func dispatch(_ intent: MainIntent) {
+        switch intent {
+        case .fetchTodayFilter:
+            Task {
+                do {
+                    state.isLoading = true
+                    state.error = nil
+                    let todayFilter = try await filterRepository.fetchTodayFilter()
+                    state.todayFilter = todayFilter
+                    state.isLoading = false
+                } catch {
+                    state.error = error
+                    state.isLoading = false
+                }
+            }
+            
+        case .setTodayFilter(let filter):
+            state.todayFilter = filter
+            
+        case .setLoading(let isLoading):
+            state.isLoading = isLoading
+            
+        case .setError(let error):
+            state.error = error
+        }
+    }
+} 

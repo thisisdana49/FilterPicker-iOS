@@ -25,10 +25,12 @@ private let mockTodayFilter = TodayFilterSectionModel(
 )
 
 struct MainView: View {
+    @StateObject private var store = MainStore()
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
-                TodayFilterSectionView(model: mockTodayFilter)
+                TodayFilterSectionView(store: store)
                 FilterCategorySectionView()
                 TrendingBannerSectionView()
                 TrendingFilterSectionView()
