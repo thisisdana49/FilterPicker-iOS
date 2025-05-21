@@ -56,7 +56,8 @@ struct TodayFilterSectionView: View {
                         .fontStyle(.caption1)
                         .foregroundColor(.gray60)
                         .multilineTextAlignment(.leading)
-//                        .padding(.trailing, 34)
+                        .lineSpacing(8)
+                        .padding(.trailing, 40)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 20)

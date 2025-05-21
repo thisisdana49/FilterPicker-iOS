@@ -357,11 +357,11 @@
 		3EC86A282DD3549500949918 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				3E3CF1FF2DDDCC1400B5D650 /* URLImageLoader.swift */,
-				3E3CF2002DDDCC1400B5D650 /* URLImageView.swift */,
 				3EC86A292DD3549D00949918 /* DesignSystem */,
 				3EC86A2B2DD354AF00949918 /* Extensions */,
 				3EC86A2C2DD354BE00949918 /* Resources */,
+				3E3CF1FF2DDDCC1400B5D650 /* URLImageLoader.swift */,
+				3E3CF2002DDDCC1400B5D650 /* URLImageView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
