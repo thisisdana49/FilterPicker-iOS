@@ -46,6 +46,6 @@ struct FilterCategorySectionView: View {
                 )
             }
         }
-        .padding(.horizontal, 16)
+        .padding(0)
     }
 }

@@ -11,11 +11,17 @@ struct TodayCreatorSectionView: View {
     @ObservedObject var store: MainStore
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("오늘의 작가")
-                .fontStyle(.body1)
-                .foregroundColor(.gray60)
-                .padding(.leading, 16)
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Text("오늘의 작가")
+                    .multilineTextAlignment(.leading)
+                    .fontStyle(.body1)
+                    .foregroundColor(.gray60)
+                Spacer()
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 20)
 
             if let author = store.state.todayAuthor {
                 HStack(alignment: .top, spacing: 16) {
@@ -29,23 +35,17 @@ struct TodayCreatorSectionView: View {
                             .fill(Color.gray30)
                             .frame(width: 64, height: 64)
                     }
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: 8) {
                         Text(author.name)
                             .fontStyle(.body2)
                             .foregroundColor(.white)
-                        Text(author.introduction)
+                        Text(author.nick)
                             .fontStyle(.caption1)
                             .foregroundColor(.gray60)
-                        HStack(spacing: 4) {
-                            ForEach(author.hashTags, id: \.self) { tag in
-                                Text(tag)
-                                    .fontStyle(.caption2)
-                                    .foregroundColor(.green)
-                            }
-                        }
                     }
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 20)
                 
                 // 캐러셀: 상위 5개 필터 이미지
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -65,15 +65,34 @@ struct TodayCreatorSectionView: View {
                             }
                         }
                     }
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, 20)
                 }
                 
-                Text(author.description)
-                    .fontStyle(.caption1)
-                    .lineSpacing(8)
-                    .foregroundColor(.gray60)
-                    .padding(.horizontal, 16)
-                    .padding(.top, 8)
+                HStack(spacing: 4) {
+                    ForEach(author.hashTags, id: \.self) { tag in
+                        Text(tag)
+                            .fontStyle(.caption2)
+                            .foregroundColor(.green)
+                    }
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .padding([.horizontal, .top], 20)
+                
+                VStack(alignment: .leading, spacing: 12) {
+                    Text(author.introduction)
+                        .fontStyle(.mulgyeolCaption1)
+                        .foregroundColor(.gray60)
+                    
+                    Text(author.description)
+                        .fontStyle(.caption1)
+                        .lineSpacing(8)
+                        .foregroundColor(.gray60)
+                }
+                .frame(maxWidth: .infinity)
+                .padding([.horizontal, .top], 20)
+                .padding(.bottom, 41)
+                
             } else if store.state.isLoading {
                 ProgressView()
                     .padding()
@@ -83,6 +102,8 @@ struct TodayCreatorSectionView: View {
                     .padding()
             }
         }
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 20)
         .onAppear {
             store.dispatch(.fetchTodayAuthor)
         }

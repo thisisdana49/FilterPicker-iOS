@@ -20,6 +20,8 @@ struct MainView: View {
                     FilterCategorySectionView()
                         .padding(.top, 463)
                 }
+                .padding(0)
+                
                 TrendingBannerSectionView()
                 TrendingFilterSectionView(store: store)
                 TodayCreatorSectionView(store: store)
