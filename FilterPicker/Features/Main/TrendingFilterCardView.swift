@@ -5,6 +5,7 @@ struct TrendingFilterCardView: View {
     let isCenter: Bool
     let scale: CGFloat
     let cardWidth: CGFloat
+    let cardHeight: CGFloat
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -12,7 +13,7 @@ struct TrendingFilterCardView: View {
                let url = URL(string: AppConfig.baseURL + "/v1/" + firstFile) {
                 URLImageView(url: url, showOverlay: false)
                     .scaledToFill()
-                    .frame(width: cardWidth, height: 220)
+                    .frame(width: cardWidth, height: cardHeight)
                     .clipped()
                     .cornerRadius(20)
                     .overlay(
@@ -21,7 +22,7 @@ struct TrendingFilterCardView: View {
             } else {
                 Rectangle()
                     .fill(Color.gray30)
-                    .frame(width: cardWidth, height: 220)
+                    .frame(width: cardWidth, height: cardHeight)
                     .cornerRadius(20)
             }
             Text(filter.title)
@@ -46,7 +47,7 @@ struct TrendingFilterCardView: View {
                 }
             }
         }
-        .frame(width: cardWidth, height: 220)
+        .frame(width: cardWidth, height: cardHeight)
         .scaleEffect(scale)
         .shadow(radius: isCenter ? 8 : 2)
         .animation(.easeInOut(duration: 0.3), value: isCenter)

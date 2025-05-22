@@ -49,7 +49,3 @@ struct TrendingBannerSectionView: View {
         .padding(.horizontal, 20)
     }
 }
-
-#Preview {
-    TrendingBannerSectionView()
-}

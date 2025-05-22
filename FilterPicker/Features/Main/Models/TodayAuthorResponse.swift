@@ -1,3 +1,11 @@
+//
+//  TodayAuthor.swift
+//  FilterPicker
+//
+//  Created by 조다은 on 5/21/25.
+//
+
+
 import Foundation
 
 struct TodayAuthor: Codable {

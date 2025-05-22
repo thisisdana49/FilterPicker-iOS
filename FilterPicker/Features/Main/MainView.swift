@@ -24,7 +24,7 @@ struct MainView: View {
                 TrendingFilterSectionView(store: store)
                 TodayCreatorSectionView(store: store)
             }
-            .padding(.vertical, 16)
+            .padding(.vertical, 20)
         }
         .background(Color.black)
         .ignoresSafeArea()
