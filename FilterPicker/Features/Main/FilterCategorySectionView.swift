@@ -28,21 +28,24 @@ struct FilterCategorySectionView: View {
             ForEach(categories, id: \.name) { category in
                 VStack(spacing: 4) {
                     Icon(name: category.iconName, color: .gray60)
-                        .frame(width: 32, height: 32)
+//                        .frame(width: 32, height: 32)
                     Text(category.name)
                         .fontStyle(.caption2)
                         .foregroundColor(.gray60)
                 }
-                .padding(.vertical, 10)
-                .padding(.horizontal, 12)
-                .background(Color.black.opacity(0.2))
-                .cornerRadius(12)
+                .foregroundColor(.clear)
+                .frame(width: 56, height: 56)
+                .background(Color(red: 0.42, green: 0.42, blue: 0.43).opacity(0.5))
+
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .inset(by: 0.5)
+                        .stroke(Color(red: 0.42, green: 0.42, blue: 0.43).opacity(0.5), lineWidth: 1)
+                    
+                )
             }
         }
-        .padding(.horizontal, 16)
+        .padding(0)
     }
-}
-
-#Preview {
-    FilterCategorySectionView()
 }

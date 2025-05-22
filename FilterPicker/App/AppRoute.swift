@@ -21,9 +21,6 @@ struct AppRoute: View {
         .onAppear {
             store.send(.checkAutoLogin)
         }
+        .padding(0)
     }
 }
-
-#Preview {
-    AppRoute()
-} 

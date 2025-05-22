@@ -61,7 +61,14 @@ private extension DefaultAPIService {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = request.method.rawValue
 
+        // 기본 헤더 설정
         urlRequest.setValue(AppConfig.apiKey, forHTTPHeaderField: "SesacKey")
+        
+        // 로그인 상태인 경우 Authorization 헤더 추가
+        if let accessToken = TokenStorage.accessToken,
+           !TokenStorage.isAccessTokenExpired() {
+            urlRequest.setValue("\(accessToken)", forHTTPHeaderField: "Authorization")
+        }
 
         // 사용자 정의 헤더
         if let headers = request.headers {
