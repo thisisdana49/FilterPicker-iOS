@@ -16,7 +16,7 @@ struct Creator: Codable {
 
 struct HotTrendFilter: Codable {
     let filterId: String
-    let category: String
+    let category: String?
     let title: String
     let description: String
     let files: [String]

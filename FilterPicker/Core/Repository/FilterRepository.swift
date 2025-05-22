@@ -44,6 +44,14 @@ final class FilterRepository: FilterRepositoryProtocol {
             path: "/v1/users/today-author",
             method: .get
         )
-        return try await apiService.request(request)
+        print("🌐 [Request] GET /v1/users/today-author")
+        do {
+            let response: TodayAuthorResponse = try await apiService.request(request)
+            print("📦 [Response] TodayAuthor: \(response)")
+            return response
+        } catch {
+            print("❌ [Error] TodayAuthor: \(error)")
+            throw error
+        }
     }
 } 
