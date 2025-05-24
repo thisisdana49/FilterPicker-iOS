@@ -29,14 +29,14 @@ enum TabItem: Int, CaseIterable, Identifiable {
     }
   }
 
-  /// 탭 아이콘(Asset 이미지 이름)
-  var iconAssetName: String {
+  /// 탭 아이콘(Asset 이미지 이름) - 선택 상태에 따라 다름
+  func iconAssetName(isSelected: Bool) -> String {
     switch self {
-    case .home: return "tab_home"
-    case .feed: return "tab_feed"
-    case .filter: return "tab_filter"
-    case .search: return "tab_search"
-    case .profile: return "tab_profile"
+    case .home: return isSelected ? "IconMain_Fill" : "IconMain_Empty"
+    case .feed: return isSelected ? "IconFeed_Fill" : "IconFeed_Empty"
+    case .filter: return isSelected ? "IconFilter_Fill" : "IconFilter_Empty"
+    case .search: return isSelected ? "IconSearch_Fill" : "IconSearch_Empty"
+    case .profile: return isSelected ? "IconProfile_Fill" : "IconProfile_Empty"
     }
   }
 } 
