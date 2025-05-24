@@ -1,3 +1,10 @@
+//
+//  TabItem.swift
+//  FilterPicker
+//
+//  Created by 조다은 on 5/24/25.
+//
+
 import Foundation
 
 /// 앱 하단 탭바의 각 탭 항목을 정의합니다.
