@@ -12,12 +12,13 @@ struct CustomTabBarView: View {
     
     var body: some View {
         ZStack {
-            // 블러 효과가 적용된 배경
+            // 블러 효과가 적용된 배경 (iOS 14 호환)
             RoundedRectangle(cornerRadius: 34)
-                .fill(.ultraThinMaterial)
+                .fill(Color.clear)
                 .frame(width: 350, height: 68)
                 .background(
-                    Color(red: 0.42, green: 0.42, blue: 0.43).opacity(0.5)
+                    CustomBlurView(style: .systemUltraThinMaterialDark)
+                        .clipShape(RoundedRectangle(cornerRadius: 34))
                 )
                 .cornerRadius(34)
                 .overlay(
@@ -26,35 +27,38 @@ struct CustomTabBarView: View {
                         .stroke(Color(red: 0.42, green: 0.42, blue: 0.43).opacity(0.5), lineWidth: 1)
                 )
             
-            // 탭 아이템
+            // 탭 아이템 (HStack)
             HStack(spacing: 0) {
                 ForEach(TabItem.allCases) { tab in
                     Button(action: {
                         selectedTab = tab
                     }) {
-                        VStack(spacing: 0) {
-                            // 인디케이터 (상단에 딱 붙게)
-                            if selectedTab == tab {
-                                RoundedRectangle(cornerRadius: 2)
-                                    .fill(Color.white)
-                                    .frame(width: 24, height: 4)
-                                    .shadow(color: .white.opacity(0.6), radius: 4)
-                            } else {
-                                Spacer().frame(height: 4)
-                            }
-                            Spacer().frame(height: 8) // 인디케이터와 아이콘 사이 여백
-                            Image(tab.iconAssetName(isSelected: selectedTab == tab))
-                                .renderingMode(.template)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 28, height: 28)
-                                .foregroundColor(selectedTab == tab ? .gray15 : .gray45)
-                        }
-                        .frame(maxWidth: .infinity)
+                        Image(tab.iconAssetName(isSelected: selectedTab == tab))
+                            .renderingMode(.template)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 28, height: 28)
+                            .foregroundColor(selectedTab == tab ? .gray15 : .gray45)
+                            .frame(maxWidth: .infinity)
                     }
                 }
             }
             .frame(width: 320, height: 56)
+
+            // 인디케이터 (ZStack의 최상단에, 선택된 탭의 위치에 맞춰서)
+            GeometryReader { geo in
+                let tabCount = TabItem.allCases.count
+                let tabWidth = geo.size.width / CGFloat(tabCount)
+                let indicatorX = tabWidth * CGFloat(selectedTab.rawValue) + (tabWidth - 24) / 2
+
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(Color(red: 0.98, green: 0.98, blue: 0.98))
+                    .frame(width: 32, height: 3.7)
+                    .shadow(color: .white.opacity(0.15), radius: 2, x: 0, y: 4)
+                    .position(x: indicatorX + 12, y: 1)
+            }
+            .frame(width: 320, height: 8)
+            .offset(y: -28)
         }
         .frame(height: 68)
     }
