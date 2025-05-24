@@ -49,16 +49,17 @@ struct CustomTabBarView: View {
             GeometryReader { geo in
                 let tabCount = TabItem.allCases.count
                 let tabWidth = geo.size.width / CGFloat(tabCount)
-                let indicatorX = tabWidth * CGFloat(selectedTab.rawValue) + (tabWidth - 24) / 2
+                let indicatorX = tabWidth * CGFloat(selectedTab.rawValue) + (tabWidth - 32) / 2
 
                 RoundedRectangle(cornerRadius: 2)
                     .fill(Color(red: 0.98, green: 0.98, blue: 0.98))
                     .frame(width: 32, height: 3.7)
                     .shadow(color: .white.opacity(0.15), radius: 2, x: 0, y: 4)
                     .position(x: indicatorX + 12, y: 1)
+                    .animation(.easeInOut(duration: 0.25), value: selectedTab)
             }
             .frame(width: 320, height: 8)
-            .offset(y: -28)
+            .offset(y: -28) // 탭바 상단에 맞게 조정
         }
         .frame(height: 68)
     }
