@@ -13,7 +13,7 @@ struct AppRoute: View {
     var body: some View {
         Group {
             if store.state.isLoggedIn {
-                MainView()
+                RootTabView()
             } else {
                 AuthView(appStore: store)
             }
