@@ -7,14 +7,6 @@ struct MyPageReducer {
             state.isLoading = true
             state.error = nil
             
-        case .updateName(let name):
-            state.name = name
-            state.isEditing = true
-            
-        case .updateBio(let bio):
-            state.bio = bio
-            state.isEditing = true
-            
         case .saveProfile:
             state.isSaving = true
             state.error = nil
@@ -23,9 +15,14 @@ struct MyPageReducer {
             state.isUploadingImage = true
             state.uploadError = nil
             
-        case .updateProfileImageURL(let url):
-            state.profileImageURL = url
+        case .updateProfileImageURL:
             state.isUploadingImage = false
+            
+        case .updateName(let name):
+            state.name = name
+            
+        case .updateIntroduction(let introduction):
+            state.introduction = introduction
             
         case .logout:
             // 로그아웃 처리

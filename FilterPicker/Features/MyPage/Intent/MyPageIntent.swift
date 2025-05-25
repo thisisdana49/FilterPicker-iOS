@@ -6,7 +6,7 @@ enum MyPageIntent {
     
     // 프로필 수정
     case updateName(String)
-    case updateBio(String)
+    case updateIntroduction(String)
     case saveProfile
     
     // 프로필 이미지

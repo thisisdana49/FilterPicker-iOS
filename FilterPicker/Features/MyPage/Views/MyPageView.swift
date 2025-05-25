@@ -71,8 +71,8 @@ struct MyPageView: View {
             .textFieldStyle(RoundedBorderTextFieldStyle())
             
             TextField("소개", text: Binding(
-                get: { store.state.bio },
-                set: { store.dispatch(.updateBio($0)) }
+                get: { store.state.introduction },
+                set: { store.dispatch(.updateIntroduction($0)) }
             ))
             .textFieldStyle(RoundedBorderTextFieldStyle())
             

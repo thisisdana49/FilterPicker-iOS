@@ -1,4 +1,22 @@
+//
+//  UserRepositoryProtocol.swift
+//  FilterPicker
+//
+//  Created by 조다은 on 5/25/25.
+//
+
 import Foundation
+
+// MARK: - Response Types
+struct EmptyResponse: Codable {}
+
+// MARK: - Encodable Extension
+extension Encodable {
+    func asDictionary() -> [String: Any]? {
+        guard let data = try? JSONEncoder().encode(self) else { return nil }
+        return (try? JSONSerialization.jsonObject(with: data)) as? [String: Any]
+    }
+}
 
 protocol UserRepositoryProtocol {
     func fetchMyProfile() async throws -> UserProfileResponse
@@ -31,15 +49,16 @@ final class UserRepository: UserRepositoryProtocol {
     }
     
     func updateMyProfile(_ request: EditProfileRequest) async throws {
+        let body = request.asDictionary()
         let apiRequest = APIRequest(
             path: "/v1/users/me/profile",
             method: .put,
-            body: request
+            body: body
         )
         
         print("🌐 [Request] PUT /v1/users/me/profile")
         do {
-            try await apiService.request(apiRequest)
+            let _: EmptyResponse = try await apiService.request(apiRequest)
             print("✅ [Response] Profile updated successfully")
         } catch {
             print("❌ [Error] Profile update failed: \(error)")
@@ -56,39 +75,35 @@ final class UserRepository: UserRepositoryProtocol {
         body.append(imageData)
         body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
         
-        let request = APIRequest(
-            path: "/v1/users/profile/image",
-            method: .post,
-            headers: ["Content-Type": "multipart/form-data; boundary=\(boundary)"],
-            body: body
-        )
+        // multipart/form-data 요청을 위한 별도의 URLRequest 생성
+        var urlRequest = URLRequest(url: URL(string: AppConfig.baseURL + "/v1/users/profile/image")!)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue(AppConfig.apiKey, forHTTPHeaderField: "SesacKey")
+        if let accessToken = TokenStorage.accessToken,
+           !TokenStorage.isAccessTokenExpired() {
+            urlRequest.setValue("\(accessToken)", forHTTPHeaderField: "Authorization")
+        }
+        urlRequest.httpBody = body
         
         print("🌐 [Request] POST /v1/users/profile/image")
         do {
-            let response: ImageUploadResponse = try await apiService.request(request)
-            print("📦 [Response] Image uploaded successfully: \(response.imageURL)")
-            return response.imageURL
+            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw NetworkError.invalidResponse
+            }
+            
+            guard 200..<300 ~= httpResponse.statusCode else {
+                throw NetworkError.statusCode(httpResponse.statusCode)
+            }
+            
+            let imageResponse: ImageUploadResponse = try JSONDecoder().decode(ImageUploadResponse.self, from: data)
+            print("📦 [Response] Image uploaded successfully: \(imageResponse.imageURL)")
+            return imageResponse.imageURL
         } catch {
             print("❌ [Error] Image upload failed: \(error)")
             throw error
         }
     }
 }
-
-// 임시 모델 (실제 API 응답에 맞게 수정 필요)
-struct UserProfileResponse: Codable {
-    let id: String
-    let name: String
-    let bio: String
-    let profileImageURL: String?
-}
-
-struct EditProfileRequest: Codable {
-    let name: String
-    let bio: String
-    let profileImageURL: String?
-}
-
-struct ImageUploadResponse: Codable {
-    let imageURL: String
-} 

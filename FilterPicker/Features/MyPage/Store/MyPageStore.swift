@@ -41,7 +41,7 @@ final class MyPageStore: ObservableObject {
                 state.profileImage = UIImage(data: data)
             }
             
-        case .updateName, .updateBio, .logout:
+        case .updateName, .updateIntroduction, .logout:
             break
         }
     }
@@ -49,11 +49,11 @@ final class MyPageStore: ObservableObject {
     private func fetchProfile() async {
         do {
             let profile = try await userRepository.fetchMyProfile()
-            state.name = profile.name
-            state.bio = profile.bio
-            state.profileImageURL = profile.profileImageURL
+            state.name = profile.name ?? ""
+            state.introduction = profile.introduction ?? ""
+            state.profileImageURL = profile.profileImage
             
-            if let url = profile.profileImageURL,
+            if let url = profile.profileImage,
                let imageUrl = URL(string: url),
                let data = try? Data(contentsOf: imageUrl) {
                 state.profileImage = UIImage(data: data)
@@ -70,8 +70,10 @@ final class MyPageStore: ObservableObject {
         do {
             let request = EditProfileRequest(
                 name: state.name,
-                bio: state.bio,
-                profileImageURL: state.profileImageURL
+                introduction: state.introduction,
+                profileImage: state.profileImageURL,
+                phoneNum: nil,
+                hashTags: nil
             )
             
             try await userRepository.updateMyProfile(request)
