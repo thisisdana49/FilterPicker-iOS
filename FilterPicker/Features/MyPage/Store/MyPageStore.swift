@@ -53,8 +53,14 @@ final class MyPageStore: ObservableObject {
         case .updateName(let name):
             state.name = name
             
+        case .updateNick(let nick):
+            state.nick = nick
+            
         case .updateIntroduction(let introduction):
             state.introduction = introduction
+            
+        case .updatePhoneNum(let phoneNum):
+            state.phoneNum = phoneNum
             
         case .uploadProfileImage(let imageData):
             Task {
@@ -72,6 +78,14 @@ final class MyPageStore: ObservableObject {
                     state.isUploadingImage = false
                 }
             }
+            
+        case .addHashTag(let tag):
+            if !state.hashTags.contains(tag) {
+                state.hashTags.append(tag)
+            }
+            
+        case .removeHashTag(let tag):
+            state.hashTags.removeAll { $0 == tag }
             
         case .saveProfile:
             Task {
