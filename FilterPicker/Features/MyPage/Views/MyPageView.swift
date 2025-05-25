@@ -1,113 +1,137 @@
+//
+//  MyPageView.swift
+//  FilterPicker
+//
+//  Created by 조다은 on 5/25/25.
+//
+
 import SwiftUI
 import UIKit
 
 struct MyPageView: View {
-    @StateObject private var store: MyPageStore
-    @State private var showImagePicker = false
-    
-    init() {
-        _store = StateObject(wrappedValue: MyPageStore())
-    }
+    @StateObject private var store = MyPageStore()
+    @State private var showingLogoutAlert = false
+    @State private var showingEditProfile = false
     
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 24) {
-                    // 프로필 이미지 섹션
+                    // MARK: - 프로필 이미지 섹션
                     profileImageSection
                     
-                    // 프로필 정보 섹션
+                    // MARK: - 프로필 정보 섹션
                     profileInfoSection
                     
-                    // 설정 메뉴 섹션
+                    // MARK: - 설정 섹션
                     settingsSection
                 }
                 .padding()
             }
             .navigationTitle("마이페이지")
-            .navigationBarTitleDisplayMode(.inline)
-        }
-        .sheet(isPresented: $showImagePicker) {
-            ImagePicker(image: Binding(
-                get: { store.state.profileImage ?? UIImage() },
-                set: { newImage in
-                    if let imageData = newImage.jpegData(compressionQuality: 0.8) {
-                        store.dispatch(.uploadProfileImage(imageData))
-                    }
-                }
-            ))
+            .sheet(isPresented: $showingEditProfile) {
+                EditProfileView(store: store)
+            }
+//            .alert("로그아웃", isPresented: $showingLogoutAlert) {
+//                Button("취소", role: .cancel) { }
+//                Button("로그아웃", role: .destructive) {
+//                    store.dispatch(.logout)
+//                }
+//            } message: {
+//                Text("정말 로그아웃 하시겠습니까?")
+//            }
         }
     }
     
+    // MARK: - 프로필 이미지 섹션
     private var profileImageSection: some View {
         VStack {
-            Button(action: { showImagePicker = true }) {
-                if let profileImage = store.state.profileImage {
-                    Image(uiImage: profileImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 120, height: 120)
-                        .clipShape(Circle())
-                } else {
-                    Image(systemName: "person.circle.fill")
-                        .resizable()
-                        .frame(width: 120, height: 120)
+            if let image = store.state.profileImage {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 120, height: 120)
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle()
+                            .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                    )
+            } else {
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 120, height: 120)
+                    .foregroundColor(.gray)
+            }
+        }
+    }
+    
+    // MARK: - 프로필 정보 섹션
+    private var profileInfoSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack {
+                Text("프로필 정보")
+                    .font(.system(size: 18, weight: .bold))
+                
+                Spacer()
+                
+                Button(action: { showingEditProfile = true }) {
+                    Text("수정")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(.blue)
+                }
+            }
+            
+            VStack(spacing: 12) {
+                profileInfoRow(title: "이름", content: store.state.nick)
+                profileInfoRow(title: "소개", content: store.state.introduction)
+            }
+        }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(12)
+        .shadow(radius: 2)
+    }
+    
+    // MARK: - 설정 섹션
+    private var settingsSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("설정")
+                .font(.system(size: 18, weight: .bold))
+            
+            Button(action: { showingLogoutAlert = true }) {
+                HStack {
+                    Text("로그아웃")
+                        .foregroundColor(.red)
+                    Spacer()
+                    Image(systemName: "chevron.right")
                         .foregroundColor(.gray)
                 }
             }
-            
-            Text("프로필 이미지 변경")
-                .font(.caption)
-                .foregroundColor(.blue)
         }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(12)
+        .shadow(radius: 2)
     }
     
-    private var profileInfoSection: some View {
-        VStack(spacing: 16) {
-            TextField("이름", text: Binding(
-                get: { store.state.name },
-                set: { store.dispatch(.updateName($0)) }
-            ))
-            .textFieldStyle(RoundedBorderTextFieldStyle())
+    // MARK: - 프로필 정보 행
+    private func profileInfoRow(title: String, content: String) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.system(size: 14, weight: .medium))
+                .foregroundColor(.gray)
             
-            TextField("소개", text: Binding(
-                get: { store.state.introduction },
-                set: { store.dispatch(.updateIntroduction($0)) }
-            ))
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            
-            Button("프로필 저장") {
-                store.dispatch(.saveProfile)
-            }
-            .buttonStyle(.borderless)
-        }
-    }
-    
-    private var settingsSection: some View {
-        VStack(spacing: 16) {
-            NavigationLink("알림 설정") {
-                Text("알림 설정 화면")
-            }
-            
-            NavigationLink("개인정보 처리방침") {
-                Text("개인정보 처리방침 화면")
-            }
-            
-            NavigationLink("이용약관") {
-                Text("이용약관 화면")
-            }
-            
-            Button("로그아웃") {
-                store.dispatch(.logout)
-            }
-            .foregroundColor(.red)
+            Text(content.isEmpty ? "-" : content)
+                .font(.system(size: 16))
         }
     }
 }
 
+// MARK: - ImagePicker
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var image: UIImage
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.presentationMode) var presentationMode
     
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
@@ -130,10 +154,8 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            if let editedImage = info[.editedImage] as? UIImage {
-                parent.image = editedImage
-            } else if let originalImage = info[.originalImage] as? UIImage {
-                parent.image = originalImage
+            if let image = info[.editedImage] as? UIImage {
+                parent.image = image
             }
             parent.presentationMode.wrappedValue.dismiss()
         }

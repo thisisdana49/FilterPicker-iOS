@@ -20,9 +20,19 @@ struct MyPageReducer {
             
         case .updateName(let name):
             state.name = name
+            state.isEditing = true
             
         case .updateIntroduction(let introduction):
             state.introduction = introduction
+            state.isEditing = true
+            
+        case .startEditing:
+            state.isEditing = true
+            
+        case .cancelEditing:
+            state.isEditing = false
+            state.name = ""
+            state.introduction = ""
             
         case .logout:
             // 로그아웃 처리

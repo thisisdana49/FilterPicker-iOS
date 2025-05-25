@@ -1,97 +1,122 @@
 import Foundation
 import SwiftUI
+import UIKit
 
 @MainActor
 final class MyPageStore: ObservableObject {
     @Published private(set) var state: MyPageState
-    private let userRepository: UserRepository
+    private let userRepository: UserRepositoryProtocol
     
-    init(userRepository: UserRepository = UserRepository()) {
+    init(userRepository: UserRepositoryProtocol = UserRepository()) {
         self.state = MyPageState()
         self.userRepository = userRepository
         
         Task {
-            await fetchProfile()
+            await dispatch(.fetchProfile)
         }
     }
     
     func dispatch(_ intent: MyPageIntent) {
-        MyPageReducer.reduce(state: &state, intent: intent)
-        
         switch intent {
         case .fetchProfile:
             Task {
-                await fetchProfile()
+                do {
+                    let profile = try await userRepository.fetchMyProfile()
+                    print("📦 [Response] UserProfile:", profile)
+                    
+                    // 상태 업데이트
+                    state = MyPageState(
+                        userId: profile.userId,
+                        email: profile.email,
+                        nick: profile.nick,
+                        hashTags: profile.hashTags,
+                        name: profile.name ?? "",
+                        introduction: profile.introduction ?? "",
+                        profileImageURL: profile.profileImage,
+                        phoneNum: profile.phoneNum ?? "",
+                        isLoading: false
+                    )
+                    
+                    // 프로필 이미지가 있는 경우 로드
+                    if let imageURL = profile.profileImage {
+                        loadProfileImage(from: imageURL)
+                    }
+                    
+                    print("🔄 [State] Profile fetched:", state.nick, state.email, state.profileImageURL)
+                } catch {
+                    print("❌ [Error] Failed to fetch profile:", error)
+                    state.error = error
+                    state.isLoading = false
+                }
+            }
+            
+        case .updateName(let name):
+            state.name = name
+            
+        case .updateIntroduction(let introduction):
+            state.introduction = introduction
+            
+        case .uploadProfileImage(let imageData):
+            Task {
+                do {
+                    state.isUploadingImage = true
+                    let response = try await userRepository.uploadProfileImage(imageData)
+                    state.profileImageURL = "" /*response.imageUrl*/
+                    if let image = UIImage(data: imageData) {
+                        state.profileImage = image
+                    }
+                    state.isUploadingImage = false
+                } catch {
+                    print("❌ [Error] Failed to upload image:", error)
+                    state.uploadError = error
+                    state.isUploadingImage = false
+                }
             }
             
         case .saveProfile:
             Task {
-                await saveProfile()
+                do {
+                    state.isSaving = true
+                    let request = EditProfileRequest(
+                        name: state.name,
+                        introduction: state.introduction,
+                        profileImage: state.profileImageURL,
+                        phoneNum: state.phoneNum,
+                        hashTags: state.hashTags
+                    )
+                    try await userRepository.updateMyProfile(request)
+                    state.isSaving = false
+                } catch {
+                    print("❌ [Error] Failed to save profile:", error)
+                    state.error = error
+                    state.isSaving = false
+                }
             }
             
-        case .uploadProfileImage(let data):
-            Task {
-                await uploadProfileImage(data)
-            }
-            
-        case .updateProfileImageURL(let url):
-            state.profileImageURL = url
-            if let url = URL(string: url),
-               let data = try? Data(contentsOf: url) {
-                state.profileImage = UIImage(data: data)
-            }
-            
-        case .updateName, .updateIntroduction, .logout:
+        case .logout:
+            // TODO: 로그아웃 처리
+            break
+        case .startEditing:
+            break
+        case .cancelEditing:
+            break
+        case .updateProfileImageURL(_):
             break
         }
     }
     
-    private func fetchProfile() async {
-        do {
-            let profile = try await userRepository.fetchMyProfile()
-            state.name = profile.name ?? ""
-            state.introduction = profile.introduction ?? ""
-            state.profileImageURL = profile.profileImage
-            
-            if let url = profile.profileImage,
-               let imageUrl = URL(string: url),
-               let data = try? Data(contentsOf: imageUrl) {
-                state.profileImage = UIImage(data: data)
+    private func loadProfileImage(from urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        
+        Task {
+            do {
+                let (data, _) = try await URLSession.shared.data(from: url)
+                if let image = UIImage(data: data) {
+                    state.profileImage = image
+                }
+            } catch {
+                print("❌ [Error] Failed to load profile image:", error)
             }
-            
-            state.isLoading = false
-        } catch {
-            state.error = error
-            state.isLoading = false
-        }
-    }
-    
-    private func saveProfile() async {
-        do {
-            let request = EditProfileRequest(
-                name: state.name,
-                introduction: state.introduction,
-                profileImage: state.profileImageURL,
-                phoneNum: nil,
-                hashTags: nil
-            )
-            
-            try await userRepository.updateMyProfile(request)
-            state.isSaving = false
-            state.isEditing = false
-        } catch {
-            state.error = error
-            state.isSaving = false
-        }
-    }
-    
-    private func uploadProfileImage(_ data: Data) async {
-        do {
-            let imageURL = try await userRepository.uploadProfileImage(data)
-            await dispatch(.updateProfileImageURL(imageURL))
-        } catch {
-            state.uploadError = error
-            state.isUploadingImage = false
         }
     }
 } 

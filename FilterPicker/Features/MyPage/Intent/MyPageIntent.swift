@@ -8,6 +8,8 @@ enum MyPageIntent {
     case updateName(String)
     case updateIntroduction(String)
     case saveProfile
+    case startEditing
+    case cancelEditing
     
     // 프로필 이미지
     case uploadProfileImage(Data)
