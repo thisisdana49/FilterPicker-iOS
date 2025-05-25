@@ -23,7 +23,7 @@ struct RootTabView: View {
         case .search:
           SearchView()
         case .profile:
-          ProfileView()
+          MyPageView()
         }
       }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -43,4 +43,4 @@ struct RootTabView: View {
 struct FeedView: View { var body: some View { Color.clear } }
 struct FilterView: View { var body: some View { Color.clear } }
 struct SearchView: View { var body: some View { Color.clear } }
-struct ProfileView: View { var body: some View { Color.clear } } 
+//struct MyPageView: View { var body: some View { Color.clear } } 
