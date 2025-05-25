@@ -84,6 +84,12 @@ final class DefaultAuthRepository: AuthRepository {
             case .statusCode:
                 print("❌ 알 수 없는 오류")
                 throw AuthError.unknownError
+            case .tokenExpired:
+                print("❌ 토큰 만료")
+                throw AuthError.expiredRefreshToken
+            case .refreshTokenFailed:
+                print("❌ 토큰 갱신 실패")
+                throw AuthError.networkError
             }
         } catch {
             print("❌ 네트워크 오류:", error.localizedDescription)

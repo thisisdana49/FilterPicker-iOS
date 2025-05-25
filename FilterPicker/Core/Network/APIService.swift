@@ -12,8 +12,17 @@ protocol APIService {
 }
 
 final class DefaultAPIService: APIService {
+    private var isRefreshing = false
+    private var refreshTask: Task<TokenResponse, Error>?
+    private let maxRetryCount = 1
+    
+    init() {}
 
     func request<T: Decodable>(_ request: APIRequest) async throws -> T {
+        return try await performRequest(request, retryCount: 0)
+    }
+    
+    private func performRequest<T: Decodable>(_ request: APIRequest, retryCount: Int) async throws -> T {
         guard let urlRequest = makeURLRequest(from: request) else {
             throw NetworkError.invalidRequest
         }
@@ -36,6 +45,27 @@ final class DefaultAPIService: APIService {
             print("📦 Data: \(jsonString)")
         }
 
+        // 401 응답 처리
+        if httpResponse.statusCode == 403 {
+            // 토큰 갱신 시도
+            if retryCount < maxRetryCount {
+                do {
+                    let newTokens = try await refreshToken()
+                    TokenStorage.accessToken = newTokens.accessToken
+                    TokenStorage.refreshToken = newTokens.refreshToken
+                    
+                    // 새로운 토큰으로 요청 재시도
+                    return try await performRequest(request, retryCount: retryCount + 1)
+                } catch {
+                    // 토큰 갱신 실패 시 로그아웃 처리
+                    TokenStorage.clear()
+                    throw AuthError.expiredRefreshToken
+                }
+            } else {
+                throw NetworkError.statusCode(httpResponse.statusCode)
+            }
+        }
+
         guard 200..<300 ~= httpResponse.statusCode else {
             throw NetworkError.statusCode(httpResponse.statusCode)
         }
@@ -46,6 +76,38 @@ final class DefaultAPIService: APIService {
         } catch {
             throw NetworkError.decoding(error)
         }
+    }
+    
+    private func refreshToken() async throws -> TokenResponse {
+        // 이미 토큰 갱신 중인 경우 기존 작업 재사용
+        if let existingTask = refreshTask {
+            return try await existingTask.value
+        }
+        
+        // 새로운 토큰 갱신 작업 생성
+        let task = Task<TokenResponse, Error> {
+            defer {
+                refreshTask = nil
+                isRefreshing = false
+            }
+            
+            isRefreshing = true
+            
+            // 토큰 갱신 API 직접 호출
+            let request = APIRequest(
+                path: "/v1/auth/refresh",
+                method: .get,
+                headers: [
+                    "RefreshToken": TokenStorage.refreshToken ?? "",
+                    "Authorization": TokenStorage.accessToken ?? ""
+                ]
+            )
+            
+            return try await self.request(request)
+        }
+        
+        refreshTask = task
+        return try await task.value
     }
 }
 
