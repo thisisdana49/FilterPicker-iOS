@@ -15,7 +15,7 @@ struct MyPageView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView {
+            ScrollViewWrapper {
                 VStack(spacing: 24) {
                     // MARK: - 프로필 이미지 섹션
                     profileImageSection
@@ -27,19 +27,21 @@ struct MyPageView: View {
                     settingsSection
                 }
                 .padding()
+            } onRefresh: {
+                Task {
+                    store.dispatch(.fetchProfile)
+                }
             }
             .navigationTitle("마이페이지")
             .sheet(isPresented: $showingEditProfile) {
                 EditProfileView(store: store)
             }
-//            .alert("로그아웃", isPresented: $showingLogoutAlert) {
-//                Button("취소", role: .cancel) { }
-//                Button("로그아웃", role: .destructive) {
-//                    store.dispatch(.logout)
-//                }
-//            } message: {
-//                Text("정말 로그아웃 하시겠습니까?")
-//            }
+            .onAppear {
+                // View가 처음 나타날 때만 프로필을 가져옵니다
+                if store.state.userId.isEmpty {
+                    store.dispatch(.fetchProfile)
+                }
+            }
         }
     }
     
@@ -162,6 +164,69 @@ struct ImagePicker: UIViewControllerRepresentable {
         
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.presentationMode.wrappedValue.dismiss()
+        }
+    }
+}
+
+// MARK: - ScrollViewWrapper (수정된 버전)
+struct ScrollViewWrapper<Content: View>: UIViewRepresentable {
+    let content: Content
+    let onRefresh: () -> Void
+    
+    init(@ViewBuilder content: () -> Content, onRefresh: @escaping () -> Void) {
+        self.content = content()
+        self.onRefresh = onRefresh
+    }
+    
+    func makeUIView(context: Context) -> UIScrollView {
+        let scrollView = UIScrollView()
+        scrollView.refreshControl = UIRefreshControl()
+        scrollView.refreshControl?.addTarget(
+            context.coordinator,
+            action: #selector(Coordinator.handleRefresh(_:)),
+            for: .valueChanged
+        )
+        
+        // UIHostingController를 Coordinator에서 관리
+        let hostingController = UIHostingController(rootView: content)
+        context.coordinator.hostingController = hostingController
+        
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingController.view.backgroundColor = UIColor.clear
+        
+        scrollView.addSubview(hostingController.view)
+        
+        NSLayoutConstraint.activate([
+            hostingController.view.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            hostingController.view.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            hostingController.view.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
+        
+        return scrollView
+    }
+    
+    func updateUIView(_ uiView: UIScrollView, context: Context) {
+        // 상태 변경 시 UIHostingController의 rootView 업데이트
+        context.coordinator.hostingController?.rootView = content
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    class Coordinator: NSObject {
+        let parent: ScrollViewWrapper
+        var hostingController: UIHostingController<Content>?
+        
+        init(_ parent: ScrollViewWrapper) {
+            self.parent = parent
+        }
+        
+        @objc func handleRefresh(_ sender: UIRefreshControl) {
+            parent.onRefresh()
+            sender.endRefreshing()
         }
     }
 }
