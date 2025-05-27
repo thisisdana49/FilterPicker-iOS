@@ -101,9 +101,12 @@ final class UserRepository: UserRepositoryProtocol {
             let imageResponse: ImageUploadResponse = try JSONDecoder().decode(ImageUploadResponse.self, from: data)
             print("📦 [Response] Image uploaded successfully: \(imageResponse.imageURL)")
             return imageResponse.imageURL
+        } catch let error as NetworkError {
+            print("❌ [Error] Image upload failed: \(error.localizedDescription)")
+            throw error
         } catch {
             print("❌ [Error] Image upload failed: \(error)")
-            throw error
+            throw NetworkError.decoding(error)
         }
     }
 }

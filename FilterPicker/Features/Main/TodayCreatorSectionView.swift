@@ -104,6 +104,7 @@ struct TodayCreatorSectionView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 20)
+        .padding(.bottom, 68)
         .onAppear {
             store.dispatch(.fetchTodayAuthor)
         }

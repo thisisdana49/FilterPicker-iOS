@@ -4,6 +4,32 @@ struct ErrorResponse: Decodable {
     let message: String
 }
 
+enum NetworkError: LocalizedError {
+    case invalidRequest
+    case invalidResponse
+    case statusCode(Int)
+    case decoding(Error)
+    case tokenExpired
+    case refreshTokenFailed
+    
+    var errorDescription: String? {
+        switch self {
+        case .invalidRequest:
+            return "잘못된 요청입니다."
+        case .invalidResponse:
+            return "서버로부터 잘못된 응답을 받았습니다."
+        case .statusCode(let code):
+            return "서버 오류가 발생했습니다. (코드: \(code))"
+        case .decoding(let error):
+            return "응답 데이터 처리 중 오류가 발생했습니다: \(error.localizedDescription)"
+        case .tokenExpired:
+            return "인증이 만료되었습니다. 다시 로그인해주세요."
+        case .refreshTokenFailed:
+            return "토큰 갱신에 실패했습니다. 다시 로그인해주세요."
+        }
+    }
+}
+
 enum AuthError: LocalizedError {
     case invalidRefreshToken
     case expiredRefreshToken
@@ -48,6 +74,18 @@ enum AuthError: LocalizedError {
             return "❌ 계정 확인 필요"
         case .userAlreadyExists:
             return "❌ 이미 가입된 유저"
+        }
+    }
+    
+    // NetworkError를 AuthError로 변환하는 메서드
+    static func from(_ networkError: NetworkError) -> AuthError {
+        switch networkError {
+        case .tokenExpired, .refreshTokenFailed:
+            return .expiredRefreshToken
+        case .invalidRequest:
+            return .invalidRequest
+        case .invalidResponse, .statusCode, .decoding:
+            return .networkError
         }
     }
 } 
