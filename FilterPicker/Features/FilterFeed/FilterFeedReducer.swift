@@ -20,11 +20,11 @@ final class FilterFeedReducer: ObservableObject {
     self.fetchFiltersUseCase = fetchFiltersUseCase
     self.toggleLikeUseCase = toggleLikeUseCase
     
-    // 초기 데이터 로드
-    Task {
-      await handleIntent(.loadTopRanking)
-      await handleIntent(.loadFilters)
-    }
+    // 초기 데이터 로드 제거 - View의 onAppear에서 명시적으로 호출하도록 변경
+    // Task {
+    //   await handleIntent(.loadTopRanking)
+    //   await handleIntent(.loadFilters)
+    // }
   }
   
   @MainActor

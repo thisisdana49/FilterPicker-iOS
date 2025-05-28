@@ -76,6 +76,11 @@ struct FilterFeedView: View {
         }
         .background(Color.black)
         .navigationBarHidden(true)
+        .onAppear {
+            // 화면이 나타날 때 데이터 로드
+            store.send(.loadTopRanking)
+            store.send(.loadFilters)
+        }
         .overlay(
             // 로딩 인디케이터
             Group {

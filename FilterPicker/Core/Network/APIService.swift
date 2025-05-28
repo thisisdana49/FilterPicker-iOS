@@ -32,6 +32,14 @@ final class DefaultAPIService: APIService {
         if let body = request.body {
             print("📤 Body: \(body)")
         }
+        
+        // 토큰 상태 로그
+        if let accessToken = TokenStorage.accessToken {
+            let isExpired = TokenStorage.isAccessTokenExpired()
+            print("🔑 AccessToken: \(isExpired ? "만료됨" : "유효함")")
+        } else {
+            print("🚫 AccessToken: 없음")
+        }
 
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
 
@@ -45,8 +53,8 @@ final class DefaultAPIService: APIService {
             print("📦 Data: \(jsonString)")
         }
 
-        // 401 응답 처리
-        if httpResponse.statusCode == 403 {
+        // 419 응답 처리 (액세스 토큰 만료)
+        if httpResponse.statusCode == 419 {
             // 토큰 갱신 시도
             if retryCount < maxRetryCount {
                 do {
@@ -64,6 +72,12 @@ final class DefaultAPIService: APIService {
             } else {
                 throw NetworkError.statusCode(httpResponse.statusCode)
             }
+        }
+        
+        // 403 응답 처리 (권한 없음 - 탈퇴한 회원, 접근 권한 없음 등)
+        if httpResponse.statusCode == 403 {
+            print("❌ 403 Forbidden: 접근 권한이 없습니다. (탈퇴한 회원이거나 권한 부족)")
+            throw NetworkError.statusCode(httpResponse.statusCode)
         }
 
         guard 200..<300 ~= httpResponse.statusCode else {
