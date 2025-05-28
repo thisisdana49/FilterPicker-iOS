@@ -7,8 +7,8 @@
 
 import Foundation
 
-// MARK: - Response Types
-struct EmptyResponse: Codable {}
+// MARK: - Response Models
+private struct EmptyResponse: Codable {}
 
 // MARK: - Encodable Extension
 extension Encodable {

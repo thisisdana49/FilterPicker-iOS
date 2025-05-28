@@ -8,23 +8,57 @@
 import Foundation
 
 // MARK: - Filter Models
-struct Filter: Identifiable, Codable {
+struct Filter: Identifiable, Codable, Equatable {
   let id: String
+  let category: String
   let title: String
-  let creatorName: String
-  let thumbnailURL: String
-  let imageURL: String
-  let hashtags: [String]
-  let likeCount: Int
+  let description: String
+  let files: [String]
+  let creator: Creator
   let isLiked: Bool
-  let ranking: Int?
-  let category: FilterCategory
-  let createdAt: Date
-  let updatedAt: Date
+  let likeCount: Int
+  let buyerCount: Int
+  let createdAt: String
+  let updatedAt: String
+  
+  // UI에서 사용하기 위한 computed properties
+  var thumbnailURL: String {
+    return files.first ?? ""
+  }
+  
+  var fullImageURL: String {
+    return files.last ?? files.first ?? ""
+  }
+  
+  var hashtags: [String] {
+    return creator.hashTags
+  }
+  
+  var creatorName: String {
+    return creator.nick
+  }
+  
+  var ranking: Int? {
+    return nil // 별도 API에서 제공
+  }
+  
+  enum CodingKeys: String, CodingKey {
+    case id = "filter_id"
+    case category
+    case title
+    case description
+    case files
+    case creator
+    case isLiked = "is_liked"
+    case likeCount = "like_count"
+    case buyerCount = "buyer_count"
+    case createdAt
+    case updatedAt
+  }
 }
 
 // MARK: - Filter Category
-enum FilterCategory: String, CaseIterable, Codable {
+enum FilterCategory: String, CaseIterable, Codable, Equatable {
   case portrait = "인물"
   case landscape = "풍경"
   case street = "거리"
@@ -40,17 +74,80 @@ enum FilterCategory: String, CaseIterable, Codable {
 }
 
 // MARK: - Filter Ranking Type
-enum FilterRankingType: String, CaseIterable {
+enum FilterRankingType: String, CaseIterable, Equatable {
   case popularity = "인기순"
   case purchase = "구매순"
   case latest = "최신순"
+  
+  var apiValue: String {
+    switch self {
+    case .popularity:
+      return "popularity"
+    case .purchase:
+      return "purchase"
+    case .latest:
+      return "latest"
+    }
+  }
   
   var displayName: String {
     return self.rawValue
   }
 }
 
-// MARK: - Filter Response Models
+// MARK: - API Request Models
+struct FilterListRequest {
+  let next: String?
+  let limit: Int
+  let category: String?
+  let orderBy: String
+  
+  init(
+    next: String? = nil,
+    limit: Int = 5,
+    category: String? = nil,
+    orderBy: FilterRankingType = .latest
+  ) {
+    self.next = next
+    self.limit = limit
+    self.category = category
+    self.orderBy = orderBy.apiValue
+  }
+  
+  var queryItems: [URLQueryItem] {
+    var items: [URLQueryItem] = [
+      URLQueryItem(name: "limit", value: "\(limit)"),
+      URLQueryItem(name: "order_by", value: orderBy)
+    ]
+    
+    if let next = next, !next.isEmpty {
+      items.append(URLQueryItem(name: "next", value: next))
+    }
+    
+    if let category = category, !category.isEmpty {
+      items.append(URLQueryItem(name: "category", value: category))
+    }
+    
+    return items
+  }
+}
+
+// MARK: - API Response Models
+struct FilterListResponse: Codable {
+  let data: [Filter]
+  let nextCursor: String
+  
+  var hasNext: Bool {
+    return nextCursor != "0"
+  }
+  
+  enum CodingKeys: String, CodingKey {
+    case data
+    case nextCursor = "next_cursor"
+  }
+}
+
+// MARK: - Legacy Models (기존 Mock 데이터용)
 struct FilterResponse: Codable {
   let filters: [Filter]
   let totalCount: Int

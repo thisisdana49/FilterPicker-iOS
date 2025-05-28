@@ -1,19 +1,5 @@
 import Foundation
 
-struct Creator: Codable {
-    let userId: String
-    let nick: String
-    let name: String
-    let introduction: String
-    let profileImage: String?
-    let hashTags: [String]
-
-    enum CodingKeys: String, CodingKey {
-        case userId = "user_id"
-        case nick, name, introduction, profileImage, hashTags
-    }
-}
-
 struct HotTrendFilter: Codable {
     let filterId: String
     let category: String?
