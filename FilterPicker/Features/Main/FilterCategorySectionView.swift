@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct FilterCategory {
+struct FilterCategoryMock {
     let name: String
     let iconName: String
 }
 
-private let mockCategories: [FilterCategory] = [
+private let mockCategories: [FilterCategoryMock] = [
     .init(name: "푸드", iconName: "IconFood"),
     .init(name: "인물", iconName: "IconPeople"),
     .init(name: "풍경", iconName: "IconLandscape"),
@@ -21,7 +21,7 @@ private let mockCategories: [FilterCategory] = [
 ]
 
 struct FilterCategorySectionView: View {
-    let categories: [FilterCategory] = mockCategories
+    let categories: [FilterCategoryMock] = mockCategories
     
     var body: some View {
         HStack(spacing: 12) {

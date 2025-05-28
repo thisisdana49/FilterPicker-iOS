@@ -19,7 +19,7 @@ struct RootTabView: View {
         case .feed:
           FeedView()
         case .filter:
-          FilterView()
+          FilterFeedView()
         case .search:
           SearchView()
         case .profile:
@@ -41,6 +41,5 @@ struct RootTabView: View {
 // 임시 View 선언 (실제 구현 시 교체)
 //struct MainView: View { var body: some View { Color.clear } } 
 struct FeedView: View { var body: some View { Color.clear } }
-struct FilterView: View { var body: some View { Color.clear } }
 struct SearchView: View { var body: some View { Color.clear } }
 //struct MyPageView: View { var body: some View { Color.clear } } 
