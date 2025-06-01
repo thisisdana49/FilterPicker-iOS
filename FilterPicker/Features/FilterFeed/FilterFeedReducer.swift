@@ -88,6 +88,11 @@ final class FilterFeedReducer: ObservableObject {
   }
   
   private func loadFilters(refresh: Bool) async {
+    print("\n🔍 [FilterFeed] loadFilters 시작 - refresh: \(refresh)")
+    
+    // 토큰 상태 체크
+    TokenStorage.printTokenStatus()
+    
     if refresh {
       state.isRefreshing = true
       state.nextCursor = nil
@@ -106,7 +111,9 @@ final class FilterFeedReducer: ObservableObject {
         orderBy: .latest
       )
       
+      print("🌐 [FilterFeed] API 호출 시작: FetchFiltersUseCase")
       let response = try await fetchFiltersUseCase.execute(request)
+      print("✅ [FilterFeed] API 호출 성공")
       
       if refresh {
         state.filters = response.data
