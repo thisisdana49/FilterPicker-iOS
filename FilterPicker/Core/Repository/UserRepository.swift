@@ -7,9 +7,6 @@
 
 import Foundation
 
-// MARK: - Response Models
-private struct EmptyResponse: Codable {}
-
 // MARK: - Encodable Extension
 extension Encodable {
     func asDictionary() -> [String: Any]? {

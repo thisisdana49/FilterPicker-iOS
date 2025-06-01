@@ -4,6 +4,9 @@ struct ErrorResponse: Decodable {
     let message: String
 }
 
+// MARK: - Empty Response for API calls that return no data
+struct EmptyResponse: Codable {}
+
 enum NetworkError: LocalizedError {
     case invalidRequest
     case invalidResponse
@@ -61,9 +64,9 @@ enum AuthError: LocalizedError {
     var logMessage: String {
         switch self {
         case .invalidRefreshToken:
-            return "❌ 인증할 수 없는 리프레시 토큰"
+            return "❌ 인증할 수 없는 리프레시 토큰\n🔒 TokenStorage: 모든 토큰이 삭제되었습니다."
         case .expiredRefreshToken:
-            return "❌ 리프레시 토큰 만료"
+            return "❌ 리프레시 토큰 만료\n🔒 TokenStorage: 모든 토큰이 삭제되었습니다."
         case .networkError:
             return "❌ 네트워크 오류"
         case .unknownError:

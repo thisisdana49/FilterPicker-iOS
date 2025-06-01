@@ -22,12 +22,28 @@ struct Filter: Identifiable, Codable, Equatable {
   let updatedAt: String
   
   // UI에서 사용하기 위한 computed properties
-  var thumbnailURL: String {
-    return files.first ?? ""
+  /// 필터가 적용된 이미지 URL (첫 번째 파일)
+  var filteredImageURL: String {
+    guard let firstFile = files.first else { return "" }
+    return AppConfig.baseURL + "/v1/" + firstFile
   }
   
+  /// 원본 이미지 URL (두 번째 파일, 없으면 첫 번째 파일)
+  var originalImageURL: String {
+    let targetFile = files.last ?? files.first ?? ""
+    guard !targetFile.isEmpty else { return "" }
+    return AppConfig.baseURL + "/v1/" + targetFile
+  }
+  
+  // MARK: - Legacy computed properties (backward compatibility)
+  @available(*, deprecated, renamed: "filteredImageURL")
+  var thumbnailURL: String {
+    return filteredImageURL
+  }
+  
+  @available(*, deprecated, renamed: "originalImageURL")  
   var fullImageURL: String {
-    return files.last ?? files.first ?? ""
+    return originalImageURL
   }
   
   var hashtags: [String] {

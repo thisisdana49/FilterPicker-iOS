@@ -22,37 +22,30 @@ struct AppReducer {
             print("\n🔄 자동 로그인 체크 시작")
             TokenStorage.printTokenStatus()
             
-            if let accessToken = TokenStorage.accessToken {
-                if TokenStorage.isAccessTokenExpired() {
-                    print("⚠️ AccessToken이 만료되어 갱신을 시도합니다.")
-                    // 액세스 토큰이 만료된 경우 리프레시 토큰으로 갱신 시도
-                    do {
-                        let newTokens = try await authRepository.refreshToken()
-                        TokenStorage.accessToken = newTokens.accessToken
-                        TokenStorage.refreshToken = newTokens.refreshToken
-                        
-                        print("✅ 토큰 갱신 성공")
-                        TokenStorage.printTokenStatus()
-                        newState.isLoggedIn = true
-                    } catch let error as AuthError {
-                        print(error.logMessage)
-                        TokenStorage.clear()
-                        newState.isLoggedIn = false
-                        newState.errorMessage = error.errorDescription ?? "알 수 없는 오류가 발생했습니다."
-                    } catch {
-                        print("❌ 토큰 갱신 실패:", error)
-                        TokenStorage.clear()
-                        newState.isLoggedIn = false
-                        newState.errorMessage = "알 수 없는 오류가 발생했습니다."
-                    }
-                } else {
-                    print("✅ AccessToken이 유효합니다.")
-                    newState.isLoggedIn = true
-                }
-            } else {
-                print("❌ 저장된 토큰이 없습니다.")
+            // 1. RefreshToken 존재 여부 확인
+            guard let refreshToken = TokenStorage.refreshToken else {
+                print("❌ 저장된 RefreshToken이 없습니다.")
                 newState.isLoggedIn = false
+                return newState
             }
+            
+            // 2. RefreshToken 만료 여부 확인
+            if TokenStorage.isRefreshTokenExpired() {
+                print("❌ RefreshToken이 만료되었습니다.")
+                TokenStorage.clear()
+                newState.isLoggedIn = false
+                return newState
+            }
+            
+            // 3. RefreshToken이 유효하면 로그인 상태로 설정
+            // AccessToken 갱신은 첫 번째 API 요청 시 자동으로 처리됨
+            print("✅ 유효한 RefreshToken 존재 - 자동 로그인 가능")
+            if TokenStorage.isAccessTokenExpired() {
+                print("ℹ️ AccessToken 만료됨 - 첫 API 요청 시 자동 갱신 예정")
+            } else {
+                print("✅ AccessToken도 유효함")
+            }
+            newState.isLoggedIn = true
             
         case .loginSucceeded:
             print("\n✅ 로그인 성공")

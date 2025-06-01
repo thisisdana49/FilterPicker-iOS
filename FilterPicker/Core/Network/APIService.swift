@@ -134,6 +134,7 @@ final class DefaultAPIService: APIService {
     
     private func refreshToken() async throws -> TokenResponse {
         print("🔑 [TokenRefresh] Refresh Token 갱신 시작")
+        TokenStorage.printTokenStatus()
         
         guard let refreshToken = TokenStorage.refreshToken else {
             print("❌ [TokenRefresh] RefreshToken이 없습니다")
@@ -182,9 +183,11 @@ final class DefaultAPIService: APIService {
                 throw AuthError.expiredRefreshToken
             } else if httpResponse.statusCode == 403 {
                 print("❌ [TokenRefresh] 권한 없음 (403) - 헤더 확인 필요")
+                TokenStorage.clear()
                 throw AuthError.invalidRefreshToken
             } else if httpResponse.statusCode == 401 {
-                print("❌ [TokenRefresh] 인증 실패 (401)")
+                print("❌ [TokenRefresh] 인증 실패 (401) - 유효하지 않은 RefreshToken")
+                TokenStorage.clear()
                 throw AuthError.invalidRefreshToken
             } else {
                 print("❌ [TokenRefresh] HTTP 에러: \(httpResponse.statusCode)")

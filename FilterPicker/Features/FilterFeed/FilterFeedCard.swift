@@ -12,14 +12,20 @@ struct FilterFeedCard: View {
   let onTapped: () -> Void
   let onLikeTapped: () -> Void
   
+  @State private var isShowingDetail = false
+  
   var body: some View {
-    Button(action: onTapped) {
+    Button(action: {
+      isShowingDetail = true
+    }) {
       HStack(spacing: 16) {
-        // 필터 썸네일
-          URLImageView(url: URL(string: filter.thumbnailURL)!, showOverlay: true)
-          .aspectRatio(contentMode: .fill)
-          .frame(width: 80, height: 80)
-          .clipShape(RoundedRectangle(cornerRadius: 8))
+        // 필터 썸네일 (필터 적용된 이미지)
+        if let url = URL(string: filter.filteredImageURL) {
+          URLImageView(url: url, showOverlay: false)
+            .aspectRatio(contentMode: .fill)
+            .frame(width: 80, height: 80)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
         
         // 필터 정보
         VStack(alignment: .leading, spacing: 4) {
@@ -64,6 +70,9 @@ struct FilterFeedCard: View {
       .contentShape(Rectangle())
     }
     .buttonStyle(PlainButtonStyle())
+    .sheet(isPresented: $isShowingDetail) {
+      FilterDetailView(filterId: filter.id)
+    }
   }
 }
 

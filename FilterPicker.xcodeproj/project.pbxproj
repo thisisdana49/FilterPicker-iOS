@@ -94,6 +94,15 @@
 		3EC86A372DD36C6B00949918 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3EC86A362DD36C6B00949918 /* Release.xcconfig */; };
 		3EC86A3A2DD36F1C00949918 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A392DD36F1C00949918 /* AppConfig.swift */; };
 		3EC86A3C2DD3786C00949918 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC86A3B2DD3786C00949918 /* APIRequest.swift */; };
+		3ECA384F2DEC65F000C91929 /* FilterDetailIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA384A2DEC65F000C91929 /* FilterDetailIntent.swift */; };
+		3ECA38502DEC65F000C91929 /* FilterDetailReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA384B2DEC65F000C91929 /* FilterDetailReducer.swift */; };
+		3ECA38512DEC65F000C91929 /* FilterDetailState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA384C2DEC65F000C91929 /* FilterDetailState.swift */; };
+		3ECA38522DEC65F000C91929 /* FilterDetailStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA384D2DEC65F000C91929 /* FilterDetailStore.swift */; };
+		3ECA38532DEC65F000C91929 /* FilterDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA384E2DEC65F000C91929 /* FilterDetailView.swift */; };
+		3ECA38552DEC662B00C91929 /* FilterDetailModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA38542DEC662B00C91929 /* FilterDetailModels.swift */; };
+		3ECA38572DEC663500C91929 /* FilterDetailAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA38562DEC663500C91929 /* FilterDetailAPIService.swift */; };
+		3ECA38592DEC665600C91929 /* FilterDetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA38582DEC665600C91929 /* FilterDetailRepository.swift */; };
+		3ECA385B2DEC665E00C91929 /* FilterDetailUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA385A2DEC665E00C91929 /* FilterDetailUseCases.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -184,6 +193,15 @@
 		3EC86A382DD36D7300949918 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3EC86A392DD36F1C00949918 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		3EC86A3B2DD3786C00949918 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		3ECA384A2DEC65F000C91929 /* FilterDetailIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailIntent.swift; sourceTree = "<group>"; };
+		3ECA384B2DEC65F000C91929 /* FilterDetailReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailReducer.swift; sourceTree = "<group>"; };
+		3ECA384C2DEC65F000C91929 /* FilterDetailState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailState.swift; sourceTree = "<group>"; };
+		3ECA384D2DEC65F000C91929 /* FilterDetailStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailStore.swift; sourceTree = "<group>"; };
+		3ECA384E2DEC65F000C91929 /* FilterDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailView.swift; sourceTree = "<group>"; };
+		3ECA38542DEC662B00C91929 /* FilterDetailModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailModels.swift; sourceTree = "<group>"; };
+		3ECA38562DEC663500C91929 /* FilterDetailAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailAPIService.swift; sourceTree = "<group>"; };
+		3ECA38582DEC665600C91929 /* FilterDetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailRepository.swift; sourceTree = "<group>"; };
+		3ECA385A2DEC665E00C91929 /* FilterDetailUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailUseCases.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -421,6 +439,7 @@
 				3EC86A3B2DD3786C00949918 /* APIRequest.swift */,
 				3E3CF14F2DD5676B00B5D650 /* APIService.swift */,
 				3EAE75D12DE71B50007DBA05 /* FilterAPIService.swift */,
+				3ECA38562DEC663500C91929 /* FilterDetailAPIService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -431,6 +450,7 @@
 				3E3CF1532DD56B7700B5D650 /* AuthRepository.swift */,
 				3E3CF1FD2DDDB5EB00B5D650 /* FilterRepository.swift */,
 				3EAE75892DE2E4EB007DBA05 /* UserRepository.swift */,
+				3ECA38582DEC665600C91929 /* FilterDetailRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -440,6 +460,7 @@
 			children = (
 				3EAE75D32DE71B62007DBA05 /* FetchFiltersUseCase.swift */,
 				3EAE75D42DE71B62007DBA05 /* ToggleLikeUseCase.swift */,
+				3ECA385A2DEC665E00C91929 /* FilterDetailUseCases.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -454,6 +475,7 @@
 				3EAE75DF2DE71F47007DBA05 /* UserModels.swift */,
 				3EAE75C02DE71500007DBA05 /* Filter.swift */,
 				3EAE75C12DE71500007DBA05 /* MockData.swift */,
+				3ECA38542DEC662B00C91929 /* FilterDetailModels.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -488,6 +510,11 @@
 		3EC86A262DD3548100949918 /* FilterDetail */ = {
 			isa = PBXGroup;
 			children = (
+				3ECA384A2DEC65F000C91929 /* FilterDetailIntent.swift */,
+				3ECA384B2DEC65F000C91929 /* FilterDetailReducer.swift */,
+				3ECA384C2DEC65F000C91929 /* FilterDetailState.swift */,
+				3ECA384D2DEC65F000C91929 /* FilterDetailStore.swift */,
+				3ECA384E2DEC65F000C91929 /* FilterDetailView.swift */,
 			);
 			path = FilterDetail;
 			sourceTree = "<group>";
@@ -652,6 +679,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ECA38552DEC662B00C91929 /* FilterDetailModels.swift in Sources */,
 				3E3CF16D2DD71E4400B5D650 /* AppState.swift in Sources */,
 				3E3CF16E2DD71E4400B5D650 /* AppIntent.swift in Sources */,
 				3E3CF16F2DD71E4400B5D650 /* AppRoute.swift in Sources */,
@@ -686,6 +714,7 @@
 				3EC86A0A2DD21A5500949918 /* ContentView.swift in Sources */,
 				3E9592312DDE1EAC00DCE664 /* TodayAuthorResponse.swift in Sources */,
 				3E3CF17F2DD9CDB400B5D650 /* AppleSignInHandler.swift in Sources */,
+				3ECA385B2DEC665E00C91929 /* FilterDetailUseCases.swift in Sources */,
 				3E3CF19C2DD9FFAD00B5D650 /* View+Extension.swift in Sources */,
 				3E3CF1C62DDCACBB00B5D650 /* TrendingBannerSectionView.swift in Sources */,
 				3E95922F2DDE146900DCE664 /* TrendingFilterCardView.swift in Sources */,
@@ -696,6 +725,12 @@
 				3E3CF1C02DDC9C8900B5D650 /* FilterCategorySectionView.swift in Sources */,
 				3E3CF1C12DDC9C8900B5D650 /* TrendingFilterSectionView.swift in Sources */,
 				3E3CF1C22DDC9C8900B5D650 /* TodayCreatorSectionView.swift in Sources */,
+				3ECA384F2DEC65F000C91929 /* FilterDetailIntent.swift in Sources */,
+				3ECA38502DEC65F000C91929 /* FilterDetailReducer.swift in Sources */,
+				3ECA38512DEC65F000C91929 /* FilterDetailState.swift in Sources */,
+				3ECA38522DEC65F000C91929 /* FilterDetailStore.swift in Sources */,
+				3ECA38572DEC663500C91929 /* FilterDetailAPIService.swift in Sources */,
+				3ECA38532DEC65F000C91929 /* FilterDetailView.swift in Sources */,
 				3E3CF1C32DDC9C8900B5D650 /* MainView.swift in Sources */,
 				3E3CF1C42DDC9C8900B5D650 /* TodayFilterSectionView.swift in Sources */,
 				3E3CF1A92DDA086E00B5D650 /* CustomFontName.swift in Sources */,
@@ -715,6 +750,7 @@
 				3EAE75E02DE71F47007DBA05 /* UserModels.swift in Sources */,
 				3E3CF19A2DD9FF3300B5D650 /* FontStyle.swift in Sources */,
 				3E3CF15B2DD5F7C000B5D650 /* TokenStorage.swift in Sources */,
+				3ECA38592DEC665600C91929 /* FilterDetailRepository.swift in Sources */,
 				3E3CF1652DD5FB2500B5D650 /* AuthReducer.swift in Sources */,
 				3E3CF1FE2DDDB5EB00B5D650 /* FilterRepository.swift in Sources */,
 				3EAE75842DE2E4A4007DBA05 /* MyPageStore.swift in Sources */,

@@ -25,8 +25,7 @@ struct TodayCreatorSectionView: View {
 
             if let author = store.state.todayAuthor {
                 HStack(alignment: .top, spacing: 16) {
-                    if let profile = author.profileImage,
-                       let url = URL(string: AppConfig.baseURL + "/v1/" + profile) {
+                    if let url = URL(string: author.profileImageURL) {
                         URLImageView(url: url, showOverlay: false)
                             .frame(width: 64, height: 64)
                             .clipShape(Circle())
@@ -51,8 +50,7 @@ struct TodayCreatorSectionView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(store.state.hotTrendFilters.prefix(5), id: \.filterId) { filter in
-                            if let firstFile = filter.files.first,
-                               let url = URL(string: AppConfig.baseURL + "/v1/" + firstFile) {
+                            if let url = URL(string: filter.filteredImageURL) {
                                 URLImageView(url: url, showOverlay: false)
                                     .frame(width: 110, height: 80)
                                     .cornerRadius(12)

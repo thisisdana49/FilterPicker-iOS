@@ -16,6 +16,13 @@ struct Creator: Codable, Equatable {
   let profileImage: String?
   let hashTags: [String]
   
+  // UI에서 사용하기 위한 computed properties
+  /// 프로필 이미지 URL
+  var profileImageURL: String {
+    guard let profileImage = profileImage else { return "" }
+    return AppConfig.baseURL + "/v1/" + profileImage
+  }
+  
   enum CodingKeys: String, CodingKey {
     case userId = "user_id"
     case nick

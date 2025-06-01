@@ -11,6 +11,8 @@ struct RankingFilterCard: View {
   let filter: Filter
   let onTapped: () -> Void
   
+  @State private var isShowingDetail = false
+  
   private var gradientColors: [Color] {
     switch filter.ranking {
     case 1:
@@ -25,7 +27,9 @@ struct RankingFilterCard: View {
   }
   
   var body: some View {
-    Button(action: onTapped) {
+    Button(action: {
+      isShowingDetail = true
+    }) {
       VStack(spacing: 16) {
         // 프로필 이미지 영역
         ZStack {
@@ -40,15 +44,17 @@ struct RankingFilterCard: View {
             )
             .frame(width: 180, height: 180)
           
-          // 필터 이미지
-//          URLImageView(url: filter.thumbnailURL)
-//            .aspectRatio(contentMode: .fill)
-//            .frame(width: 140, height: 140)
-//            .clipShape(Circle())
-//            .overlay(
-//              Circle()
-//                .stroke(Color.white, lineWidth: 3)
-//            )
+          // 필터 이미지 (필터 적용된 이미지)
+          if let url = URL(string: filter.filteredImageURL) {
+            URLImageView(url: url, showOverlay: true)
+              .aspectRatio(contentMode: .fill)
+              .frame(width: 140, height: 140)
+              .clipShape(Circle())
+              .overlay(
+                Circle()
+                  .stroke(Color.white, lineWidth: 3)
+              )
+          }
         }
         
         VStack(spacing: 8) {
@@ -85,6 +91,9 @@ struct RankingFilterCard: View {
       .frame(width: 200)
     }
     .buttonStyle(PlainButtonStyle())
+    .sheet(isPresented: $isShowingDetail) {
+      FilterDetailView(filterId: filter.id)
+    }
   }
 }
 

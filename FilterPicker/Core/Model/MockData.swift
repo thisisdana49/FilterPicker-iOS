@@ -36,8 +36,8 @@ enum MockData {
       title: "정국 세죽",
       description: "정국의 매력을 더욱 돋보이게 하는 필터",
       files: [
-        "https://picsum.photos/300/300?random=1",
-        "https://picsum.photos/800/600?random=1"
+        "/data/filters/ranking_filter_1_filtered.jpg",
+        "/data/filters/ranking_filter_1_original.jpg"
       ],
       creator: mockCreator1,
       isLiked: false,
@@ -52,8 +52,8 @@ enum MockData {
       title: "빈티지 무드",
       description: "레트로한 감성의 빈티지 필터",
       files: [
-        "https://picsum.photos/300/300?random=2",
-        "https://picsum.photos/800/600?random=2"
+        "/data/filters/ranking_filter_2_filtered.jpg",
+        "/data/filters/ranking_filter_2_original.jpg"
       ],
       creator: mockCreator2,
       isLiked: true,
@@ -68,8 +68,8 @@ enum MockData {
       title: "도시 야경",
       description: "도시의 밤을 더욱 아름답게",
       files: [
-        "https://picsum.photos/300/300?random=3",
-        "https://picsum.photos/800/600?random=3"
+        "/data/filters/ranking_filter_3_filtered.jpg",
+        "/data/filters/ranking_filter_3_original.jpg"
       ],
       creator: mockCreator1,
       isLiked: false,
@@ -88,8 +88,8 @@ enum MockData {
       title: "정연",
       description: "푸르른 여름저녁 마음에 스며드는, 고요하고 깊은 감성의 정복빛 필터",
       files: [
-        "https://picsum.photos/300/300?random=11",
-        "https://picsum.photos/800/600?random=11"
+        "/data/filters/feed_filter_1_filtered.jpg",
+        "/data/filters/feed_filter_1_original.jpg"
       ],
       creator: mockCreator1,
       isLiked: true,
@@ -104,8 +104,8 @@ enum MockData {
       title: "춘담",
       description: "봄의 따뜻함을 담은 인물 필터",
       files: [
-        "https://picsum.photos/300/300?random=12",
-        "https://picsum.photos/800/600?random=12"
+        "/data/filters/feed_filter_2_filtered.jpg",
+        "/data/filters/feed_filter_2_original.jpg"
       ],
       creator: mockCreator1,
       isLiked: false,
@@ -120,8 +120,8 @@ enum MockData {
       title: "시한월연",
       description: "시한 속의 아름다운 월연",
       files: [
-        "https://picsum.photos/300/300?random=13",
-        "https://picsum.photos/800/600?random=13"
+        "/data/filters/feed_filter_3_filtered.jpg",
+        "/data/filters/feed_filter_3_original.jpg"
       ],
       creator: mockCreator2,
       isLiked: true,
@@ -136,8 +136,8 @@ enum MockData {
       title: "연리지",
       description: "연인들을 위한 로맨틱 필터",
       files: [
-        "https://picsum.photos/300/300?random=14",
-        "https://picsum.photos/800/600?random=14"
+        "/data/filters/feed_filter_4_filtered.jpg",
+        "/data/filters/feed_filter_4_original.jpg"
       ],
       creator: mockCreator2,
       isLiked: false,
@@ -147,6 +147,86 @@ enum MockData {
       updatedAt: "2024-01-14T00:00:00.000Z"
     )
   ]
+  
+  // MARK: - Filter Detail Mock Data
+  static let mockFilterDetailResponse = FilterDetailResponse(
+    filterId: "feed_1",
+    category: "인물",
+    title: "정연",
+    description: "푸르른 여름저녁 마음에 스며드는, 고요하고 깊은 감성의 정복빛 필터입니다. 인물 사진을 더욱 아름답게 만들어주는 특별한 필터로, 따뜻한 톤과 부드러운 질감이 특징입니다.",
+    files: [
+      "/data/filters/feed_filter_1_filtered.jpg",
+      "/data/filters/feed_filter_1_original.jpg"
+    ],
+    price: 1500,
+    creator: mockCreator1,
+    photoMetadata: PhotoMetadata(
+      camera: "Apple iPhone 16 Pro",
+      lensInfo: "와이드 카메라",
+      focalLength: 50,
+      aperture: 4.0,
+      iso: 100,
+      shutterSpeed: "1/125 sec",
+      pixelWidth: 8192,
+      pixelHeight: 5464,
+      fileSize: 25000000,
+      format: "JPEG",
+      dateTimeOriginal: "2024-01-11T15:30:00Z",
+      latitude: 37.51775,
+      longitude: 126.886557
+    ),
+    filterValues: FilterValues(
+      brightness: 0.15,
+      exposure: 0.3,
+      contrast: 1.05,
+      saturation: 1.1,
+      sharpness: 0.5,
+      blur: 0,
+      vignette: 0.2,
+      noiseReduction: 0.1,
+      highlights: -0.1,
+      shadows: 0.15,
+      temperature: 5800,
+      blackPoint: 0.03
+    ),
+    isLiked: true,
+    isDownloaded: false,
+    likeCount: 847,
+    buyerCount: 247,
+    comments: [
+      Comment(
+        id: "comment_1",
+        content: "정말 아름다운 필터네요! 인물 사진에 완벽해요.",
+        createdAt: "2024-01-12T06:36:00Z",
+        creator: mockCreator2,
+        replies: [
+          Comment(
+            id: "reply_1",
+            content: "감사합니다! 많이 사용해주세요 😊",
+            createdAt: "2024-01-12T07:15:00Z",
+            creator: mockCreator1,
+            replies: []
+          )
+        ]
+      ),
+      Comment(
+        id: "comment_2",
+        content: "구매했는데 정말 만족스러워요. 추천합니다!",
+        createdAt: "2024-01-13T10:22:00Z",
+        creator: Creator(
+          userId: "user_3",
+          nick: "PhotoLover",
+          name: "김사진",
+          introduction: "사진을 좋아하는 사람",
+          profileImage: "/data/profiles/user_3.png",
+          hashTags: ["#사진", "#필터"]
+        ),
+        replies: []
+      )
+    ],
+    createdAt: "2024-01-11T00:00:00Z",
+    updatedAt: "2024-01-11T00:00:00Z"
+  )
   
   // MARK: - Mock Response Data
   static let mockTopRankingResponse = TopRankingResponse(

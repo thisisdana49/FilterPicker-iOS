@@ -72,4 +72,3 @@ private extension FilterListRequest {
 }
 
 // MARK: - Response Models
-private struct EmptyResponse: Codable {}
