@@ -12,11 +12,17 @@ struct FilterDetailState: Equatable {
     var isLoading: Bool = false
     var error: Error?
     var isLikeLoading: Bool = false
+    var addressInfo: AddressInfo?
+    var isLoadingAddress: Bool = false
+    var addressError: Error?
     
     static func == (lhs: FilterDetailState, rhs: FilterDetailState) -> Bool {
         return lhs.filterDetail?.filterId == rhs.filterDetail?.filterId &&
                lhs.isLoading == rhs.isLoading &&
                lhs.isLikeLoading == rhs.isLikeLoading &&
-               lhs.error?.localizedDescription == rhs.error?.localizedDescription
+               lhs.isLoadingAddress == rhs.isLoadingAddress &&
+               lhs.addressInfo?.formattedAddress == rhs.addressInfo?.formattedAddress &&
+               lhs.error?.localizedDescription == rhs.error?.localizedDescription &&
+               lhs.addressError?.localizedDescription == rhs.addressError?.localizedDescription
     }
 } 

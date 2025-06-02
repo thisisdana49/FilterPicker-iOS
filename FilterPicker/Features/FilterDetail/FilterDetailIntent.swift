@@ -11,4 +11,5 @@ enum FilterDetailIntent {
     case loadFilterDetail(filterId: String)
     case toggleLike(filterId: String)
     case refresh(filterId: String)
+    case loadAddress(latitude: Double, longitude: Double)
 } 

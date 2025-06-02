@@ -233,10 +233,30 @@ struct FilterDetailView: View {
                                                     .lineLimit(2)
                                                 
                                                 // 위치 정보 (임시)
-                                                Text("위치 정보 (좌표: \(String(format: "%.4f", filterDetail.photoMetadata.latitude)), \(String(format: "%.4f", filterDetail.photoMetadata.longitude)))")
+                                                if store.state.isLoadingAddress {
+                                                    HStack {
+                                                        ProgressView()
+                                                            .scaleEffect(0.8)
+                                                        Text("주소 조회 중...")
+                                                    }
                                                     .font(.system(size: 12))
                                                     .foregroundColor(.gray)
-                                                    .lineLimit(1)
+                                                } else if let addressInfo = store.state.addressInfo {
+                                                    Text(addressInfo.displayAddress)
+                                                        .font(.system(size: 12))
+                                                        .foregroundColor(.gray)
+                                                        .lineLimit(1)
+                                                } else if store.state.addressError != nil {
+                                                    Text("주소를 찾을 수 없습니다")
+                                                        .font(.system(size: 12))
+                                                        .foregroundColor(.gray)
+                                                        .lineLimit(1)
+                                                } else {
+                                                    Text("좌표: \(String(format: "%.4f", filterDetail.photoMetadata.latitude)), \(String(format: "%.4f", filterDetail.photoMetadata.longitude))")
+                                                        .font(.system(size: 12))
+                                                        .foregroundColor(.gray)
+                                                        .lineLimit(1)
+                                                }
                                             }
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                         }
@@ -381,6 +401,12 @@ struct FilterDetailView: View {
         .ignoresSafeArea(.all)
         .onAppear {
             store.dispatch(.loadFilterDetail(filterId: filterId))
+        }
+        .onChange(of: store.state.filterDetail) { filterDetail in
+            // 필터 상세 로딩 완료 후 주소 로딩
+            if let photoMetadata = filterDetail?.photoMetadata {
+                store.dispatch(.loadAddress(latitude: photoMetadata.latitude, longitude: photoMetadata.longitude))
+            }
         }
     }
     

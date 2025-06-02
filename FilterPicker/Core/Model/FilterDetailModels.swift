@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Filter Detail Response
-struct FilterDetailResponse: Codable {
+struct FilterDetailResponse: Codable, Equatable {
     let filterId: String
     let category: String
     let title: String
@@ -25,6 +25,14 @@ struct FilterDetailResponse: Codable {
     let comments: [Comment]
     let createdAt: String
     let updatedAt: String
+    
+    // Equatable 구현
+    static func == (lhs: FilterDetailResponse, rhs: FilterDetailResponse) -> Bool {
+        return lhs.filterId == rhs.filterId &&
+               lhs.isLiked == rhs.isLiked &&
+               lhs.likeCount == rhs.likeCount &&
+               lhs.title == rhs.title
+    }
     
     // UI에서 사용하기 위한 computed properties
     /// 필터가 적용된 이미지 URL (첫 번째 파일)
@@ -53,7 +61,7 @@ struct FilterDetailResponse: Codable {
 }
 
 // MARK: - Photo Metadata
-struct PhotoMetadata: Codable {
+struct PhotoMetadata: Codable, Equatable {
     let camera: String
     let lensInfo: String
     let focalLength: Int
@@ -84,7 +92,7 @@ struct PhotoMetadata: Codable {
 }
 
 // MARK: - Filter Values
-struct FilterValues: Codable {
+struct FilterValues: Codable, Equatable {
     let brightness: Double
     let exposure: Double
     let contrast: Double
@@ -107,7 +115,7 @@ struct FilterValues: Codable {
 }
 
 // MARK: - Comment
-struct Comment: Codable, Identifiable {
+struct Comment: Codable, Identifiable, Equatable {
     let id: String
     let content: String
     let createdAt: String
@@ -126,5 +134,70 @@ struct FilterDetailRequest {
     
     var path: String {
         return "/v1/filters/\(filterId)"
+    }
+}
+
+// MARK: - Address Info
+class AddressInfo: NSObject, Codable {
+    let formattedAddress: String
+    let locality: String? // 시/구
+    let subLocality: String? // 동/면
+    let thoroughfare: String? // 도로명
+    let subThoroughfare: String? // 번지
+    let country: String?
+    let countryCode: String?
+    
+    init(formattedAddress: String, locality: String?, subLocality: String?, thoroughfare: String?, subThoroughfare: String?, country: String?, countryCode: String?) {
+        self.formattedAddress = formattedAddress
+        self.locality = locality
+        self.subLocality = subLocality
+        self.thoroughfare = thoroughfare
+        self.subThoroughfare = subThoroughfare
+        self.country = country
+        self.countryCode = countryCode
+        super.init()
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        formattedAddress = try container.decode(String.self, forKey: .formattedAddress)
+        locality = try container.decodeIfPresent(String.self, forKey: .locality)
+        subLocality = try container.decodeIfPresent(String.self, forKey: .subLocality)
+        thoroughfare = try container.decodeIfPresent(String.self, forKey: .thoroughfare)
+        subThoroughfare = try container.decodeIfPresent(String.self, forKey: .subThoroughfare)
+        country = try container.decodeIfPresent(String.self, forKey: .country)
+        countryCode = try container.decodeIfPresent(String.self, forKey: .countryCode)
+        super.init()
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(formattedAddress, forKey: .formattedAddress)
+        try container.encodeIfPresent(locality, forKey: .locality)
+        try container.encodeIfPresent(subLocality, forKey: .subLocality)
+        try container.encodeIfPresent(thoroughfare, forKey: .thoroughfare)
+        try container.encodeIfPresent(subThoroughfare, forKey: .subThoroughfare)
+        try container.encodeIfPresent(country, forKey: .country)
+        try container.encodeIfPresent(countryCode, forKey: .countryCode)
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case formattedAddress, locality, subLocality, thoroughfare, subThoroughfare, country, countryCode
+    }
+    
+    var displayAddress: String {
+        if !formattedAddress.isEmpty {
+            return formattedAddress
+        }
+        
+        // Fallback: 구성 요소들로 주소 만들기
+        var components: [String] = []
+        
+        if let locality = locality { components.append(locality) }
+        if let subLocality = subLocality { components.append(subLocality) }
+        if let thoroughfare = thoroughfare { components.append(thoroughfare) }
+        if let subThoroughfare = subThoroughfare { components.append(subThoroughfare) }
+        
+        return components.joined(separator: " ")
     }
 } 

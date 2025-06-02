@@ -10,13 +10,16 @@ import Foundation
 struct FilterDetailReducer {
     private let getFilterDetailUseCase: GetFilterDetailUseCase
     private let toggleLikeUseCase: ToggleFilterDetailLikeUseCase
+    private let getAddressUseCase: GetAddressFromCoordinatesUseCase
     
     init(
         getFilterDetailUseCase: GetFilterDetailUseCase = DefaultGetFilterDetailUseCase(),
-        toggleLikeUseCase: ToggleFilterDetailLikeUseCase = DefaultToggleFilterDetailLikeUseCase()
+        toggleLikeUseCase: ToggleFilterDetailLikeUseCase = DefaultToggleFilterDetailLikeUseCase(),
+        getAddressUseCase: GetAddressFromCoordinatesUseCase = GetAddressFromCoordinatesUseCase()
     ) {
         self.getFilterDetailUseCase = getFilterDetailUseCase
         self.toggleLikeUseCase = toggleLikeUseCase
+        self.getAddressUseCase = getAddressUseCase
     }
     
     func reduce(state: FilterDetailState, intent: FilterDetailIntent) async -> FilterDetailState {
@@ -106,6 +109,21 @@ struct FilterDetailReducer {
                 newState.filterDetail = rolledBackDetail
                 newState.isLikeLoading = false
                 print("❌ 좋아요 토글 실패: \(error.localizedDescription)")
+            }
+            
+        case .loadAddress(let latitude, let longitude):
+            newState.isLoadingAddress = true
+            newState.addressError = nil
+            
+            do {
+                let addressInfo = try await getAddressUseCase.execute(latitude: latitude, longitude: longitude)
+                newState.addressInfo = addressInfo
+                newState.isLoadingAddress = false
+                print("✅ 주소 조회 성공: \(addressInfo.displayAddress)")
+            } catch {
+                newState.addressError = error
+                newState.isLoadingAddress = false
+                print("❌ 주소 조회 실패: \(error.localizedDescription)")
             }
         }
         

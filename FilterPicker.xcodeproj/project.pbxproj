@@ -103,6 +103,8 @@
 		3ECA38572DEC663500C91929 /* FilterDetailAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA38562DEC663500C91929 /* FilterDetailAPIService.swift */; };
 		3ECA38592DEC665600C91929 /* FilterDetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA38582DEC665600C91929 /* FilterDetailRepository.swift */; };
 		3ECA385B2DEC665E00C91929 /* FilterDetailUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA385A2DEC665E00C91929 /* FilterDetailUseCases.swift */; };
+		3EDB574C2DED90BB00FAD663 /* GeocodingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB574B2DED90BB00FAD663 /* GeocodingRepository.swift */; };
+		3EDB574E2DED90C300FAD663 /* GetAddressFromCoordinatesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB574D2DED90C300FAD663 /* GetAddressFromCoordinatesUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -202,6 +204,8 @@
 		3ECA38562DEC663500C91929 /* FilterDetailAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailAPIService.swift; sourceTree = "<group>"; };
 		3ECA38582DEC665600C91929 /* FilterDetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailRepository.swift; sourceTree = "<group>"; };
 		3ECA385A2DEC665E00C91929 /* FilterDetailUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailUseCases.swift; sourceTree = "<group>"; };
+		3EDB574B2DED90BB00FAD663 /* GeocodingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodingRepository.swift; sourceTree = "<group>"; };
+		3EDB574D2DED90C300FAD663 /* GetAddressFromCoordinatesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAddressFromCoordinatesUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -451,6 +455,7 @@
 				3E3CF1FD2DDDB5EB00B5D650 /* FilterRepository.swift */,
 				3EAE75892DE2E4EB007DBA05 /* UserRepository.swift */,
 				3ECA38582DEC665600C91929 /* FilterDetailRepository.swift */,
+				3EDB574B2DED90BB00FAD663 /* GeocodingRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -461,6 +466,7 @@
 				3EAE75D32DE71B62007DBA05 /* FetchFiltersUseCase.swift */,
 				3EAE75D42DE71B62007DBA05 /* ToggleLikeUseCase.swift */,
 				3ECA385A2DEC665E00C91929 /* FilterDetailUseCases.swift */,
+				3EDB574D2DED90C300FAD663 /* GetAddressFromCoordinatesUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -686,6 +692,7 @@
 				3E237BE62DE1A82400423E9E /* CustomTabBarView.swift in Sources */,
 				3E3CF1702DD71E4400B5D650 /* AppStore.swift in Sources */,
 				3E237BE42DE1A76200423E9E /* RootTabView.swift in Sources */,
+				3EDB574C2DED90BB00FAD663 /* GeocodingRepository.swift in Sources */,
 				3E95922D2DDE0DDE00DCE664 /* HotTrendResponse.swift in Sources */,
 				3E3CF1B92DDC913500B5D650 /* Icon.swift in Sources */,
 				3EAE75782DE1B805007DBA05 /* CustomBlurView.swift in Sources */,
@@ -725,6 +732,7 @@
 				3E3CF1C02DDC9C8900B5D650 /* FilterCategorySectionView.swift in Sources */,
 				3E3CF1C12DDC9C8900B5D650 /* TrendingFilterSectionView.swift in Sources */,
 				3E3CF1C22DDC9C8900B5D650 /* TodayCreatorSectionView.swift in Sources */,
+				3EDB574E2DED90C300FAD663 /* GetAddressFromCoordinatesUseCase.swift in Sources */,
 				3ECA384F2DEC65F000C91929 /* FilterDetailIntent.swift in Sources */,
 				3ECA38502DEC65F000C91929 /* FilterDetailReducer.swift in Sources */,
 				3ECA38512DEC65F000C91929 /* FilterDetailState.swift in Sources */,
