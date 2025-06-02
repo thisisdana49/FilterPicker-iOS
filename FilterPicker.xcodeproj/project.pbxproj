@@ -105,6 +105,11 @@
 		3ECA385B2DEC665E00C91929 /* FilterDetailUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA385A2DEC665E00C91929 /* FilterDetailUseCases.swift */; };
 		3EDB574C2DED90BB00FAD663 /* GeocodingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB574B2DED90BB00FAD663 /* GeocodingRepository.swift */; };
 		3EDB574E2DED90C300FAD663 /* GetAddressFromCoordinatesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB574D2DED90C300FAD663 /* GetAddressFromCoordinatesUseCase.swift */; };
+		3EDB57552DEDD66100FAD663 /* FilterCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57532DEDD66100FAD663 /* FilterCreateView.swift */; };
+		3EDB57562DEDD66100FAD663 /* FilterCreateState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57512DEDD66100FAD663 /* FilterCreateState.swift */; };
+		3EDB57572DEDD66100FAD663 /* FilterCreateIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB574F2DEDD66100FAD663 /* FilterCreateIntent.swift */; };
+		3EDB57582DEDD66100FAD663 /* FilterCreateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57522DEDD66100FAD663 /* FilterCreateStore.swift */; };
+		3EDB57592DEDD66100FAD663 /* FilterCreateReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57502DEDD66100FAD663 /* FilterCreateReducer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -206,6 +211,11 @@
 		3ECA385A2DEC665E00C91929 /* FilterDetailUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailUseCases.swift; sourceTree = "<group>"; };
 		3EDB574B2DED90BB00FAD663 /* GeocodingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodingRepository.swift; sourceTree = "<group>"; };
 		3EDB574D2DED90C300FAD663 /* GetAddressFromCoordinatesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAddressFromCoordinatesUseCase.swift; sourceTree = "<group>"; };
+		3EDB574F2DEDD66100FAD663 /* FilterCreateIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCreateIntent.swift; sourceTree = "<group>"; };
+		3EDB57502DEDD66100FAD663 /* FilterCreateReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCreateReducer.swift; sourceTree = "<group>"; };
+		3EDB57512DEDD66100FAD663 /* FilterCreateState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCreateState.swift; sourceTree = "<group>"; };
+		3EDB57522DEDD66100FAD663 /* FilterCreateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCreateStore.swift; sourceTree = "<group>"; };
+		3EDB57532DEDD66100FAD663 /* FilterCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCreateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -491,6 +501,7 @@
 			children = (
 				3EC86A242DD3547900949918 /* Auth */,
 				3E3CF1BF2DDC9C8900B5D650 /* Main */,
+				3EDB57542DEDD66100FAD663 /* FilterCreate */,
 				3EC86A262DD3548100949918 /* FilterDetail */,
 				3EAE75C92DE7153C007DBA05 /* FilterFeed */,
 				3EAE75832DE2E4A4007DBA05 /* MyPage */,
@@ -596,6 +607,18 @@
 				3EC86A362DD36C6B00949918 /* Release.xcconfig */,
 			);
 			path = Config;
+			sourceTree = "<group>";
+		};
+		3EDB57542DEDD66100FAD663 /* FilterCreate */ = {
+			isa = PBXGroup;
+			children = (
+				3EDB574F2DEDD66100FAD663 /* FilterCreateIntent.swift */,
+				3EDB57502DEDD66100FAD663 /* FilterCreateReducer.swift */,
+				3EDB57512DEDD66100FAD663 /* FilterCreateState.swift */,
+				3EDB57522DEDD66100FAD663 /* FilterCreateStore.swift */,
+				3EDB57532DEDD66100FAD663 /* FilterCreateView.swift */,
+			);
+			path = FilterCreate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -714,6 +737,11 @@
 				3E3CF1502DD5676B00B5D650 /* APIService.swift in Sources */,
 				3EAE75DB2DE71C0D007DBA05 /* FilterFeedIntent.swift in Sources */,
 				3EAE75DC2DE71C0D007DBA05 /* FilterFeedState.swift in Sources */,
+				3EDB57552DEDD66100FAD663 /* FilterCreateView.swift in Sources */,
+				3EDB57562DEDD66100FAD663 /* FilterCreateState.swift in Sources */,
+				3EDB57572DEDD66100FAD663 /* FilterCreateIntent.swift in Sources */,
+				3EDB57582DEDD66100FAD663 /* FilterCreateStore.swift in Sources */,
+				3EDB57592DEDD66100FAD663 /* FilterCreateReducer.swift in Sources */,
 				3EAE75DD2DE71C0D007DBA05 /* FilterFeedReducer.swift in Sources */,
 				3EAE75DE2DE71C0D007DBA05 /* FilterFeedStore.swift in Sources */,
 				3EAE75D22DE71B50007DBA05 /* FilterAPIService.swift in Sources */,

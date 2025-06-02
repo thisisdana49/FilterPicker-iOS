@@ -75,8 +75,11 @@ struct Filter: Identifiable, Codable, Equatable {
 
 // MARK: - Filter Category
 enum FilterCategory: String, CaseIterable, Codable, Equatable {
+  case food = "푸드"
   case portrait = "인물"
   case landscape = "풍경"
+  case night = "야경"
+  case star = "별"
   case street = "거리"
   case vintage = "빈티지"
   case film = "필름"

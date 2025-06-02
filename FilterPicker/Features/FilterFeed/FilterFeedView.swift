@@ -9,17 +9,27 @@ import SwiftUI
 
 struct FilterFeedView: View {
     @StateObject private var store = FilterFeedStore()
+    @State private var isCreateFilterPresented = false
     
     var body: some View {
         VStack(spacing: 0) {
             // 커스텀 네비게이션 바
             CustomNavigationBar(
                 title: "FEED",
-                showBackButton: true,
+                showBackButton: false,
                 onBackTapped: {
                     // 뒤로가기 액션 (향후 라우터 연동)
                     print("Back tapped")
-                }
+                },
+                rightButton: AnyView(
+                    Button(action: {
+                        isCreateFilterPresented = true
+                    }) {
+                        Image(systemName: "plus")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                    }
+                )
             )
             
             // 메인 콘텐츠
@@ -97,6 +107,9 @@ struct FilterFeedView: View {
                 }
             }
         )
+        .sheet(isPresented: $isCreateFilterPresented) {
+            FilterCreateView()
+        }
         //    .alert("오류", isPresented: .constant(store.state.hasError)) {
         //      Button("확인") {
         //        store.send(.clearError)

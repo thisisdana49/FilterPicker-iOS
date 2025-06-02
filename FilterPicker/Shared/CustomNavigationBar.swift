@@ -11,15 +11,18 @@ struct CustomNavigationBar: View {
   let title: String
   let showBackButton: Bool
   let onBackTapped: (() -> Void)?
+  let rightButton: AnyView?
   
   init(
     title: String,
     showBackButton: Bool = true,
-    onBackTapped: (() -> Void)? = nil
+    onBackTapped: (() -> Void)? = nil,
+    rightButton: AnyView? = nil
   ) {
     self.title = title
     self.showBackButton = showBackButton
     self.onBackTapped = onBackTapped
+    self.rightButton = rightButton
   }
   
   var body: some View {
@@ -48,9 +51,14 @@ struct CustomNavigationBar: View {
       
       Spacer()
       
-      // 우측 여백 (대칭을 위한)
-      Spacer()
-        .frame(width: 24)
+      // 우측 버튼 또는 여백
+      if let rightButton = rightButton {
+        rightButton
+          .frame(width: 24, height: 24)
+      } else {
+        Spacer()
+          .frame(width: 24)
+      }
     }
     .padding(.horizontal, 16)
     .frame(height: 44)
@@ -65,7 +73,16 @@ struct CustomNavigationBar: View {
       showBackButton: true,
       onBackTapped: {
         print("Back tapped")
-      }
+      },
+      rightButton: AnyView(
+        Button(action: {
+          print("Right button tapped")
+        }) {
+          Image(systemName: "plus")
+            .font(.title2)
+            .foregroundColor(.white)
+        }
+      )
     )
     
     Spacer()
