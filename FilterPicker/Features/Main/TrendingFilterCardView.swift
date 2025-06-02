@@ -9,8 +9,7 @@ struct TrendingFilterCardView: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            if let firstFile = filter.files.first,
-               let url = URL(string: AppConfig.baseURL + "/v1/" + firstFile) {
+            if let url = URL(string: filter.filteredImageURL) {
                 URLImageView(url: url, showOverlay: false)
                     .scaledToFill()
                     .frame(width: cardWidth, height: cardHeight)

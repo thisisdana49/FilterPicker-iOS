@@ -32,8 +32,7 @@ struct TodayFilterSectionView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let todayFilter = store.state.todayFilter {
-                if let firstFile = todayFilter.files.first,
-                   let url = URL(string: AppConfig.baseURL + "/v1/" + firstFile) {
+                if let url = URL(string: todayFilter.filteredImageURL) {
                     URLImageView(url: url, showOverlay: true)
                         .scaledToFill()
                         .frame(width: UIScreen.main.bounds.width, height: 555)
