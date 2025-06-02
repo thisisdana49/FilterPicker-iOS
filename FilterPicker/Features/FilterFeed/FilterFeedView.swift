@@ -10,6 +10,7 @@ import SwiftUI
 struct FilterFeedView: View {
     @StateObject private var store = FilterFeedStore()
     @State private var isCreateFilterPresented = false
+    @EnvironmentObject var tabBarVisibility: TabBarVisibilityManager
     
     var body: some View {
         ZStack {
@@ -88,6 +89,13 @@ struct FilterFeedView: View {
             .background(Color.black)
             .navigationBarHidden(true)
             .onAppear {
+                // 탭바 표시 확인 (안전장치)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        tabBarVisibility.forceShowTabBar()
+                    }
+                }
+                
                 // 화면이 나타날 때 데이터 로드
                 store.send(.loadTopRanking)
                 store.send(.loadFilters)

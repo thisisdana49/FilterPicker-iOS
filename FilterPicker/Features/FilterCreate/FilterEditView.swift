@@ -10,6 +10,7 @@ import SwiftUI
 struct FilterEditView: View {
     @StateObject private var store: FilterEditStore
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var tabBarVisibility: TabBarVisibilityManager
     
     init(image: UIImage) {
         self._store = StateObject(wrappedValue: FilterEditStore(image: image))
@@ -22,6 +23,7 @@ struct FilterEditView: View {
                 title: "EDIT",
                 showBackButton: true,
                 onBackTapped: {
+                    // 뒤로가기 시 탭바 제어는 onDisappear에서 처리
                     presentationMode.wrappedValue.dismiss()
                 },
                 rightButton: AnyView(
@@ -43,6 +45,12 @@ struct FilterEditView: View {
         }
         .background(Color.black)
         .navigationBarHidden(true)
+        .onAppear {
+            // 탭바 숨김 확인
+            withAnimation(.easeInOut(duration: 0.3)) {
+                tabBarVisibility.hideTabBar()
+            }
+        }
     }
 }
 

@@ -7,8 +7,26 @@
 
 import SwiftUI
 
+// MARK: - TabBar Visibility Manager
+class TabBarVisibilityManager: ObservableObject {
+    @Published var isTabBarHidden: Bool = false
+    
+    func hideTabBar() {
+        isTabBarHidden = true
+    }
+    
+    func showTabBar() {
+        isTabBarHidden = false
+    }
+    
+    func forceShowTabBar() {
+        isTabBarHidden = false
+    }
+}
+
 struct RootTabView: View {
     @State private var selectedTab: TabItem = .home
+    @StateObject private var tabBarVisibility = TabBarVisibilityManager()
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -40,11 +58,16 @@ struct RootTabView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.systemBackground))
+            .environmentObject(tabBarVisibility)
             
-            CustomTabBarView(selectedTab: $selectedTab)
-                .padding(.horizontal, 16)
-                .padding(.bottom, 12)
-                .ignoresSafeArea(.keyboard, edges: .bottom)
+            // 탭바 숨김 상태에 따라 조건부 렌더링
+            if !tabBarVisibility.isTabBarHidden {
+                CustomTabBarView(selectedTab: $selectedTab)
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 12)
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
     }

@@ -10,6 +10,7 @@ import SwiftUI
 struct FilterCreateView: View {
     @StateObject private var store = FilterCreateStore()
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var tabBarVisibility: TabBarVisibilityManager
     
     var body: some View {
         VStack(spacing: 0) {
@@ -18,6 +19,11 @@ struct FilterCreateView: View {
                 title: "MAKE",
                 showBackButton: true,
                 onBackTapped: {
+                    // 탭바 다시 표시 (강제)
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        tabBarVisibility.forceShowTabBar()
+                    }
+                    // 화면 닫기
                     presentationMode.wrappedValue.dismiss()
                 },
                 rightButton: AnyView(
@@ -58,9 +64,36 @@ struct FilterCreateView: View {
         }
         .background(Color.black)
         .navigationBarHidden(true)
+        .onAppear {
+            // 탭바 숨김
+            withAnimation(.easeInOut(duration: 0.3)) {
+                tabBarVisibility.hideTabBar()
+            }
+        }
         .sheet(isPresented: $store.state.isImagePickerPresented) {
             FilterImagePicker { image in
                 store.send(.selectImage(image))
+            }
+        }
+    }
+    
+    // MARK: - Helper Methods
+    private func hideTabBar() {
+        DispatchQueue.main.async {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first,
+               let tabBarController = window.rootViewController as? UITabBarController {
+                tabBarController.tabBar.isHidden = true
+            }
+        }
+    }
+    
+    private func showTabBar() {
+        DispatchQueue.main.async {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first,
+               let tabBarController = window.rootViewController as? UITabBarController {
+                tabBarController.tabBar.isHidden = false
             }
         }
     }
@@ -120,7 +153,10 @@ extension FilterCreateView {
                 Spacer()
                 
                 if let image = store.state.selectedImage {
-                    NavigationLink(destination: FilterEditView(image: image)) {
+                    NavigationLink(destination: 
+                        FilterEditView(image: image)
+                            .environmentObject(tabBarVisibility)
+                    ) {
                         Text("수정하기")
                             .font(.caption)
                             .foregroundColor(.blue)
