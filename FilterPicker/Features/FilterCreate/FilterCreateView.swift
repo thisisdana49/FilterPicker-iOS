@@ -119,12 +119,12 @@ extension FilterCreateView {
                 
                 Spacer()
                 
-                if store.state.selectedImage != nil {
-                    Button("수정하기") {
-                        store.send(.presentImagePicker)
+                if let image = store.state.selectedImage {
+                    NavigationLink(destination: FilterEditView(image: image)) {
+                        Text("수정하기")
+                            .font(.caption)
+                            .foregroundColor(.blue)
                     }
-                    .font(.caption)
-                    .foregroundColor(.blue)
                 }
             }
             

@@ -1,0 +1,145 @@
+//
+//  FilterEditView.swift
+//  FilterPicker
+//
+//  Created by 조다은 on 5/24/25.
+//
+
+import SwiftUI
+
+struct FilterEditView: View {
+    @StateObject private var store: FilterEditStore
+    @Environment(\.presentationMode) var presentationMode
+    
+    init(image: UIImage) {
+        self._store = StateObject(wrappedValue: FilterEditStore(image: image))
+    }
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            // 커스텀 네비게이션 바
+            CustomNavigationBar(
+                title: "EDIT",
+                showBackButton: true,
+                onBackTapped: {
+                    presentationMode.wrappedValue.dismiss()
+                },
+                rightButton: AnyView(
+                    Button(action: {
+                        store.send(.saveChanges)
+                    }) {
+                        Image(systemName: "checkmark")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                    }
+                )
+            )
+            
+            // 메인 이미지 영역
+            imageSection
+            
+            // 하단 컨트롤 영역
+            controlSection
+        }
+        .background(Color.black)
+        .navigationBarHidden(true)
+    }
+}
+
+// MARK: - View Components
+extension FilterEditView {
+    
+    private var imageSection: some View {
+        ZStack {
+            if let image = store.state.editedImage ?? store.state.originalImage {
+                Image(uiImage: image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                Color.gray.opacity(0.3)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+        }
+        .frame(maxHeight: UIScreen.main.bounds.height * 0.6)
+    }
+    
+    private var controlSection: some View {
+        VStack(spacing: 20) {
+            // 파라미터 선택 버튼들
+            parameterButtons
+            
+            // 슬라이더와 값 표시
+            sliderSection
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 20)
+        .background(Color.black)
+    }
+    
+    private var parameterButtons: some View {
+        HStack(spacing: 0) {
+            ForEach(FilterParameter.allCases, id: \.self) { parameter in
+                Button(action: {
+                    store.send(.selectParameter(parameter))
+                }) {
+                    VStack(spacing: 8) {
+                        Image(systemName: parameter.icon)
+                            .font(.title3)
+                        
+                        Text(parameter.displayName)
+                            .font(.caption2)
+                            .fontWeight(.medium)
+                    }
+                    .foregroundColor(store.state.selectedParameter == parameter ? .white : .gray)
+                    .frame(maxWidth: .infinity)
+                }
+            }
+        }
+    }
+    
+    private var sliderSection: some View {
+        VStack(spacing: 12) {
+            // 현재 값 표시
+            Text(String(format: "%.1f", store.state.currentParameterValue))
+                .font(.title2)
+                .fontWeight(.medium)
+                .foregroundColor(.white)
+            
+            // 슬라이더
+            HStack {
+                Text("-100")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                
+                Slider(
+                    value: Binding(
+                        get: { store.state.currentParameterValue },
+                        set: { store.send(.updateParameterValue($0)) }
+                    ),
+                    in: -100...100,
+                    step: 0.1
+                )
+                .accentColor(.blue)
+                
+                Text("100")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+            
+            // 색상 그라데이션 바 (시안에서 보이는 효과)
+            Rectangle()
+                .fill(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            .purple, .blue, .pink, .green, .yellow, .orange, .red
+                        ]),
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .frame(height: 4)
+                .cornerRadius(2)
+        }
+    }
+} 
