@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct FilterDetailView: View {
     let filterId: String
@@ -192,21 +193,20 @@ struct FilterDetailView: View {
                                     // 디바이스 정보
                                     VStack(alignment: .leading, spacing: 12) {
                                         HStack {
-                                            // 지도 영역 (임시 비워둠)
-                                            Rectangle()
-                                                .fill(Color.gray.opacity(0.3))
-                                                .frame(width: 80, height: 80)
-                                                .cornerRadius(8)
-                                                .overlay(
-                                                    VStack {
-                                                        Image(systemName: "map")
-                                                            .font(.system(size: 20))
-                                                            .foregroundColor(.gray)
-                                                        Text("지도")
-                                                            .font(.system(size: 10))
-                                                            .foregroundColor(.gray)
-                                                    }
-                                                )
+                                            // 지도 영역
+                                            let coordinate = CLLocationCoordinate2D(
+                                                latitude: filterDetail.photoMetadata.latitude,
+                                                longitude: filterDetail.photoMetadata.longitude
+                                            )
+                                            let region = MKCoordinateRegion(
+                                                center: coordinate,
+                                                span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
+                                            )
+                                            
+                                            Map(coordinateRegion: .constant(region))
+                                            .frame(width: 80, height: 80)
+                                            .cornerRadius(8)
+                                            .disabled(true) // 지도 인터랙션 비활성화
                                             
                                             VStack(alignment: .leading, spacing: 8) {
                                                 // 기기 정보
