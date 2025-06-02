@@ -11,8 +11,6 @@ struct RankingFilterCard: View {
   let filter: Filter
   let onTapped: () -> Void
   
-  @State private var isShowingDetail = false
-  
   private var gradientColors: [Color] {
     switch filter.ranking {
     case 1:
@@ -27,9 +25,7 @@ struct RankingFilterCard: View {
   }
   
   var body: some View {
-    Button(action: {
-      isShowingDetail = true
-    }) {
+    NavigationLink(destination: FilterDetailView(filterId: filter.id)) {
       VStack(spacing: 16) {
         // 프로필 이미지 영역
         ZStack {
@@ -91,9 +87,6 @@ struct RankingFilterCard: View {
       .frame(width: 200)
     }
     .buttonStyle(PlainButtonStyle())
-    .sheet(isPresented: $isShowingDetail) {
-      FilterDetailView(filterId: filter.id)
-    }
   }
 }
 

@@ -15,13 +15,25 @@ struct RootTabView: View {
             Group {
                 switch selectedTab {
                 case .home:
-                    MainView()
+                    NavigationView {
+                        MainView()
+                    }
+                    .navigationViewStyle(StackNavigationViewStyle())
                 case .feed:
-                    FeedView()
+                    NavigationView {
+                        FeedView()
+                    }
+                    .navigationViewStyle(StackNavigationViewStyle())
                 case .filter:
-                    FilterFeedView()
+                    NavigationView {
+                        FilterFeedView()
+                    }
+                    .navigationViewStyle(StackNavigationViewStyle())
                 case .search:
-                    SearchView()
+                    NavigationView {
+                        SearchView()
+                    }
+                    .navigationViewStyle(StackNavigationViewStyle())
                 case .profile:
                     MyPageView()
                 }

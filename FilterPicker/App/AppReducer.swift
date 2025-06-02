@@ -32,8 +32,8 @@ struct AppReducer {
             // 2. RefreshToken 만료 여부 확인
             if TokenStorage.isRefreshTokenExpired() {
                 print("❌ RefreshToken이 만료되었습니다.")
-                TokenStorage.clear()
-                newState.isLoggedIn = false
+                        TokenStorage.clear()
+                        newState.isLoggedIn = false
                 return newState
             }
             

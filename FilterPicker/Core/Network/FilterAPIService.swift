@@ -70,5 +70,3 @@ private extension FilterListRequest {
     return params
   }
 }
-
-// MARK: - Response Models

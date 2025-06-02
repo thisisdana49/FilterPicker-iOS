@@ -16,7 +16,7 @@ struct TodayAuthor: Codable {
     let hashTags: [String]
     let introduction: String
     let description: String
-    
+
     // UI에서 사용하기 위한 computed properties
     /// 프로필 이미지 URL
     var profileImageURL: String {

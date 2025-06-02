@@ -12,19 +12,15 @@ struct FilterFeedCard: View {
   let onTapped: () -> Void
   let onLikeTapped: () -> Void
   
-  @State private var isShowingDetail = false
-  
   var body: some View {
-    Button(action: {
-      isShowingDetail = true
-    }) {
+    NavigationLink(destination: FilterDetailView(filterId: filter.id)) {
       HStack(spacing: 16) {
         // 필터 썸네일 (필터 적용된 이미지)
         if let url = URL(string: filter.filteredImageURL) {
           URLImageView(url: url, showOverlay: false)
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 80, height: 80)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
+          .aspectRatio(contentMode: .fill)
+          .frame(width: 80, height: 80)
+          .clipShape(RoundedRectangle(cornerRadius: 8))
         }
         
         // 필터 정보
@@ -58,21 +54,21 @@ struct FilterFeedCard: View {
         
         // 좋아요 버튼
         VStack {
-          LikeButton(
-            isLiked: filter.isLiked,
-            onTapped: onLikeTapped
-          )
+          Button(action: {
+            onLikeTapped()
+          }) {
+            Image(systemName: filter.isLiked ? "heart.fill" : "heart")
+              .font(.system(size: 20))
+              .foregroundColor(filter.isLiked ? .red : .gray)
+          }
+          .buttonStyle(PlainButtonStyle())
           
           Spacer()
         }
       }
       .padding(.vertical, 8)
-      .contentShape(Rectangle())
     }
     .buttonStyle(PlainButtonStyle())
-    .sheet(isPresented: $isShowingDetail) {
-      FilterDetailView(filterId: filter.id)
-    }
   }
 }
 

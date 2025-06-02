@@ -12,7 +12,7 @@ struct HotTrendFilter: Codable {
     let buyerCount: Int
     let createdAt: String
     let updatedAt: String
-    
+
     // UI에서 사용하기 위한 computed properties
     /// 필터가 적용된 이미지 URL (첫 번째 파일)
     var filteredImageURL: String {
