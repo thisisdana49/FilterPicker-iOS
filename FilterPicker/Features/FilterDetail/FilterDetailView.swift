@@ -10,7 +10,7 @@ import SwiftUI
 struct FilterDetailView: View {
     let filterId: String
     @StateObject private var store = FilterDetailStore()
-    @State private var isShowingOriginal = false
+    @State private var dragPosition: CGFloat = 0.5 // 드래그 위치 (0.0 ~ 1.0)
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -76,56 +76,81 @@ struct FilterDetailView: View {
                             LazyVStack(spacing: 0) {
                                 // 메인 이미지 영역
                                 ZStack {
-                                    // 이미지
-                                    let imageURL = isShowingOriginal ? filterDetail.originalImageURL : filterDetail.filteredImageURL
-                                    if let url = URL(string: imageURL) {
-                                        URLImageView(url: url, showOverlay: false)
+                                    // Before 이미지 (오른쪽, 배경)
+                                    if let beforeURL = URL(string: filterDetail.originalImageURL) {
+                                        URLImageView(url: beforeURL, showOverlay: false)
                                             .aspectRatio(contentMode: .fill)
                                             .frame(width: geometry.size.width, height: geometry.size.width * 4/3)
                                             .clipped()
                                     }
                                     
-                                    // After/Before 토글 버튼
-                                    VStack {
-                                        Spacer()
-                                        HStack {
-                                            Spacer()
-                                            
-                                            HStack(spacing: 0) {
-                                                Button(action: { isShowingOriginal = false }) {
-                                                    Text("After")
-                                                        .font(.system(size: 14, weight: .medium))
-                                                        .foregroundColor(isShowingOriginal ? .gray : .white)
-                                                        .padding(.horizontal, 16)
-                                                        .padding(.vertical, 8)
-                                                        .background(
-                                                            RoundedRectangle(cornerRadius: 20)
-                                                                .fill(isShowingOriginal ? Color.clear : Color.white.opacity(0.3))
-                                                        )
-                                                }
-                                                
-                                                Button(action: { isShowingOriginal = true }) {
-                                                    Text("Before")
-                                                        .font(.system(size: 14, weight: .medium))
-                                                        .foregroundColor(isShowingOriginal ? .white : .gray)
-                                                        .padding(.horizontal, 16)
-                                                        .padding(.vertical, 8)
-                                                        .background(
-                                                            RoundedRectangle(cornerRadius: 20)
-                                                                .fill(isShowingOriginal ? Color.white.opacity(0.3) : Color.clear)
-                                                        )
-                                                }
-                                            }
-                                            .background(
-                                                RoundedRectangle(cornerRadius: 20)
-                                                    .fill(Color.black.opacity(0.6))
+                                    // After 이미지 (왼쪽, 마스킹 적용)
+                                    if let afterURL = URL(string: filterDetail.filteredImageURL) {
+                                        URLImageView(url: afterURL, showOverlay: false)
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: geometry.size.width, height: geometry.size.width * 4/3)
+                                            .clipped()
+                                            .mask(
+                                                Rectangle()
+                                                    .frame(width: geometry.size.width * dragPosition)
+                                                    .frame(maxWidth: .infinity, alignment: .leading)
                                             )
+                                    }
+                                    
+                                    // 드래그 라인
+                                    Rectangle()
+                                        .fill(Color.white)
+                                        .frame(width: 2)
+                                        .frame(height: geometry.size.width * 4/3)
+                                        .position(x: geometry.size.width * dragPosition, y: (geometry.size.width * 4/3) / 2)
+                                        .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 0)
+                                    
+                                    // 드래그 핸들
+                                    Circle()
+                                        .fill(Color.white)
+                                        .frame(width: 20, height: 20)
+                                        .position(x: geometry.size.width * dragPosition, y: (geometry.size.width * 4/3) / 2)
+                                        .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 0)
+                                    
+                                    // After/Before 라벨
+                                    VStack {
+                                        HStack {
+                                            Text("After")
+                                                .font(.system(size: 16, weight: .semibold))
+                                                .foregroundColor(.white)
+                                                .padding(.horizontal, 12)
+                                                .padding(.vertical, 6)
+                                                .background(
+                                                    RoundedRectangle(cornerRadius: 12)
+                                                        .fill(Color.black.opacity(0.6))
+                                                )
+                                                .padding(.leading, 20)
                                             
                                             Spacer()
+                                            
+                                            Text("Before")
+                                                .font(.system(size: 16, weight: .semibold))
+                                                .foregroundColor(.white)
+                                                .padding(.horizontal, 12)
+                                                .padding(.vertical, 6)
+                                                .background(
+                                                    RoundedRectangle(cornerRadius: 12)
+                                                        .fill(Color.black.opacity(0.6))
+                                                )
+                                                .padding(.trailing, 20)
                                         }
-                                        .padding(.bottom, 20)
+                                        .padding(.top, 20)
+                                        
+                                        Spacer()
                                     }
                                 }
+                                .gesture(
+                                    DragGesture()
+                                        .onChanged { value in
+                                            let newPosition = value.location.x / geometry.size.width
+                                            dragPosition = max(0, min(1, newPosition))
+                                        }
+                                )
                                 
                                 // 정보 영역
                                 VStack(alignment: .leading, spacing: 20) {
