@@ -387,10 +387,11 @@ struct FilterDetailView: View {
                                         .foregroundColor(.white)
                                         .lineLimit(nil)
                                         .multilineTextAlignment(.leading)
+                                        .padding(.bottom, 68)
                                 }
                                 .padding(.horizontal, 20)
                                 .padding(.top, 20)
-                                .padding(.bottom, geometry.safeAreaInsets.bottom + 40)
+                                .padding(.bottom, geometry.safeAreaInsets.bottom + 68)
                             }
                         }
                     }
