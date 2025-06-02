@@ -190,49 +190,62 @@ struct FilterDetailView: View {
                                     }
                                     
                                     // 디바이스 정보
-                                    HStack {
-                                        Text(filterDetail.photoMetadata.camera)
-                                            .font(.system(size: 14, weight: .medium))
-                                            .foregroundColor(.white)
-                                            .lineLimit(1)
-                                        Spacer()
-                                        Text("EXIF")
-                                            .font(.system(size: 12))
-                                            .foregroundColor(.gray)
-                                    }
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 12)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .fill(Color.gray.opacity(0.2))
-                                    )
-                                    
-                                    // EXIF 정보
-                                    HStack(alignment: .top, spacing: 12) {
-                                        Image(systemName: "camera")
-                                            .foregroundColor(.gray)
-                                            .frame(width: 24, height: 24)
-                                        
-                                        VStack(alignment: .leading, spacing: 2) {
-                                            Text("\(filterDetail.photoMetadata.lensInfo) - \(filterDetail.photoMetadata.focalLength) mm f/\(String(format: "%.1f", filterDetail.photoMetadata.aperture)) ISO \(filterDetail.photoMetadata.iso)")
-                                                .font(.system(size: 14))
-                                                .foregroundColor(.white)
-                                                .lineLimit(nil)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                            Text("\(filterDetail.photoMetadata.pixelWidth) × \(filterDetail.photoMetadata.pixelHeight) • \(formatFileSize(filterDetail.photoMetadata.fileSize))")
-                                                .font(.system(size: 12))
-                                                .foregroundColor(.gray)
-                                                .lineLimit(nil)
-                                                .fixedSize(horizontal: false, vertical: true)
+                                    VStack(alignment: .leading, spacing: 12) {
+                                        HStack {
+                                            // 지도 영역 (임시 비워둠)
+                                            Rectangle()
+                                                .fill(Color.gray.opacity(0.3))
+                                                .frame(width: 80, height: 80)
+                                                .cornerRadius(8)
+                                                .overlay(
+                                                    VStack {
+                                                        Image(systemName: "map")
+                                                            .font(.system(size: 20))
+                                                            .foregroundColor(.gray)
+                                                        Text("지도")
+                                                            .font(.system(size: 10))
+                                                            .foregroundColor(.gray)
+                                                    }
+                                                )
+                                            
+                                            VStack(alignment: .leading, spacing: 8) {
+                                                // 기기 정보
+                                                HStack {
+                                                    Text(filterDetail.photoMetadata.camera)
+                                                        .font(.system(size: 16, weight: .semibold))
+                                                        .foregroundColor(.white)
+                                                    Spacer()
+                                                    Text(filterDetail.photoMetadata.format)
+                                                        .font(.system(size: 12, weight: .medium))
+                                                        .foregroundColor(.gray)
+                                                }
+                                                
+                                                // 카메라 상세 정보
+                                                Text("\(filterDetail.photoMetadata.lensInfo) - \(filterDetail.photoMetadata.focalLength) mm f/\(String(format: "%.1f", filterDetail.photoMetadata.aperture)) ISO \(filterDetail.photoMetadata.iso)")
+                                                    .font(.system(size: 14))
+                                                    .foregroundColor(.white)
+                                                    .lineLimit(2)
+                                                
+                                                // 해상도 및 파일 정보
+                                                Text("\(formatMegaPixels(width: filterDetail.photoMetadata.pixelWidth, height: filterDetail.photoMetadata.pixelHeight)) • \(filterDetail.photoMetadata.pixelWidth) x \(filterDetail.photoMetadata.pixelHeight) • \(formatFileSize(filterDetail.photoMetadata.fileSize))")
+                                                    .font(.system(size: 13))
+                                                    .foregroundColor(.gray)
+                                                    .lineLimit(2)
+                                                
+                                                // 위치 정보 (임시)
+                                                Text("위치 정보 (좌표: \(String(format: "%.4f", filterDetail.photoMetadata.latitude)), \(String(format: "%.4f", filterDetail.photoMetadata.longitude)))")
+                                                    .font(.system(size: 12))
+                                                    .foregroundColor(.gray)
+                                                    .lineLimit(1)
+                                            }
+                                            .frame(maxWidth: .infinity, alignment: .leading)
                                         }
-                                        
-                                        Spacer()
                                     }
                                     .padding(.horizontal, 16)
-                                    .padding(.vertical, 12)
+                                    .padding(.vertical, 16)
                                     .background(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .fill(Color.gray.opacity(0.2))
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(Color.gray.opacity(0.15))
                                     )
                                     
                                     // 필터 프리셋
@@ -389,6 +402,11 @@ struct FilterDetailView: View {
     private func formatFileSize(_ bytes: Int) -> String {
         let mb = Double(bytes) / 1024.0 / 1024.0
         return String(format: "%.1fMB", mb)
+    }
+    
+    private func formatMegaPixels(width: Int, height: Int) -> String {
+        let megapixels = Double(width * height) / 1_000_000.0
+        return String(format: "%.1fMP", megapixels)
     }
 }
 
