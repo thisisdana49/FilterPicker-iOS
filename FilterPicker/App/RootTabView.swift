@@ -16,22 +16,22 @@ struct RootTabView: View {
                 switch selectedTab {
                 case .home:
                     NavigationView {
-                        MainView()
+                    MainView()
                     }
                     .navigationViewStyle(StackNavigationViewStyle())
                 case .feed:
                     NavigationView {
-                        FeedView()
+                    FeedView()
                     }
                     .navigationViewStyle(StackNavigationViewStyle())
                 case .filter:
                     NavigationView {
-                        FilterFeedView()
+                    FilterFeedView()
                     }
                     .navigationViewStyle(StackNavigationViewStyle())
                 case .search:
                     NavigationView {
-                        SearchView()
+                    SearchView()
                     }
                     .navigationViewStyle(StackNavigationViewStyle())
                 case .profile:
