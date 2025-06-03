@@ -12,8 +12,11 @@ struct FilterEditView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var tabBarVisibility: TabBarVisibilityManager
     
-    init(image: UIImage) {
+    let onFilterApplied: ((UIImage) -> Void)?
+    
+    init(image: UIImage, onFilterApplied: ((UIImage) -> Void)? = nil) {
         self._store = StateObject(wrappedValue: FilterEditStore(image: image))
+        self.onFilterApplied = onFilterApplied
     }
     
     var body: some View {
@@ -29,6 +32,11 @@ struct FilterEditView: View {
                 rightButton: AnyView(
                     Button(action: {
                         store.send(.saveChanges)
+                        // 편집된 이미지를 콜백으로 전달
+                        if let editedImage = store.state.editedImage {
+                            onFilterApplied?(editedImage)
+                        }
+                        presentationMode.wrappedValue.dismiss()
                     }) {
                         Image(systemName: "checkmark")
                             .font(.title2)
@@ -211,7 +219,7 @@ extension FilterEditView {
                     step: 1.0,
                     onEditingChanged: { isEditing in
                         if isEditing {
-                            // 슬라이더 편집 시작 시 스냅샷 저장
+                            // 슬라이더 편집 시작 시작 시 스냅샷 저장
                             store.send(.startEditingParameter)
                         }
                     }

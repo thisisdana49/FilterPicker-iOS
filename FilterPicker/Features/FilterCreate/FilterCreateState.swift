@@ -10,11 +10,12 @@ import SwiftUI
 // MARK: - FilterCreateState
 struct FilterCreateState {
     var filterName: String = ""
-    var selectedCategory: FilterCategory = .portrait
+    var selectedCategory: FilterCategory? = nil
     var selectedImage: UIImage? = nil
-    var photoMetadata: PhotoMetadata? = nil
+    var filteredImage: UIImage? = nil                    // 필터 적용된 이미지
+    var photoMetadata: PhotoMetadata? = nil              // 추출된 메타데이터
     var filterDescription: String = ""
-    var price: String = "1,000"
+    var price: String = "1000"
     
     var isLoading: Bool = false
     var errorMessage: String? = nil
@@ -23,9 +24,13 @@ struct FilterCreateState {
     
     // 유효성 검사
     var isValid: Bool {
-        !filterName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-        selectedImage != nil &&
-        !filterDescription.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-        !price.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        return !filterName.isEmpty &&
+               selectedCategory != nil &&
+               selectedImage != nil &&
+               !filterDescription.isEmpty &&
+               !price.isEmpty &&
+               Int(price) != nil &&
+               Int(price)! > 0 &&
+               photoMetadata != nil
     }
 } 

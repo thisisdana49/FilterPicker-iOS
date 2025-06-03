@@ -119,6 +119,7 @@
 		3EDB57672DEED3A200FAD663 /* ImageFilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57662DEED3A200FAD663 /* ImageFilterManager.swift */; };
 		3EDB57692DEEE01600FAD663 /* PhotoMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57682DEEE01600FAD663 /* PhotoMetadata.swift */; };
 		3EDB576B2DEEE04900FAD663 /* PhotoMetadataExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB576A2DEEE04900FAD663 /* PhotoMetadataExtractor.swift */; };
+		3EDB576D2DEF0E6600FAD663 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB576C2DEF0E6600FAD663 /* ImageProcessor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -234,6 +235,7 @@
 		3EDB57662DEED3A200FAD663 /* ImageFilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilterManager.swift; sourceTree = "<group>"; };
 		3EDB57682DEEE01600FAD663 /* PhotoMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMetadata.swift; sourceTree = "<group>"; };
 		3EDB576A2DEEE04900FAD663 /* PhotoMetadataExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMetadataExtractor.swift; sourceTree = "<group>"; };
+		3EDB576C2DEF0E6600FAD663 /* ImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -576,6 +578,7 @@
 				3EAE75CF2DE7159C007DBA05 /* LikeButton.swift */,
 				3EDB57662DEED3A200FAD663 /* ImageFilterManager.swift */,
 				3EDB576A2DEEE04900FAD663 /* PhotoMetadataExtractor.swift */,
+				3EDB576C2DEF0E6600FAD663 /* ImageProcessor.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -737,6 +740,7 @@
 			files = (
 				3ECA38552DEC662B00C91929 /* FilterDetailModels.swift in Sources */,
 				3E3CF16D2DD71E4400B5D650 /* AppState.swift in Sources */,
+				3EDB576D2DEF0E6600FAD663 /* ImageProcessor.swift in Sources */,
 				3E3CF16E2DD71E4400B5D650 /* AppIntent.swift in Sources */,
 				3E3CF16F2DD71E4400B5D650 /* AppRoute.swift in Sources */,
 				3E237BE62DE1A82400423E9E /* CustomTabBarView.swift in Sources */,

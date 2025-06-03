@@ -190,8 +190,13 @@ extension FilterCreateView {
                 
                 if let image = store.state.selectedImage {
                     NavigationLink(destination: 
-                        FilterEditView(image: image)
-                            .environmentObject(tabBarVisibility)
+                        FilterEditView(
+                            image: image,
+                            onFilterApplied: { filteredImage in
+                                store.send(.setFilteredImage(filteredImage))
+                            }
+                        )
+                        .environmentObject(tabBarVisibility)
                     ) {
                         Text("수정하기")
                             .font(.caption)

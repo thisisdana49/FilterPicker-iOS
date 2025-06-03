@@ -27,6 +27,9 @@ struct FilterCreateReducer {
             state.isImagePickerPresented = false
             // PHAsset과 함께 메타데이터 추출은 FilterCreateStore에서 처리
             
+        case .setFilteredImage(let image):
+            state.filteredImage = image
+            
         case .startExtractingMetadata:
             state.isExtractingMetadata = true
             
