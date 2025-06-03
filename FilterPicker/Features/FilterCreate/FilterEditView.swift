@@ -113,29 +113,29 @@ extension FilterEditView {
     
     private var sliderSection: some View {
         VStack(spacing: 12) {
-            // 현재 값 표시
-            Text(String(format: parameterValueFormat, store.state.currentParameterValue))
+            // 현재 값 표시 (사용자 친화적인 값)
+            Text(String(format: "%.0f", store.state.currentParameterDisplayValue))
                 .font(.title2)
                 .fontWeight(.medium)
                 .foregroundColor(.white)
             
             // 슬라이더
             HStack {
-                Text(String(format: parameterValueFormat, parameterRange.lowerBound))
+                Text(String(format: "%.0f", displayRange.lowerBound))
                     .font(.caption)
                     .foregroundColor(.gray)
                 
                 Slider(
                     value: Binding(
-                        get: { store.state.currentParameterValue },
+                        get: { store.state.currentParameterDisplayValue },
                         set: { store.send(.updateParameterValue($0)) }
                     ),
-                    in: parameterRange,
-                    step: parameterStep
+                    in: displayRange,
+                    step: 1.0
                 )
                 .accentColor(.blue)
                 
-                Text(String(format: parameterValueFormat, parameterRange.upperBound))
+                Text(String(format: "%.0f", displayRange.upperBound))
                     .font(.caption)
                     .foregroundColor(.gray)
             }
@@ -156,31 +156,13 @@ extension FilterEditView {
         }
     }
     
-    // 파라미터별 범위와 포맷 설정
-    private var parameterRange: ClosedRange<Float> {
+    // 사용자에게 보이는 슬라이더 범위
+    private var displayRange: ClosedRange<Float> {
         switch store.state.selectedParameter {
-        case .brightness, .exposure, .contrast, .saturation, .sharpness, .blur, .vignette, .noiseReduction, .highlights, .shadows, .blackPoint:
-            return -1.0...3.0
-        case .temperature:
-            return 2000...10000
-        }
-    }
-    
-    private var parameterStep: Float {
-        switch store.state.selectedParameter {
-        case .temperature:
-            return 50
-        default:
-            return 0.01
-        }
-    }
-    
-    private var parameterValueFormat: String {
-        switch store.state.selectedParameter {
-        case .temperature:
-            return "%.0f"
-        default:
-            return "%.2f"
+        case .brightness, .exposure, .sharpness, .blur, .vignette, .noiseReduction, .highlights, .shadows, .blackPoint:
+            return -100.0...100.0
+        case .contrast, .saturation, .temperature:
+            return 0.0...100.0
         }
     }
 } 

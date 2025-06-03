@@ -48,27 +48,27 @@ enum FilterParameter: String, CaseIterable {
 struct FilterEditState {
     var originalImage: UIImage?
     var editedImage: UIImage?
-    var selectedParameter: FilterParameter = .saturation
+    var selectedParameter: FilterParameter = .brightness
     
-    // 필터 파라미터 값들
-    var brightness: Float = 0.15
-    var exposure: Float = 0.3
-    var contrast: Float = 1.05
-    var saturation: Float = 1.1
-    var sharpness: Float = 0.5
-    var blur: Float = 0.0
-    var vignette: Float = 0.2
-    var noiseReduction: Float = 0.1
-    var highlights: Float = -0.1
-    var shadows: Float = 0.15
-    var temperature: Float = 5800
-    var blackPoint: Float = 0.03
+    // 필터 파라미터 값들 (API에 보낼 실제 값)
+    var brightness: Float = 0.0        // -1.0 ~ 1.0, 슬라이더: 0
+    var exposure: Float = 0.0          // -1.0 ~ 1.0, 슬라이더: 0
+    var contrast: Float = 0.0          // 0.0 ~ 2.0, 슬라이더: 0
+    var saturation: Float = 0.0        // 0.0 ~ 2.0, 슬라이더: 0
+    var sharpness: Float = 0.0         // -1.0 ~ 1.0, 슬라이더: 0
+    var blur: Float = 0.0              // -1.0 ~ 1.0, 슬라이더: 0
+    var vignette: Float = 0.0          // -1.0 ~ 1.0, 슬라이더: 0
+    var noiseReduction: Float = 0.0    // -1.0 ~ 1.0, 슬라이더: 0
+    var highlights: Float = 0.0        // -1.0 ~ 1.0, 슬라이더: 0
+    var shadows: Float = 0.0           // -1.0 ~ 1.0, 슬라이더: 0
+    var temperature: Float = 2000      // 2000 ~ 10000, 슬라이더: 0
+    var blackPoint: Float = 0.0        // -1.0 ~ 1.0, 슬라이더: 0
     
     var isLoading: Bool = false
     var errorMessage: String? = nil
     
-    // 현재 선택된 파라미터의 값
-    var currentParameterValue: Float {
+    // 현재 선택된 파라미터의 실제 값 (API 값)
+    var currentParameterActualValue: Float {
         switch selectedParameter {
         case .brightness: return brightness
         case .exposure: return exposure
@@ -82,6 +82,41 @@ struct FilterEditState {
         case .shadows: return shadows
         case .temperature: return temperature
         case .blackPoint: return blackPoint
+        }
+    }
+    
+    // 현재 선택된 파라미터의 표시 값 (사용자 슬라이더 값)
+    var currentParameterDisplayValue: Float {
+        return actualToDisplay(currentParameterActualValue, for: selectedParameter)
+    }
+    
+    // 실제 값 → 표시 값 변환
+    func actualToDisplay(_ actualValue: Float, for parameter: FilterParameter) -> Float {
+        switch parameter {
+        case .brightness, .exposure, .sharpness, .blur, .vignette, .noiseReduction, .highlights, .shadows, .blackPoint:
+            // -1.0 ~ 1.0 → -100 ~ 100
+            return actualValue * 100
+        case .contrast, .saturation:
+            // 0.0 ~ 2.0 → 0 ~ 100
+            return actualValue * 50
+        case .temperature:
+            // 2000 ~ 10000 → 0 ~ 100
+            return (actualValue - 2000) / (10000 - 2000) * 100
+        }
+    }
+    
+    // 표시 값 → 실제 값 변환
+    func displayToActual(_ displayValue: Float, for parameter: FilterParameter) -> Float {
+        switch parameter {
+        case .brightness, .exposure, .sharpness, .blur, .vignette, .noiseReduction, .highlights, .shadows, .blackPoint:
+            // -100 ~ 100 → -1.0 ~ 1.0
+            return displayValue / 100
+        case .contrast, .saturation:
+            // 0 ~ 100 → 0.0 ~ 2.0
+            return displayValue / 50
+        case .temperature:
+            // 0 ~ 100 → 2000 ~ 10000
+            return (displayValue / 100) * (10000 - 2000) + 2000
         }
     }
 } 
