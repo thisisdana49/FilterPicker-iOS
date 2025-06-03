@@ -84,6 +84,12 @@ struct FilterEditReducer {
         case .clearError:
             state.errorMessage = nil
             
+        case .startComparing:
+            state.isComparing = true
+            
+        case .stopComparing:
+            state.isComparing = false
+            
         case .undo:
             guard let lastSnapshot = state.undoStack.popLast() else { return }
             // 현재 상태를 redo 스택에 저장

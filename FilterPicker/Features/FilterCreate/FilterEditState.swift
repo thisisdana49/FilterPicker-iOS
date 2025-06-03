@@ -98,6 +98,9 @@ struct FilterEditState {
     var isLoading: Bool = false
     var errorMessage: String? = nil
     
+    // MARK: - Compare Mode
+    var isComparing: Bool = false  // 원본과 편집본 비교 모드
+    
     // MARK: - Undo/Redo History
     var undoStack: [FilterParameterSnapshot] = []
     var redoStack: [FilterParameterSnapshot] = []

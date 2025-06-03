@@ -58,19 +58,29 @@ struct FilterEditView: View {
 extension FilterEditView {
     
     private var imageSection: some View {
-        ZStack(alignment: .bottomLeading) {
-            if let image = store.state.editedImage ?? store.state.originalImage {
+        ZStack {
+            // 메인 이미지 (비교 모드에 따라 원본 또는 편집본)
+            if let image = store.state.isComparing ? store.state.originalImage : (store.state.editedImage ?? store.state.originalImage) {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .animation(.easeInOut(duration: 0.2), value: store.state.isComparing)
             } else {
                 Color.gray.opacity(0.3)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             
-            // Undo/Redo 버튼들
-            undoRedoButtons
+            // 좌측 하단: Undo/Redo 버튼들
+            VStack {
+                Spacer()
+                HStack {
+                    undoRedoButtons
+                    Spacer()
+                    // 우측 하단: 비교 버튼
+                    compareButton
+                }
+            }
         }
         .frame(maxHeight: UIScreen.main.bounds.height * 0.6)
     }
@@ -104,6 +114,38 @@ extension FilterEditView {
             .disabled(!store.state.canRedo)
         }
         .padding(.leading, 16)
+    }
+    
+    private var compareButton: some View {
+        Button(action: {}) {
+            VStack(spacing: 4) {
+                Image(systemName: store.state.isComparing ? "eye.slash" : "eye")
+                    .font(.title3)
+                Text(store.state.isComparing ? "EDITED" : "ORIGINAL")
+                    .font(.caption2)
+                    .fontWeight(.medium)
+            }
+            .foregroundColor(.white)
+            .frame(width: 60, height: 60)
+            .background(Color.black.opacity(0.6))
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .scaleEffect(store.state.isComparing ? 0.95 : 1.0)
+        .animation(.easeInOut(duration: 0.1), value: store.state.isComparing)
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in
+                    if !store.state.isComparing {
+                        store.send(.startComparing)
+                    }
+                }
+                .onEnded { _ in
+                    if store.state.isComparing {
+                        store.send(.stopComparing)
+                    }
+                }
+        )
+        .padding(.trailing, 16)
         .padding(.bottom, 16)
     }
     

@@ -18,4 +18,6 @@ enum FilterEditIntent {
     case clearError
     case undo
     case redo
+    case startComparing
+    case stopComparing
 } 
