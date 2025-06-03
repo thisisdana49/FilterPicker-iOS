@@ -58,7 +58,7 @@ struct FilterEditView: View {
 extension FilterEditView {
     
     private var imageSection: some View {
-        ZStack {
+        ZStack(alignment: .bottomLeading) {
             if let image = store.state.editedImage ?? store.state.originalImage {
                 Image(uiImage: image)
                     .resizable()
@@ -68,8 +68,43 @@ extension FilterEditView {
                 Color.gray.opacity(0.3)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            
+            // Undo/Redo 버튼들
+            undoRedoButtons
         }
         .frame(maxHeight: UIScreen.main.bounds.height * 0.6)
+    }
+    
+    private var undoRedoButtons: some View {
+        HStack(spacing: 12) {
+            // Undo 버튼
+            Button(action: {
+                store.send(.undo)
+            }) {
+                Image(systemName: "arrow.uturn.backward")
+                    .font(.title2)
+                    .foregroundColor(store.state.canUndo ? .white : .gray)
+                    .frame(width: 44, height: 44)
+                    .background(Color.black.opacity(0.6))
+                    .clipShape(Circle())
+            }
+            .disabled(!store.state.canUndo)
+            
+            // Redo 버튼
+            Button(action: {
+                store.send(.redo)
+            }) {
+                Image(systemName: "arrow.uturn.forward")
+                    .font(.title2)
+                    .foregroundColor(store.state.canRedo ? .white : .gray)
+                    .frame(width: 44, height: 44)
+                    .background(Color.black.opacity(0.6))
+                    .clipShape(Circle())
+            }
+            .disabled(!store.state.canRedo)
+        }
+        .padding(.leading, 16)
+        .padding(.bottom, 16)
     }
     
     private var controlSection: some View {
@@ -131,7 +166,13 @@ extension FilterEditView {
                         set: { store.send(.updateParameterValue($0)) }
                     ),
                     in: displayRange,
-                    step: 1.0
+                    step: 1.0,
+                    onEditingChanged: { isEditing in
+                        if isEditing {
+                            // 슬라이더 편집 시작 시 스냅샷 저장
+                            store.send(.startEditingParameter)
+                        }
+                    }
                 )
                 .accentColor(.blue)
                 
@@ -141,18 +182,18 @@ extension FilterEditView {
             }
             
             // 색상 그라데이션 바 (시안에서 보이는 효과)
-            Rectangle()
-                .fill(
-                    LinearGradient(
-                        gradient: Gradient(colors: [
-                            .purple, .blue, .pink, .green, .yellow, .orange, .red
-                        ]),
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-                .frame(height: 4)
-                .cornerRadius(2)
+            // Rectangle()
+            //     .fill(
+            //         LinearGradient(
+            //             gradient: Gradient(colors: [
+            //                 .purple, .blue, .pink, .green, .yellow, .orange, .red
+            //             ]),
+            //             startPoint: .leading,
+            //             endPoint: .trailing
+            //         )
+            //     )
+            //     .frame(height: 4)
+            //     .cornerRadius(2)
         }
     }
     

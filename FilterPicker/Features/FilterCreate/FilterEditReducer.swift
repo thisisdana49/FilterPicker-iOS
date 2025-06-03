@@ -18,6 +18,8 @@ struct FilterEditReducer {
             state.selectedParameter = parameter
             
         case .updateParameterValue(let displayValue):
+            // 스냅샷은 startEditingParameter에서만 저장
+            
             // 표시 값을 실제 값으로 변환
             let actualValue = state.displayToActual(displayValue, for: state.selectedParameter)
             
@@ -49,7 +51,14 @@ struct FilterEditReducer {
             }
             // 실시간 필터 적용은 FilterEditStore에서 처리
             
+        case .startEditingParameter:
+            // 슬라이더 편집 시작 시 현재 상태를 스냅샷으로 저장
+            state.saveCurrentSnapshot()
+            
         case .resetAllValues:
+            // 현재 상태를 스냅샷으로 저장 (리셋 전)
+            state.saveCurrentSnapshot()
+            
             state.brightness = 0.0         // -1.0 ~ 1.0, 슬라이더: 0
             state.exposure = 0.0           // -1.0 ~ 1.0, 슬라이더: 0
             state.contrast = 0.0           // 0.0 ~ 2.0, 슬라이더: 0
@@ -74,6 +83,22 @@ struct FilterEditReducer {
             
         case .clearError:
             state.errorMessage = nil
+            
+        case .undo:
+            guard let lastSnapshot = state.undoStack.popLast() else { return }
+            // 현재 상태를 redo 스택에 저장
+            let currentSnapshot = FilterParameterSnapshot(from: state)
+            state.redoStack.append(currentSnapshot)
+            // 이전 상태로 복원
+            state.applySnapshot(lastSnapshot)
+            
+        case .redo:
+            guard let nextSnapshot = state.redoStack.popLast() else { return }
+            // 현재 상태를 undo 스택에 저장
+            let currentSnapshot = FilterParameterSnapshot(from: state)
+            state.undoStack.append(currentSnapshot)
+            // 다음 상태로 복원
+            state.applySnapshot(nextSnapshot)
         }
     }
 } 

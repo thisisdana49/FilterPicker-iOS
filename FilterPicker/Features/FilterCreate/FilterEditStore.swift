@@ -26,7 +26,7 @@ class FilterEditStore: ObservableObject {
         
         // 파라미터 값 변경 시 실시간 필터 적용
         switch intent {
-        case .updateParameterValue(_), .resetAllValues:
+        case .updateParameterValue(_), .resetAllValues, .undo, .redo:
             applyFiltersToImage()
         default:
             break

@@ -11,8 +11,11 @@ enum FilterEditIntent {
     case setImage(UIImage)
     case selectParameter(FilterParameter)
     case updateParameterValue(Float)
+    case startEditingParameter
     case resetAllValues
     case applyFilter
     case saveChanges
     case clearError
+    case undo
+    case redo
 } 

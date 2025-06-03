@@ -7,6 +7,37 @@
 
 import SwiftUI
 
+// MARK: - FilterParameterSnapshot
+struct FilterParameterSnapshot {
+    let brightness: Float
+    let exposure: Float
+    let contrast: Float
+    let saturation: Float
+    let sharpness: Float
+    let blur: Float
+    let vignette: Float
+    let noiseReduction: Float
+    let highlights: Float
+    let shadows: Float
+    let temperature: Float
+    let blackPoint: Float
+    
+    init(from state: FilterEditState) {
+        self.brightness = state.brightness
+        self.exposure = state.exposure
+        self.contrast = state.contrast
+        self.saturation = state.saturation
+        self.sharpness = state.sharpness
+        self.blur = state.blur
+        self.vignette = state.vignette
+        self.noiseReduction = state.noiseReduction
+        self.highlights = state.highlights
+        self.shadows = state.shadows
+        self.temperature = state.temperature
+        self.blackPoint = state.blackPoint
+    }
+}
+
 // MARK: - FilterParameter
 enum FilterParameter: String, CaseIterable {
     case brightness = "BRIGHTNESS"
@@ -66,6 +97,43 @@ struct FilterEditState {
     
     var isLoading: Bool = false
     var errorMessage: String? = nil
+    
+    // MARK: - Undo/Redo History
+    var undoStack: [FilterParameterSnapshot] = []
+    var redoStack: [FilterParameterSnapshot] = []
+    
+    // Undo/Redo 가능 여부
+    var canUndo: Bool {
+        return !undoStack.isEmpty
+    }
+    
+    var canRedo: Bool {
+        return !redoStack.isEmpty
+    }
+    
+    // 현재 상태를 스냅샷으로 저장
+    mutating func saveCurrentSnapshot() {
+        let snapshot = FilterParameterSnapshot(from: self)
+        undoStack.append(snapshot)
+        // Redo 스택은 새로운 액션 시 클리어
+        redoStack.removeAll()
+    }
+    
+    // 스냅샷을 현재 상태에 적용
+    mutating func applySnapshot(_ snapshot: FilterParameterSnapshot) {
+        self.brightness = snapshot.brightness
+        self.exposure = snapshot.exposure
+        self.contrast = snapshot.contrast
+        self.saturation = snapshot.saturation
+        self.sharpness = snapshot.sharpness
+        self.blur = snapshot.blur
+        self.vignette = snapshot.vignette
+        self.noiseReduction = snapshot.noiseReduction
+        self.highlights = snapshot.highlights
+        self.shadows = snapshot.shadows
+        self.temperature = snapshot.temperature
+        self.blackPoint = snapshot.blackPoint
+    }
     
     // 현재 선택된 파라미터의 실제 값 (API 값)
     var currentParameterActualValue: Float {
