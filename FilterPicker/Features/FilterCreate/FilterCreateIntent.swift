@@ -6,14 +6,17 @@
 //
 
 import SwiftUI
+import Photos
 
 enum FilterCreateIntent {
     case updateFilterName(String)
     case selectCategory(FilterCategory)
     case presentImagePicker
     case dismissImagePicker
-    case selectImage(UIImage)
-    case updateImageMetadata(ImageMetadata)
+    case selectImage(UIImage, PHAsset?)
+    case startExtractingMetadata
+    case setPhotoMetadata(PhotoMetadata)
+    case metadataExtractionFailed
     case updateFilterDescription(String)
     case updatePrice(String)
     case saveFilter

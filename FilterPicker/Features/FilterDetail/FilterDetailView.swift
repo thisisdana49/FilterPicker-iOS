@@ -195,8 +195,8 @@ struct FilterDetailView: View {
                                         HStack {
                                             // 지도 영역
                                             let coordinate = CLLocationCoordinate2D(
-                                                latitude: filterDetail.photoMetadata.latitude,
-                                                longitude: filterDetail.photoMetadata.longitude
+                                                latitude: filterDetail.photoMetadata.latitude ?? 0.0,
+                                                longitude: filterDetail.photoMetadata.longitude ?? 0.0
                                             )
                                             let region = MKCoordinateRegion(
                                                 center: coordinate,
@@ -211,23 +211,32 @@ struct FilterDetailView: View {
                                             VStack(alignment: .leading, spacing: 8) {
                                                 // 기기 정보
                                                 HStack {
-                                                    Text(filterDetail.photoMetadata.camera)
-                                                        .font(.system(size: 16, weight: .semibold))
+                                                    Text(filterDetail.photoMetadata.camera ?? "Unknown Camera")
+                                                        .font(.system(size: 16, weight: .medium))
                                                         .foregroundColor(.white)
                                                     Spacer()
                                                     Text(filterDetail.photoMetadata.format)
-                                                        .font(.system(size: 12, weight: .medium))
+                                                        .font(.system(size: 12))
                                                         .foregroundColor(.gray)
                                                 }
                                                 
                                                 // 카메라 상세 정보
-                                                Text("\(filterDetail.photoMetadata.lensInfo) - \(filterDetail.photoMetadata.focalLength) mm f/\(String(format: "%.1f", filterDetail.photoMetadata.aperture)) ISO \(filterDetail.photoMetadata.iso)")
+                                                let lensInfo = filterDetail.photoMetadata.lensInfo ?? "Unknown Lens"
+                                                let focalLength = filterDetail.photoMetadata.focalLength ?? 0
+                                                let aperture = filterDetail.photoMetadata.aperture ?? 0
+                                                let iso = filterDetail.photoMetadata.iso ?? 0
+                                                
+                                                Text("\(lensInfo) - \(String(format: "%.0f", focalLength)) mm f/\(String(format: "%.1f", aperture)) ISO \(iso)")
                                                     .font(.system(size: 14))
                                                     .foregroundColor(.white)
                                                     .lineLimit(2)
                                                 
                                                 // 해상도 및 파일 정보
-                                                Text("\(formatMegaPixels(width: filterDetail.photoMetadata.pixelWidth, height: filterDetail.photoMetadata.pixelHeight)) • \(filterDetail.photoMetadata.pixelWidth) x \(filterDetail.photoMetadata.pixelHeight) • \(formatFileSize(filterDetail.photoMetadata.fileSize))")
+                                                let megaPixels = formatMegaPixels(width: filterDetail.photoMetadata.pixelWidth, height: filterDetail.photoMetadata.pixelHeight)
+                                                let dimensions = "\(filterDetail.photoMetadata.pixelWidth) x \(filterDetail.photoMetadata.pixelHeight)"
+                                                let fileSize = formatFileSize(filterDetail.photoMetadata.fileSize)
+                                                
+                                                Text("\(megaPixels) • \(dimensions) • \(fileSize)")
                                                     .font(.system(size: 13))
                                                     .foregroundColor(.gray)
                                                     .lineLimit(2)
@@ -252,7 +261,9 @@ struct FilterDetailView: View {
                                                         .foregroundColor(.gray)
                                                         .lineLimit(1)
                                                 } else {
-                                                    Text("좌표: \(String(format: "%.4f", filterDetail.photoMetadata.latitude)), \(String(format: "%.4f", filterDetail.photoMetadata.longitude))")
+                                                    let latitude = filterDetail.photoMetadata.latitude ?? 0
+                                                    let longitude = filterDetail.photoMetadata.longitude ?? 0
+                                                    Text("좌표: \(String(format: "%.4f", latitude)), \(String(format: "%.4f", longitude))")
                                                         .font(.system(size: 12))
                                                         .foregroundColor(.gray)
                                                         .lineLimit(1)
@@ -405,8 +416,10 @@ struct FilterDetailView: View {
         }
         .onChange(of: store.state.filterDetail) { filterDetail in
             // 필터 상세 로딩 완료 후 주소 로딩
-            if let photoMetadata = filterDetail?.photoMetadata {
-                store.dispatch(.loadAddress(latitude: photoMetadata.latitude, longitude: photoMetadata.longitude))
+            if let photoMetadata = filterDetail?.photoMetadata,
+               let latitude = photoMetadata.latitude,
+               let longitude = photoMetadata.longitude {
+                store.dispatch(.loadAddress(latitude: latitude, longitude: longitude))
             }
         }
     }
@@ -426,7 +439,7 @@ struct FilterDetailView: View {
         return "\(count)"
     }
     
-    private func formatFileSize(_ bytes: Int) -> String {
+    private func formatFileSize(_ bytes: Int64) -> String {
         let mb = Double(bytes) / 1024.0 / 1024.0
         return String(format: "%.1fMB", mb)
     }

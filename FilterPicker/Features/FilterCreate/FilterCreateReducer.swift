@@ -22,13 +22,22 @@ struct FilterCreateReducer {
         case .dismissImagePicker:
             state.isImagePickerPresented = false
             
-        case .selectImage(let image):
+        case .selectImage(let image, let phAsset):
             state.selectedImage = image
             state.isImagePickerPresented = false
-            // TODO: 이미지 메타데이터 추출 로직 추가
+            // PHAsset과 함께 메타데이터 추출은 FilterCreateStore에서 처리
             
-        case .updateImageMetadata(let metadata):
-            state.imageMetadata = metadata
+        case .startExtractingMetadata:
+            state.isExtractingMetadata = true
+            
+        case .setPhotoMetadata(let metadata):
+            state.photoMetadata = metadata
+            state.isExtractingMetadata = false
+            
+        case .metadataExtractionFailed:
+            print("❌ 메타데이터 추출 실패")
+            state.isExtractingMetadata = false
+            state.errorMessage = "이미지 메타데이터를 추출할 수 없습니다."
             
         case .updateFilterDescription(let description):
             state.filterDescription = description

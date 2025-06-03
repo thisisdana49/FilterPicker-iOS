@@ -12,13 +12,14 @@ struct FilterCreateState {
     var filterName: String = ""
     var selectedCategory: FilterCategory = .portrait
     var selectedImage: UIImage? = nil
-    var imageMetadata: ImageMetadata? = nil
+    var photoMetadata: PhotoMetadata? = nil
     var filterDescription: String = ""
     var price: String = "1,000"
     
     var isLoading: Bool = false
     var errorMessage: String? = nil
     var isImagePickerPresented: Bool = false
+    var isExtractingMetadata: Bool = false  // 메타데이터 추출 중 표시
     
     // 유효성 검사
     var isValid: Bool {
@@ -27,13 +28,4 @@ struct FilterCreateState {
         !filterDescription.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
         !price.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
-}
-
-// MARK: - ImageMetadata
-struct ImageMetadata {
-    let deviceModel: String
-    let lensInfo: String
-    let resolution: String
-    let fileSize: String
-    let location: String?
 } 

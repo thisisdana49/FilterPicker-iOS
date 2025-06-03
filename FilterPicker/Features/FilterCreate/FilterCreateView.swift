@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Photos
 
 struct FilterCreateView: View {
     @StateObject private var store = FilterCreateStore()
@@ -69,12 +70,23 @@ struct FilterCreateView: View {
             withAnimation(.easeInOut(duration: 0.3)) {
                 tabBarVisibility.hideTabBar()
             }
+            requestPhotoLibraryPermission()
         }
         .sheet(isPresented: $store.state.isImagePickerPresented) {
-            FilterImagePicker { image in
-                store.send(.selectImage(image))
+            FilterImagePicker { image, phAsset in
+                store.send(.selectImage(image, phAsset))
             }
         }
+//        .alert("오류", isPresented: Binding<Bool>(
+//            get: { store.state.errorMessage != nil },
+//            set: { _ in store.send(.clearError) }
+//        )) {
+//            Button("확인") {
+//                store.send(.clearError)
+//            }
+//        } message: {
+//            Text(store.state.errorMessage ?? "")
+//        }
     }
     
     // MARK: - Helper Methods
@@ -95,6 +107,30 @@ struct FilterCreateView: View {
                let tabBarController = window.rootViewController as? UITabBarController {
                 tabBarController.tabBar.isHidden = false
             }
+        }
+    }
+    
+    // MARK: - 권한 요청
+    private func requestPhotoLibraryPermission() {
+        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        
+        switch status {
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization(for: .readWrite) { newStatus in
+                DispatchQueue.main.async {
+                    if newStatus == .authorized || newStatus == .limited {
+                        print("✅ 사진 라이브러리 접근 권한 승인됨")
+                    } else {
+                        print("❌ 사진 라이브러리 접근 권한 거부됨")
+                    }
+                }
+            }
+        case .denied, .restricted:
+            print("❌ 사진 라이브러리 접근 권한이 거부되어 있습니다.")
+        case .authorized, .limited:
+            print("✅ 사진 라이브러리 접근 권한이 이미 승인되어 있습니다.")
+        @unknown default:
+            break
         }
     }
 }
@@ -176,8 +212,17 @@ extension FilterCreateView {
                             .clipped()
                             .cornerRadius(12)
                         
-                        if let metadata = store.state.imageMetadata {
-                            ImageMetadataView(metadata: metadata)
+                        if let metadata = store.state.photoMetadata {
+                            PhotoMetadataView(metadata: metadata)
+                        } else if store.state.isExtractingMetadata {
+                            HStack {
+                                ProgressView()
+                                    .scaleEffect(0.8)
+                                Text("이미지 정보 추출 중...")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                            .padding(.top, 8)
                         }
                     }
                 } else {
@@ -286,26 +331,35 @@ struct CategoryButton: View {
     }
 }
 
-struct ImageMetadataView: View {
-    let metadata: ImageMetadata
+struct PhotoMetadataView: View {
+    let metadata: PhotoMetadata
     
     var body: some View {
         VStack(spacing: 8) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(metadata.deviceModel)
+                    // 카메라 정보
+                    Text(metadata.camera ?? "Unknown Camera")
                         .font(.caption)
                         .foregroundColor(.white)
                     
-                    Text("\(metadata.lensInfo) • \(metadata.resolution) • \(metadata.fileSize)")
+                    // 촬영 설정 정보
+                    let lensInfo = metadata.lensInfo ?? "Unknown"
+                    let focalLength = metadata.focalLength ?? 0
+                    let aperture = metadata.aperture ?? 0
+                    let iso = metadata.iso ?? 0
+                    
+                    Text("\(lensInfo) • \(String(format: "%.0f", focalLength))mm f/\(String(format: "%.1f", aperture)) ISO\(iso)")
                         .font(.caption2)
                         .foregroundColor(.gray)
                     
-                    if let location = metadata.location {
-                        Text(location)
-                            .font(.caption2)
-                            .foregroundColor(.gray)
-                    }
+                    // 해상도 및 파일 정보
+                    let dimensions = "\(metadata.pixelWidth) x \(metadata.pixelHeight)"
+                    let fileSize = formatFileSize(metadata.fileSize)
+                    
+                    Text("\(dimensions) • \(fileSize) • \(metadata.format)")
+                        .font(.caption2)
+                        .foregroundColor(.gray)
                 }
                 
                 Spacer()
@@ -320,6 +374,11 @@ struct ImageMetadataView: View {
             .cornerRadius(8)
         }
         .padding(.top, 8)
+    }
+    
+    private func formatFileSize(_ bytes: Int64) -> String {
+        let mb = Double(bytes) / 1024.0 / 1024.0
+        return String(format: "%.1fMB", mb)
     }
 }
 
@@ -339,7 +398,7 @@ struct CustomTextFieldStyle: TextFieldStyle {
 
 // MARK: - ImagePicker
 struct FilterImagePicker: UIViewControllerRepresentable {
-    let onImageSelected: (UIImage) -> Void
+    let onImageSelected: (UIImage, PHAsset?) -> Void
     @Environment(\.presentationMode) var presentationMode
     
     func makeUIViewController(context: Context) -> UIImagePickerController {
@@ -364,7 +423,9 @@ struct FilterImagePicker: UIViewControllerRepresentable {
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             if let image = info[.originalImage] as? UIImage {
-                parent.onImageSelected(image)
+                // PHAsset 정보도 함께 가져오기 (iOS 11+)
+                let phAsset = info[.phAsset] as? PHAsset
+                parent.onImageSelected(image, phAsset)
             }
             parent.presentationMode.wrappedValue.dismiss()
         }
