@@ -61,27 +61,27 @@ struct FilterDetailResponse: Codable, Equatable {
 }
 
 // MARK: - Filter Values
-struct FilterValues: Codable, Equatable {
-    let brightness: Double
-    let exposure: Double
-    let contrast: Double
-    let saturation: Double
-    let sharpness: Double
-    let blur: Double
-    let vignette: Double
-    let noiseReduction: Double
-    let highlights: Double
-    let shadows: Double
-    let temperature: Double
-    let blackPoint: Double
-    
-    enum CodingKeys: String, CodingKey {
-        case brightness, exposure, contrast, saturation, sharpness, blur, vignette
-        case noiseReduction = "noise_reduction"
-        case highlights, shadows, temperature
-        case blackPoint = "black_point"
-    }
-}
+//struct FilterValues: Codable, Equatable {
+//    let brightness: Double
+//    let exposure: Double
+//    let contrast: Double
+//    let saturation: Double
+//    let sharpness: Double
+//    let blur: Double
+//    let vignette: Double
+//    let noiseReduction: Double
+//    let highlights: Double
+//    let shadows: Double
+//    let temperature: Double
+//    let blackPoint: Double
+//    
+//    enum CodingKeys: String, CodingKey {
+//        case brightness, exposure, contrast, saturation, sharpness, blur, vignette
+//        case noiseReduction = "noise_reduction"
+//        case highlights, shadows, temperature
+//        case blackPoint = "black_point"
+//    }
+//}
 
 // MARK: - Comment
 struct Comment: Codable, Identifiable, Equatable {

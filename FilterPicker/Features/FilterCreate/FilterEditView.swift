@@ -12,9 +12,9 @@ struct FilterEditView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var tabBarVisibility: TabBarVisibilityManager
     
-    let onFilterApplied: ((UIImage) -> Void)?
+    let onFilterApplied: ((UIImage, FilterEditState) -> Void)?
     
-    init(image: UIImage, onFilterApplied: ((UIImage) -> Void)? = nil) {
+    init(image: UIImage, onFilterApplied: ((UIImage, FilterEditState) -> Void)? = nil) {
         self._store = StateObject(wrappedValue: FilterEditStore(image: image))
         self.onFilterApplied = onFilterApplied
     }
@@ -34,7 +34,7 @@ struct FilterEditView: View {
                         store.send(.saveChanges)
                         // 편집된 이미지를 콜백으로 전달
                         if let editedImage = store.state.editedImage {
-                            onFilterApplied?(editedImage)
+                            onFilterApplied?(editedImage, store.state)
                         }
                         presentationMode.wrappedValue.dismiss()
                     }) {

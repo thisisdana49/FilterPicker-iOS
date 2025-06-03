@@ -15,6 +15,7 @@ enum FilterCreateIntent {
     case dismissImagePicker
     case selectImage(UIImage, PHAsset?)
     case setFilteredImage(UIImage)
+    case setFilterParameters(FilterParameters)
     case startExtractingMetadata
     case setPhotoMetadata(PhotoMetadata)
     case metadataExtractionFailed

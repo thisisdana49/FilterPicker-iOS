@@ -120,6 +120,7 @@
 		3EDB57692DEEE01600FAD663 /* PhotoMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57682DEEE01600FAD663 /* PhotoMetadata.swift */; };
 		3EDB576B2DEEE04900FAD663 /* PhotoMetadataExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB576A2DEEE04900FAD663 /* PhotoMetadataExtractor.swift */; };
 		3EDB576D2DEF0E6600FAD663 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB576C2DEF0E6600FAD663 /* ImageProcessor.swift */; };
+		3EDB576F2DEF18F500FAD663 /* FilterUploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB576E2DEF18F500FAD663 /* FilterUploadService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -236,6 +237,7 @@
 		3EDB57682DEEE01600FAD663 /* PhotoMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMetadata.swift; sourceTree = "<group>"; };
 		3EDB576A2DEEE04900FAD663 /* PhotoMetadataExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMetadataExtractor.swift; sourceTree = "<group>"; };
 		3EDB576C2DEF0E6600FAD663 /* ImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
+		3EDB576E2DEF18F500FAD663 /* FilterUploadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterUploadService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -474,6 +476,7 @@
 				3E3CF14F2DD5676B00B5D650 /* APIService.swift */,
 				3EAE75D12DE71B50007DBA05 /* FilterAPIService.swift */,
 				3ECA38562DEC663500C91929 /* FilterDetailAPIService.swift */,
+				3EDB576E2DEF18F500FAD663 /* FilterUploadService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -834,6 +837,7 @@
 				3EAE75852DE2E4A4007DBA05 /* MyPageState.swift in Sources */,
 				3EAE75862DE2E4A4007DBA05 /* MyPageReducer.swift in Sources */,
 				3EAE75872DE2E4A4007DBA05 /* MyPageView.swift in Sources */,
+				3EDB576F2DEF18F500FAD663 /* FilterUploadService.swift in Sources */,
 				3EAE75882DE2E4A4007DBA05 /* MyPageIntent.swift in Sources */,
 				3E3CF17A2DD9ACB300B5D650 /* ErrorResponse.swift in Sources */,
 				3EC86A0B2DD21A5500949918 /* FilterPickerApp.swift in Sources */,

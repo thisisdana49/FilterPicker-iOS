@@ -30,6 +30,9 @@ struct FilterCreateReducer {
         case .setFilteredImage(let image):
             state.filteredImage = image
             
+        case .setFilterParameters(let parameters):
+            state.filterParameters = parameters
+            
         case .startExtractingMetadata:
             state.isExtractingMetadata = true
             

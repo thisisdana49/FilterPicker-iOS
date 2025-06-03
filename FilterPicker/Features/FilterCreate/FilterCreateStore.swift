@@ -14,6 +14,7 @@ class FilterCreateStore: ObservableObject {
     
     private let reducer = FilterCreateReducer()
     private let metadataExtractor = PhotoMetadataExtractor()
+    private let uploadService: FilterUploadService = DefaultFilterUploadService()
     
     func send(_ intent: FilterCreateIntent) {
         reducer.reduce(state: &state, intent: intent)
@@ -40,14 +41,16 @@ class FilterCreateStore: ObservableObject {
             // PHAsset이 있으면 더 정확한 메타데이터 추출
             print("📷 PHAsset을 사용하여 정확한 메타데이터 추출 중...")
             metadataExtractor.extractMetadata(from: phAsset) { [weak self] metadata in
-                guard let self = self, let metadata = metadata else {
-                    print("❌ PHAsset에서 메타데이터 추출 실패")
-                    self?.send(.metadataExtractionFailed)
-                    return
+                DispatchQueue.main.async {
+                    guard let self = self, let metadata = metadata else {
+                        print("❌ PHAsset에서 메타데이터 추출 실패")
+                        self?.send(.metadataExtractionFailed)
+                        return
+                    }
+                    
+                    self.logMetadata(metadata)
+                    self.send(.setPhotoMetadata(metadata))
                 }
-                
-                self.logMetadata(metadata)
-                self.send(.setPhotoMetadata(metadata))
             }
         } else {
             // PHAsset이 없으면 UIImage에서 기본 메타데이터 추출
@@ -87,80 +90,132 @@ class FilterCreateStore: ObservableObject {
         guard let originalImage = state.selectedImage,
               let metadata = state.photoMetadata else {
             print("❌ 필터 저장 실패: 이미지 또는 메타데이터 없음")
+            state.isLoading = false
+            state.errorMessage = "이미지 또는 메타데이터가 없습니다."
             return
         }
         
         print("📤 필터 업로드 처리 시작...")
+        state.isLoading = true
         
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self = self else { return }
-            
-            // 필터가 적용된 이미지가 있으면 사용, 없으면 원본 사용  
-            let filteredImage = self.state.filteredImage ?? originalImage
-            
-            if self.state.filteredImage != nil {
-                print("✅ 필터가 적용된 이미지 사용")
-            } else {
-                print("⚠️ 필터 미적용 - 원본 이미지 사용")
-            }
-            
-            // 이미지 압축 처리
-            guard let uploadData = ImageProcessor.prepareForUpload(
-                originalImage: originalImage,
-                filteredImage: filteredImage,
-                metadata: metadata
-            ) else {
-                DispatchQueue.main.async {
-                    print("❌ 이미지 압축 실패 - 512KB 이하로 압축할 수 없음")
-                    // TODO: 에러 처리
+        Task {
+            do {
+                // 필터가 적용된 이미지가 있으면 사용, 없으면 원본 사용  
+                let filteredImage = self.state.filteredImage ?? originalImage
+                
+                if self.state.filteredImage != nil {
+                    print("✅ 필터가 적용된 이미지 사용")
+                } else {
+                    print("⚠️ 필터 미적용 - 원본 이미지 사용")
                 }
-                return
-            }
-            
-            // 업로드 요청 데이터 생성
-            let uploadRequest = self.createUploadRequest(uploadData: uploadData)
-            
-            DispatchQueue.main.async {
+                
+                // 이미지 압축 처리
+                guard let uploadData = ImageProcessor.prepareForUpload(
+                    originalImage: originalImage,
+                    filteredImage: filteredImage,
+                    metadata: metadata
+                ) else {
+                    await MainActor.run {
+                        print("❌ 이미지 압축 실패 - 512KB 이하로 압축할 수 없음")
+                        self.state.isLoading = false
+                        self.state.errorMessage = "이미지 크기가 너무 큽니다. 다른 이미지를 선택해주세요."
+                    }
+                    return
+                }
+                
+                // 필터 요청 데이터 생성
+                let filterRequest = self.createFilterRequest(metadata: metadata)
+                
                 print("✅ 업로드 데이터 준비 완료")
                 print("  - 총 크기: \(String(format: "%.1f", uploadData.totalSizeKB))KB")
                 print("  - 원본 이미지: \(uploadData.originalImageData.count) bytes")
                 print("  - 필터 이미지: \(uploadData.filteredImageData.count) bytes")
                 
-                // TODO: 실제 서버 업로드 구현
-                self.uploadToServer(request: uploadRequest)
+                // async/await 패턴으로 API 호출
+                let response = try await uploadService.uploadFilter(
+                    uploadData: uploadData,
+                    filterInfo: filterRequest
+                )
+                
+                await MainActor.run {
+                    self.handleUploadSuccess(response)
+                }
+                
+            } catch {
+                await MainActor.run {
+                    self.handleUploadError(error)
+                }
             }
         }
     }
     
-    private func createUploadRequest(uploadData: UploadImageData) -> FilterUploadRequest {
-        let originalBase64 = uploadData.originalImageData.base64EncodedString()
-        let filteredBase64 = uploadData.filteredImageData.base64EncodedString()
+    private func createFilterRequest(metadata: PhotoMetadata) -> FilterCreateRequest {
+        // 카테고리 이름을 한글로 매핑
+        let categoryKorean = mapCategoryToKorean(state.selectedCategory)
         
-        return FilterUploadRequest(
-            name: state.filterName,
-            description: state.filterDescription,
-            category: state.selectedCategory?.rawValue ?? "portrait",
+        // 필터 파라미터 값 생성 (현재는 기본값, 추후 실제 필터 편집 값과 연동)
+        let filterValues = createFilterValues()
+        
+        return FilterCreateRequest(
+            category: categoryKorean,
+            title: state.filterName,
             price: Int(state.price) ?? 0,
-            originalImage: originalBase64,
-            filteredImage: filteredBase64,
-            metadata: uploadData.metadata
+            description: state.filterDescription,
+            files: [], // 1단계에서 채워짐
+            photoMetadata: metadata,
+            filterValues: filterValues
         )
     }
     
-    private func uploadToServer(request: FilterUploadRequest) {
-        // TODO: 실제 네트워크 요청 구현
-        print("🚀 서버 업로드 시뮬레이션")
-        print("  - 필터명: \(request.name)")
-        print("  - 카테고리: \(request.category)")
-        print("  - 가격: \(request.price)원")
-        print("  - 원본 이미지 크기: \(request.originalImage.count) chars")
-        print("  - 필터 이미지 크기: \(request.filteredImage.count) chars")
-        
-        // 성공 시뮬레이션
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
-            self?.state.isLoading = false
-            print("✅ 필터 업로드 완료!")
-            // TODO: 성공 처리 및 화면 이동
+    private func mapCategoryToKorean(_ category: FilterCategory?) -> String {
+        switch category {
+        case .food: return "푸드"
+        case .portrait: return "인물"
+        case .landscape: return "풍경"
+        case .night: return "야경"
+        case .star: return "별"
+        default: return "인물"
         }
+    }
+    
+    private func createFilterValues() -> FilterValues {
+        // 실제 편집된 필터 값이 있으면 사용, 없으면 기본값
+        if let parameters = state.filterParameters {
+            print("✅ 편집된 필터 파라미터 사용")
+            return parameters.toFilterValues()
+        } else {
+            print("⚠️ 필터 파라미터 없음 - 기본값 사용")
+            return FilterValues(
+                brightness: 0.0,
+                exposure: 0.0,
+                contrast: 0.0,
+                saturation: 0.0,
+                sharpness: 0.0,
+                blur: 0.0,
+                vignette: 0.0,
+                noiseReduction: 0.0,
+                highlights: 0.0,
+                shadows: 0.0,
+                temperature: 6500,
+                blackPoint: 0.0
+            )
+        }
+    }
+    
+    private func handleUploadSuccess(_ response: FilterCreateResponse) {
+        state.isLoading = false
+        
+        print("🎉 필터 업로드 성공!")
+        print("  - 응답: \(response.message ?? "성공")")
+        
+        // 성공 시 화면 닫기나 성공 메시지 표시
+        // TODO: 성공 후 액션 정의 (화면 닫기, 피드 화면으로 이동 등)
+    }
+    
+    private func handleUploadError(_ error: Error) {
+        state.isLoading = false
+        
+        print("❌ 필터 업로드 실패: \(error.localizedDescription)")
+        state.errorMessage = error.localizedDescription
     }
 } 

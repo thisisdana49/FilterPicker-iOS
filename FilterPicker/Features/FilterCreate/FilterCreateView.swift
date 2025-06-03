@@ -192,8 +192,9 @@ extension FilterCreateView {
                     NavigationLink(destination: 
                         FilterEditView(
                             image: image,
-                            onFilterApplied: { filteredImage in
+                            onFilterApplied: { filteredImage, filterState in
                                 store.send(.setFilteredImage(filteredImage))
+                                store.send(.setFilterParameters(FilterParameters(from: filterState)))
                             }
                         )
                         .environmentObject(tabBarVisibility)
