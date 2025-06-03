@@ -47,7 +47,7 @@ struct FilterEditReducer {
             case .blackPoint:
                 state.blackPoint = actualValue
             }
-            // TODO: 실시간 필터 적용 로직 추가
+            // 실시간 필터 적용은 FilterEditStore에서 처리
             
         case .resetAllValues:
             state.brightness = 0.0         // -1.0 ~ 1.0, 슬라이더: 0

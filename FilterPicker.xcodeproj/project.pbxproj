@@ -116,6 +116,7 @@
 		3EDB57622DEDDCFB00FAD663 /* FilterEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB575E2DEDDCFB00FAD663 /* FilterEditView.swift */; };
 		3EDB57632DEDDCFB00FAD663 /* FilterEditIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB575A2DEDDCFB00FAD663 /* FilterEditIntent.swift */; };
 		3EDB57652DEEC1EF00FAD663 /* Navi+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57642DEEC1EF00FAD663 /* Navi+Extension.swift */; };
+		3EDB57672DEED3A200FAD663 /* ImageFilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57662DEED3A200FAD663 /* ImageFilterManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -228,6 +229,7 @@
 		3EDB575D2DEDDCFB00FAD663 /* FilterEditStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterEditStore.swift; sourceTree = "<group>"; };
 		3EDB575E2DEDDCFB00FAD663 /* FilterEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterEditView.swift; sourceTree = "<group>"; };
 		3EDB57642DEEC1EF00FAD663 /* Navi+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Navi+Extension.swift"; sourceTree = "<group>"; };
+		3EDB57662DEED3A200FAD663 /* ImageFilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilterManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -567,6 +569,7 @@
 				3EAE75BE2DE714CE007DBA05 /* CustomNavigationBar.swift */,
 				3EAE75732DE1A877007DBA05 /* TabItem.swift */,
 				3EAE75CF2DE7159C007DBA05 /* LikeButton.swift */,
+				3EDB57662DEED3A200FAD663 /* ImageFilterManager.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -740,6 +743,7 @@
 				3E3CF1F92DDDB5CE00B5D650 /* MainIntent.swift in Sources */,
 				3EAE75C22DE71500007DBA05 /* Filter.swift in Sources */,
 				3EAE75C32DE71500007DBA05 /* MockData.swift in Sources */,
+				3EDB57672DEED3A200FAD663 /* ImageFilterManager.swift in Sources */,
 				3E3CF1FA2DDDB5CE00B5D650 /* MainStore.swift in Sources */,
 				3EAE75742DE1A877007DBA05 /* TabItem.swift in Sources */,
 				3E3CF1FB2DDDB5CE00B5D650 /* TodayFilterResponse.swift in Sources */,
