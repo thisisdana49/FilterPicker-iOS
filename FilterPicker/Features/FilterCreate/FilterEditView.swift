@@ -86,37 +86,42 @@ extension FilterEditView {
     }
     
     private var parameterButtons: some View {
-        HStack(spacing: 0) {
-            ForEach(FilterParameter.allCases, id: \.self) { parameter in
-                Button(action: {
-                    store.send(.selectParameter(parameter))
-                }) {
-                    VStack(spacing: 8) {
-                        Image(systemName: parameter.icon)
-                            .font(.title3)
-                        
-                        Text(parameter.displayName)
-                            .font(.caption2)
-                            .fontWeight(.medium)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 16) {
+                ForEach(FilterParameter.allCases, id: \.self) { parameter in
+                    Button(action: {
+                        store.send(.selectParameter(parameter))
+                    }) {
+                        VStack(spacing: 8) {
+                            Image(systemName: parameter.icon)
+                                .font(.title3)
+                            
+                            Text(parameter.displayName)
+                                .font(.caption2)
+                                .fontWeight(.medium)
+                                .multilineTextAlignment(.center)
+                                .lineLimit(2)
+                        }
+                        .foregroundColor(store.state.selectedParameter == parameter ? .white : .gray)
+                        .frame(width: 80)
                     }
-                    .foregroundColor(store.state.selectedParameter == parameter ? .white : .gray)
-                    .frame(maxWidth: .infinity)
                 }
             }
+            .padding(.horizontal, 16)
         }
     }
     
     private var sliderSection: some View {
         VStack(spacing: 12) {
             // 현재 값 표시
-            Text(String(format: "%.1f", store.state.currentParameterValue))
+            Text(String(format: parameterValueFormat, store.state.currentParameterValue))
                 .font(.title2)
                 .fontWeight(.medium)
                 .foregroundColor(.white)
             
             // 슬라이더
             HStack {
-                Text("-100")
+                Text(String(format: parameterValueFormat, parameterRange.lowerBound))
                     .font(.caption)
                     .foregroundColor(.gray)
                 
@@ -125,12 +130,12 @@ extension FilterEditView {
                         get: { store.state.currentParameterValue },
                         set: { store.send(.updateParameterValue($0)) }
                     ),
-                    in: -100...100,
-                    step: 0.1
+                    in: parameterRange,
+                    step: parameterStep
                 )
                 .accentColor(.blue)
                 
-                Text("100")
+                Text(String(format: parameterValueFormat, parameterRange.upperBound))
                     .font(.caption)
                     .foregroundColor(.gray)
             }
@@ -148,6 +153,34 @@ extension FilterEditView {
                 )
                 .frame(height: 4)
                 .cornerRadius(2)
+        }
+    }
+    
+    // 파라미터별 범위와 포맷 설정
+    private var parameterRange: ClosedRange<Float> {
+        switch store.state.selectedParameter {
+        case .brightness, .exposure, .contrast, .saturation, .sharpness, .blur, .vignette, .noiseReduction, .highlights, .shadows, .blackPoint:
+            return -1.0...3.0
+        case .temperature:
+            return 2000...10000
+        }
+    }
+    
+    private var parameterStep: Float {
+        switch store.state.selectedParameter {
+        case .temperature:
+            return 50
+        default:
+            return 0.01
+        }
+    }
+    
+    private var parameterValueFormat: String {
+        switch store.state.selectedParameter {
+        case .temperature:
+            return "%.0f"
+        default:
+            return "%.2f"
         }
     }
 } 
