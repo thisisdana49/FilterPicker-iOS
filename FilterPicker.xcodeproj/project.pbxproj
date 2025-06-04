@@ -105,6 +105,22 @@
 		3ECA385B2DEC665E00C91929 /* FilterDetailUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA385A2DEC665E00C91929 /* FilterDetailUseCases.swift */; };
 		3EDB574C2DED90BB00FAD663 /* GeocodingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB574B2DED90BB00FAD663 /* GeocodingRepository.swift */; };
 		3EDB574E2DED90C300FAD663 /* GetAddressFromCoordinatesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB574D2DED90C300FAD663 /* GetAddressFromCoordinatesUseCase.swift */; };
+		3EDB57552DEDD66100FAD663 /* FilterCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57532DEDD66100FAD663 /* FilterCreateView.swift */; };
+		3EDB57562DEDD66100FAD663 /* FilterCreateState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57512DEDD66100FAD663 /* FilterCreateState.swift */; };
+		3EDB57572DEDD66100FAD663 /* FilterCreateIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB574F2DEDD66100FAD663 /* FilterCreateIntent.swift */; };
+		3EDB57582DEDD66100FAD663 /* FilterCreateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57522DEDD66100FAD663 /* FilterCreateStore.swift */; };
+		3EDB57592DEDD66100FAD663 /* FilterCreateReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57502DEDD66100FAD663 /* FilterCreateReducer.swift */; };
+		3EDB575F2DEDDCFB00FAD663 /* FilterEditState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB575C2DEDDCFB00FAD663 /* FilterEditState.swift */; };
+		3EDB57602DEDDCFB00FAD663 /* FilterEditStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB575D2DEDDCFB00FAD663 /* FilterEditStore.swift */; };
+		3EDB57612DEDDCFB00FAD663 /* FilterEditReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB575B2DEDDCFB00FAD663 /* FilterEditReducer.swift */; };
+		3EDB57622DEDDCFB00FAD663 /* FilterEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB575E2DEDDCFB00FAD663 /* FilterEditView.swift */; };
+		3EDB57632DEDDCFB00FAD663 /* FilterEditIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB575A2DEDDCFB00FAD663 /* FilterEditIntent.swift */; };
+		3EDB57652DEEC1EF00FAD663 /* Navi+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57642DEEC1EF00FAD663 /* Navi+Extension.swift */; };
+		3EDB57672DEED3A200FAD663 /* ImageFilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57662DEED3A200FAD663 /* ImageFilterManager.swift */; };
+		3EDB57692DEEE01600FAD663 /* PhotoMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57682DEEE01600FAD663 /* PhotoMetadata.swift */; };
+		3EDB576B2DEEE04900FAD663 /* PhotoMetadataExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB576A2DEEE04900FAD663 /* PhotoMetadataExtractor.swift */; };
+		3EDB576D2DEF0E6600FAD663 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB576C2DEF0E6600FAD663 /* ImageProcessor.swift */; };
+		3EDB576F2DEF18F500FAD663 /* FilterUploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB576E2DEF18F500FAD663 /* FilterUploadService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -206,6 +222,22 @@
 		3ECA385A2DEC665E00C91929 /* FilterDetailUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailUseCases.swift; sourceTree = "<group>"; };
 		3EDB574B2DED90BB00FAD663 /* GeocodingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodingRepository.swift; sourceTree = "<group>"; };
 		3EDB574D2DED90C300FAD663 /* GetAddressFromCoordinatesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAddressFromCoordinatesUseCase.swift; sourceTree = "<group>"; };
+		3EDB574F2DEDD66100FAD663 /* FilterCreateIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCreateIntent.swift; sourceTree = "<group>"; };
+		3EDB57502DEDD66100FAD663 /* FilterCreateReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCreateReducer.swift; sourceTree = "<group>"; };
+		3EDB57512DEDD66100FAD663 /* FilterCreateState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCreateState.swift; sourceTree = "<group>"; };
+		3EDB57522DEDD66100FAD663 /* FilterCreateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCreateStore.swift; sourceTree = "<group>"; };
+		3EDB57532DEDD66100FAD663 /* FilterCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCreateView.swift; sourceTree = "<group>"; };
+		3EDB575A2DEDDCFB00FAD663 /* FilterEditIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterEditIntent.swift; sourceTree = "<group>"; };
+		3EDB575B2DEDDCFB00FAD663 /* FilterEditReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterEditReducer.swift; sourceTree = "<group>"; };
+		3EDB575C2DEDDCFB00FAD663 /* FilterEditState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterEditState.swift; sourceTree = "<group>"; };
+		3EDB575D2DEDDCFB00FAD663 /* FilterEditStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterEditStore.swift; sourceTree = "<group>"; };
+		3EDB575E2DEDDCFB00FAD663 /* FilterEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterEditView.swift; sourceTree = "<group>"; };
+		3EDB57642DEEC1EF00FAD663 /* Navi+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Navi+Extension.swift"; sourceTree = "<group>"; };
+		3EDB57662DEED3A200FAD663 /* ImageFilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilterManager.swift; sourceTree = "<group>"; };
+		3EDB57682DEEE01600FAD663 /* PhotoMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMetadata.swift; sourceTree = "<group>"; };
+		3EDB576A2DEEE04900FAD663 /* PhotoMetadataExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMetadataExtractor.swift; sourceTree = "<group>"; };
+		3EDB576C2DEF0E6600FAD663 /* ImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
+		3EDB576E2DEF18F500FAD663 /* FilterUploadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterUploadService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -444,6 +476,7 @@
 				3E3CF14F2DD5676B00B5D650 /* APIService.swift */,
 				3EAE75D12DE71B50007DBA05 /* FilterAPIService.swift */,
 				3ECA38562DEC663500C91929 /* FilterDetailAPIService.swift */,
+				3EDB576E2DEF18F500FAD663 /* FilterUploadService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -482,6 +515,7 @@
 				3EAE75C02DE71500007DBA05 /* Filter.swift */,
 				3EAE75C12DE71500007DBA05 /* MockData.swift */,
 				3ECA38542DEC662B00C91929 /* FilterDetailModels.swift */,
+				3EDB57682DEEE01600FAD663 /* PhotoMetadata.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -491,6 +525,7 @@
 			children = (
 				3EC86A242DD3547900949918 /* Auth */,
 				3E3CF1BF2DDC9C8900B5D650 /* Main */,
+				3EDB57542DEDD66100FAD663 /* FilterCreate */,
 				3EC86A262DD3548100949918 /* FilterDetail */,
 				3EAE75C92DE7153C007DBA05 /* FilterFeed */,
 				3EAE75832DE2E4A4007DBA05 /* MyPage */,
@@ -544,6 +579,9 @@
 				3EAE75BE2DE714CE007DBA05 /* CustomNavigationBar.swift */,
 				3EAE75732DE1A877007DBA05 /* TabItem.swift */,
 				3EAE75CF2DE7159C007DBA05 /* LikeButton.swift */,
+				3EDB57662DEED3A200FAD663 /* ImageFilterManager.swift */,
+				3EDB576A2DEEE04900FAD663 /* PhotoMetadataExtractor.swift */,
+				3EDB576C2DEF0E6600FAD663 /* ImageProcessor.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -570,6 +608,7 @@
 			isa = PBXGroup;
 			children = (
 				3E3CF19B2DD9FFAD00B5D650 /* View+Extension.swift */,
+				3EDB57642DEEC1EF00FAD663 /* Navi+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -596,6 +635,23 @@
 				3EC86A362DD36C6B00949918 /* Release.xcconfig */,
 			);
 			path = Config;
+			sourceTree = "<group>";
+		};
+		3EDB57542DEDD66100FAD663 /* FilterCreate */ = {
+			isa = PBXGroup;
+			children = (
+				3EDB574F2DEDD66100FAD663 /* FilterCreateIntent.swift */,
+				3EDB57502DEDD66100FAD663 /* FilterCreateReducer.swift */,
+				3EDB57512DEDD66100FAD663 /* FilterCreateState.swift */,
+				3EDB57522DEDD66100FAD663 /* FilterCreateStore.swift */,
+				3EDB57532DEDD66100FAD663 /* FilterCreateView.swift */,
+				3EDB575A2DEDDCFB00FAD663 /* FilterEditIntent.swift */,
+				3EDB575B2DEDDCFB00FAD663 /* FilterEditReducer.swift */,
+				3EDB575C2DEDDCFB00FAD663 /* FilterEditState.swift */,
+				3EDB575D2DEDDCFB00FAD663 /* FilterEditStore.swift */,
+				3EDB575E2DEDDCFB00FAD663 /* FilterEditView.swift */,
+			);
+			path = FilterCreate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -687,6 +743,7 @@
 			files = (
 				3ECA38552DEC662B00C91929 /* FilterDetailModels.swift in Sources */,
 				3E3CF16D2DD71E4400B5D650 /* AppState.swift in Sources */,
+				3EDB576D2DEF0E6600FAD663 /* ImageProcessor.swift in Sources */,
 				3E3CF16E2DD71E4400B5D650 /* AppIntent.swift in Sources */,
 				3E3CF16F2DD71E4400B5D650 /* AppRoute.swift in Sources */,
 				3E237BE62DE1A82400423E9E /* CustomTabBarView.swift in Sources */,
@@ -699,21 +756,35 @@
 				3E3CF1F92DDDB5CE00B5D650 /* MainIntent.swift in Sources */,
 				3EAE75C22DE71500007DBA05 /* Filter.swift in Sources */,
 				3EAE75C32DE71500007DBA05 /* MockData.swift in Sources */,
+				3EDB57672DEED3A200FAD663 /* ImageFilterManager.swift in Sources */,
 				3E3CF1FA2DDDB5CE00B5D650 /* MainStore.swift in Sources */,
 				3EAE75742DE1A877007DBA05 /* TabItem.swift in Sources */,
 				3E3CF1FB2DDDB5CE00B5D650 /* TodayFilterResponse.swift in Sources */,
 				3E3CF1FC2DDDB5CE00B5D650 /* MainState.swift in Sources */,
 				3EAE758E2DE2F444007DBA05 /* EditProfileView.swift in Sources */,
 				3EAE758C2DE2EBBC007DBA05 /* UserProfile.swift in Sources */,
+				3EDB57692DEEE01600FAD663 /* PhotoMetadata.swift in Sources */,
 				3EAE75D52DE71B62007DBA05 /* ToggleLikeUseCase.swift in Sources */,
 				3EAE75D62DE71B62007DBA05 /* FetchFiltersUseCase.swift in Sources */,
 				3E3CF1712DD71E4400B5D650 /* AppReducer.swift in Sources */,
 				3EC86A3A2DD36F1C00949918 /* AppConfig.swift in Sources */,
+				3EDB576B2DEEE04900FAD663 /* PhotoMetadataExtractor.swift in Sources */,
 				3E3CF1632DD5FB0900B5D650 /* AuthStore.swift in Sources */,
 				3E3CF1AB2DDA11A900B5D650 /* ColorPalette.swift in Sources */,
 				3E3CF1502DD5676B00B5D650 /* APIService.swift in Sources */,
 				3EAE75DB2DE71C0D007DBA05 /* FilterFeedIntent.swift in Sources */,
 				3EAE75DC2DE71C0D007DBA05 /* FilterFeedState.swift in Sources */,
+				3EDB57552DEDD66100FAD663 /* FilterCreateView.swift in Sources */,
+				3EDB57562DEDD66100FAD663 /* FilterCreateState.swift in Sources */,
+				3EDB57572DEDD66100FAD663 /* FilterCreateIntent.swift in Sources */,
+				3EDB57582DEDD66100FAD663 /* FilterCreateStore.swift in Sources */,
+				3EDB575F2DEDDCFB00FAD663 /* FilterEditState.swift in Sources */,
+				3EDB57602DEDDCFB00FAD663 /* FilterEditStore.swift in Sources */,
+				3EDB57612DEDDCFB00FAD663 /* FilterEditReducer.swift in Sources */,
+				3EDB57622DEDDCFB00FAD663 /* FilterEditView.swift in Sources */,
+				3EDB57652DEEC1EF00FAD663 /* Navi+Extension.swift in Sources */,
+				3EDB57632DEDDCFB00FAD663 /* FilterEditIntent.swift in Sources */,
+				3EDB57592DEDD66100FAD663 /* FilterCreateReducer.swift in Sources */,
 				3EAE75DD2DE71C0D007DBA05 /* FilterFeedReducer.swift in Sources */,
 				3EAE75DE2DE71C0D007DBA05 /* FilterFeedStore.swift in Sources */,
 				3EAE75D22DE71B50007DBA05 /* FilterAPIService.swift in Sources */,
@@ -766,6 +837,7 @@
 				3EAE75852DE2E4A4007DBA05 /* MyPageState.swift in Sources */,
 				3EAE75862DE2E4A4007DBA05 /* MyPageReducer.swift in Sources */,
 				3EAE75872DE2E4A4007DBA05 /* MyPageView.swift in Sources */,
+				3EDB576F2DEF18F500FAD663 /* FilterUploadService.swift in Sources */,
 				3EAE75882DE2E4A4007DBA05 /* MyPageIntent.swift in Sources */,
 				3E3CF17A2DD9ACB300B5D650 /* ErrorResponse.swift in Sources */,
 				3EC86A0B2DD21A5500949918 /* FilterPickerApp.swift in Sources */,

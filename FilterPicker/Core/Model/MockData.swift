@@ -162,8 +162,8 @@ enum MockData {
     creator: mockCreator1,
     photoMetadata: PhotoMetadata(
       camera: "Apple iPhone 16 Pro",
-      lensInfo: "와이드 카메라 - 26 mm",
-      focalLength: 26,
+      lensInfo: "와이드 카메라",
+      focalLength: 26.0,
       aperture: 1.5,
       iso: 400,
       shutterSpeed: "1/125 sec",
