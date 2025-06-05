@@ -93,10 +93,18 @@ final class FilterFeedReducer: ObservableObject {
     // 토큰 상태 체크
     TokenStorage.printTokenStatus()
     
+    // 새로고침이 아닌데 재시도 횟수 초과 시 중단
+    if !refresh && !state.shouldAllowRetry {
+      print("❌ [FilterFeed] 최대 재시도 횟수 초과 - 요청 중단")
+      return
+    }
+    
     if refresh {
       state.isRefreshing = true
       state.nextCursor = nil
       state.hasMoreFilters = true
+      // 새로고침 시 재시도 상태 초기화
+      state.resetRetryState()
     } else {
       state.isLoadingFilters = true
     }
@@ -111,7 +119,7 @@ final class FilterFeedReducer: ObservableObject {
         orderBy: .latest
       )
       
-      print("🌐 [FilterFeed] API 호출 시작: FetchFiltersUseCase")
+      print("🌐 [FilterFeed] API 호출 시작: FetchFiltersUseCase (재시도: \(state.retryCount))")
       let response = try await fetchFiltersUseCase.execute(request)
       print("✅ [FilterFeed] API 호출 성공")
       
@@ -127,9 +135,23 @@ final class FilterFeedReducer: ObservableObject {
       state.nextCursor = response.nextCursor
       state.hasMoreFilters = response.hasNext
       
+      // 성공 시 재시도 상태 초기화
+      state.resetRetryState()
+      
     } catch {
-      state.filtersError = "필터 목록을 불러올 수 없습니다."
-      print("❌ Error loading filters: \(error)")
+      print("❌ [FilterFeed] Error loading filters: \(error)")
+      
+      // 재시도 횟수 증가
+      state.incrementRetryCount()
+      
+      // 적절한 오류 메시지 설정
+      if state.hasReachedMaxRetry {
+        state.filtersError = "필터 목록을 불러올 수 없습니다.\n잠시 후 다시 시도해주세요."
+        state.lastErrorMessage = "최대 재시도 횟수(\(state.maxRetryCount)회)에 도달했습니다."
+        state.hasMoreFilters = false // 더 이상 로드하지 않도록 설정
+      } else {
+        state.filtersError = "필터 목록을 불러오는 중 오류가 발생했습니다. (재시도: \(state.retryCount)/\(state.maxRetryCount))"
+      }
     }
     
     state.isLoadingFilters = false
@@ -137,7 +159,12 @@ final class FilterFeedReducer: ObservableObject {
   }
   
   private func loadMoreFilters() async {
-    guard !state.isLoadingMore && state.hasMoreFilters else { return }
+    guard !state.isLoadingMore && state.hasMoreFilters && state.shouldAllowRetry else { 
+      if !state.shouldAllowRetry {
+        print("❌ [FilterFeed] loadMoreFilters - 최대 재시도 횟수 초과로 중단")
+      }
+      return 
+    }
     
     state.isLoadingMore = true
     
@@ -149,6 +176,7 @@ final class FilterFeedReducer: ObservableObject {
         orderBy: .latest
       )
       
+      print("🌐 [FilterFeed] 추가 로딩 API 호출 시작 (재시도: \(state.retryCount))")
       let response = try await fetchFiltersUseCase.execute(request)
       
       state.filters.append(contentsOf: response.data)
@@ -159,9 +187,23 @@ final class FilterFeedReducer: ObservableObject {
       let newLikedIds = Set(response.data.filter { $0.isLiked }.map { $0.id })
       state.likedFilterIds.formUnion(newLikedIds)
       
+      // 성공 시 재시도 상태 초기화
+      state.resetRetryState()
+      
     } catch {
-      state.filtersError = "추가 필터를 불러올 수 없습니다."
-      print("❌ Error loading more filters: \(error)")
+      print("❌ [FilterFeed] Error loading more filters: \(error)")
+      
+      // 재시도 횟수 증가
+      state.incrementRetryCount()
+      
+      // 적절한 오류 메시지 설정
+      if state.hasReachedMaxRetry {
+        state.filtersError = "추가 필터를 불러올 수 없습니다.\n잠시 후 새로고침해주세요."
+        state.lastErrorMessage = "최대 재시도 횟수(\(state.maxRetryCount)회)에 도달했습니다."
+        state.hasMoreFilters = false // 더 이상 로드하지 않도록 설정
+      } else {
+        state.filtersError = "추가 필터 로딩 중 오류가 발생했습니다. (재시도: \(state.retryCount)/\(state.maxRetryCount))"
+      }
     }
     
     state.isLoadingMore = false

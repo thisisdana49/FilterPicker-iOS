@@ -79,6 +79,45 @@ struct FilterFeedView: View {
                                     store.send(.loadMoreFilters)
                                 }
                         }
+                        
+                        // 최대 재시도 도달 시 오류 메시지
+                        if store.state.hasReachedMaxRetry {
+                            VStack(spacing: 16) {
+                                Image(systemName: "exclamationmark.triangle")
+                                    .font(.system(size: 48))
+                                    .foregroundColor(.yellow)
+                                
+                                Text("네트워크 오류")
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                
+                                Text(store.state.filtersError ?? "알 수 없는 오류가 발생했습니다.")
+                                    .font(.body)
+                                    .foregroundColor(.gray)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.horizontal, 20)
+                                
+                                Button(action: {
+                                    store.send(.refreshFilters)
+                                }) {
+                                    HStack {
+                                        Image(systemName: "arrow.clockwise")
+                                        Text("새로고침")
+                                    }
+                                    .font(.body)
+//                                    .fontWeight(.medium)
+                                    .foregroundColor(.black)
+                                    .padding(.horizontal, 24)
+                                    .padding(.vertical, 12)
+                                    .background(Color.white)
+                                    .cornerRadius(8)
+                                }
+                                .padding(.top, 8)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 60)
+                        }
                     }
                     .padding(.bottom, 100) // 탭바 영역을 위한 패딩
                 }

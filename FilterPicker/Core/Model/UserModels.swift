@@ -54,21 +54,39 @@ struct Creator: Codable, Equatable {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     
     do {
+      // 모든 키 먼저 확인
+      let allKeys = container.allKeys.map { $0.stringValue }
+      print("🔍 Available keys in Creator: \(allKeys)")
+      
       userId = try container.decode(String.self, forKey: .userId)
       print("✅ Creator userId decoded: \(userId)")
       
-      nick = try container.decode(String.self, forKey: .nick)
-      print("✅ Creator nick decoded: \(nick)")
+      // nick - 키 존재 여부 확인 후 안전하게 디코딩
+      if container.contains(.nick) {
+        nick = (try? container.decode(String.self, forKey: .nick)) ?? ""
+        print("✅ Creator nick decoded: '\(nick)'")
+      } else {
+        nick = ""
+        print("⚠️ Creator nick key not found, setting to empty string")
+      }
       
-      name = try container.decode(String.self, forKey: .name)
-      print("✅ Creator name decoded: \(name)")
+      // name - 키 존재 여부 확인 후 안전하게 디코딩
+      if container.contains(.name) {
+        name = (try? container.decode(String.self, forKey: .name)) ?? ""
+        print("✅ Creator name decoded: '\(name)'")
+      } else {
+        name = ""
+        print("⚠️ Creator name key not found, setting to empty string")
+      }
       
-      introduction = try container.decode(String.self, forKey: .introduction)
-      print("✅ Creator introduction decoded: \(introduction)")
-      
-      // 모든 키 확인
-      let allKeys = container.allKeys.map { $0.stringValue }
-      print("🔍 Available keys in Creator: \(allKeys)")
+      // introduction - 키 존재 여부 확인 후 안전하게 디코딩
+      if container.contains(.introduction) {
+        introduction = (try? container.decode(String.self, forKey: .introduction)) ?? ""
+        print("✅ Creator introduction decoded: '\(introduction)'")
+      } else {
+        introduction = ""
+        print("⚠️ Creator introduction key not found, setting to empty string")
+      }
       
       // profileImage는 더 안전하게 처리
       if container.contains(.profileImage) {
@@ -79,8 +97,14 @@ struct Creator: Codable, Equatable {
         print("⚠️ Creator profileImage key not found, setting to nil")
       }
       
-      hashTags = try container.decode([String].self, forKey: .hashTags)
-      print("✅ Creator hashTags decoded: \(hashTags)")
+      // hashTags - 키 존재 여부 확인 후 안전하게 디코딩
+      if container.contains(.hashTags) {
+        hashTags = (try? container.decode([String].self, forKey: .hashTags)) ?? []
+        print("✅ Creator hashTags decoded: \(hashTags)")
+      } else {
+        hashTags = []
+        print("⚠️ Creator hashTags key not found, setting to empty array")
+      }
       
     } catch {
       print("❌ Creator decoding error: \(error)")

@@ -243,3 +243,30 @@ private extension DefaultAPIService {
         return urlRequest
     }
 }
+
+// MARK: - URLRequest CURL Extension
+//extension URLRequest {
+//    var curlString: String {
+//        guard let url = self.url else { return "❌ Invalid URL" }
+//        
+//        var curlCommand = "curl -X \(self.httpMethod ?? "GET")"
+//        
+//        // URL 추가
+//        curlCommand += " '\(url.absoluteString)'"
+//        
+//        // 헤더 추가
+//        if let headers = self.allHTTPHeaderFields {
+//            for (key, value) in headers {
+//                curlCommand += " \\\n  -H '\(key): \(value)'"
+//            }
+//        }
+//        
+//        // Body 추가 (있는 경우)
+//        if let httpBody = self.httpBody,
+//           let bodyString = String(data: httpBody, encoding: .utf8) {
+//            curlCommand += " \\\n  -d '\(bodyString)'"
+//        }
+//        
+//        return curlCommand
+//    }
+//}

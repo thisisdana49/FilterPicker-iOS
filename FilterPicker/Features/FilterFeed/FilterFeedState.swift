@@ -22,6 +22,12 @@ struct FilterFeedState: Equatable {
   var nextCursor: String?
   var hasMoreFilters = true
   
+  // MARK: - Retry Logic
+  var retryCount: Int = 0
+  var maxRetryCount: Int = 3
+  var hasReachedMaxRetry: Bool = false
+  var lastErrorMessage: String?
+  
   // MARK: - Filter State
   var likedFilterIds: Set<String> = []
   
@@ -56,6 +62,24 @@ struct FilterFeedState: Equatable {
   }
   
   var hasError: Bool {
-    return topRankingError != nil || filtersError != nil
+    return topRankingError != nil || filtersError != nil || hasReachedMaxRetry
+  }
+  
+  var shouldAllowRetry: Bool {
+    return retryCount < maxRetryCount && !hasReachedMaxRetry
+  }
+  
+  // MARK: - Retry Reset Methods
+  mutating func resetRetryState() {
+    retryCount = 0
+    hasReachedMaxRetry = false
+    lastErrorMessage = nil
+  }
+  
+  mutating func incrementRetryCount() {
+    retryCount += 1
+    if retryCount >= maxRetryCount {
+      hasReachedMaxRetry = true
+    }
   }
 } 
