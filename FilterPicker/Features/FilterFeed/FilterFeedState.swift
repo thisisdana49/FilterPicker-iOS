@@ -73,6 +73,17 @@ struct FilterFeedState: Equatable {
     return retryCount < maxRetryCount && !hasReachedMaxRetry
   }
   
+  // MARK: - Skeleton State Computed Properties
+  var shouldShowTopRankingSkeleton: Bool {
+    // 로딩 중이고 아직 데이터가 없을 때만 스켈레톤 표시
+    return isLoadingTopRanking && topRankingFilters.isEmpty
+  }
+  
+  var shouldShowFiltersSkeleton: Bool {
+    // 로딩 중이고 아직 데이터가 없을 때만 스켈레톤 표시
+    return isLoadingFilters && filters.isEmpty
+  }
+  
   // MARK: - Retry Reset Methods
   mutating func resetRetryState() {
     retryCount = 0

@@ -51,7 +51,7 @@ struct FilterFeedView: View {
                             }
                         )
                         .padding(.top, 20)
-                        .redacted(reason: store.state.isLoadingTopRanking ? .placeholder : [])
+                        .redacted(reason: store.state.shouldShowTopRankingSkeleton ? .placeholder : [])
                         
                         // Filter Feed 섹션
                         FilterFeedSectionView(
@@ -63,7 +63,7 @@ struct FilterFeedView: View {
                                 store.send(.toggleLike(filter.id))
                             }
                         )
-                        .redacted(reason: store.state.isLoadingFilters ? .placeholder : [])
+                        .redacted(reason: store.state.shouldShowFiltersSkeleton ? .placeholder : [])
                         
                         // 로딩 더 보기 인디케이터
                         if store.state.isLoadingMore {
@@ -106,7 +106,6 @@ struct FilterFeedView: View {
                                         Text("새로고침")
                                     }
                                     .font(.body)
-//                                    .fontWeight(.medium)
                                     .foregroundColor(.black)
                                     .padding(.horizontal, 24)
                                     .padding(.vertical, 12)
@@ -121,9 +120,6 @@ struct FilterFeedView: View {
                     }
                     .padding(.bottom, 100) // 탭바 영역을 위한 패딩
                 }
-                //      .refreshable {
-                //        store.send(.refreshFilters)
-                //      }
             }
             .background(Color.black)
             .navigationBarHidden(true)
@@ -165,12 +161,5 @@ struct FilterFeedView: View {
             }
             .hidden()
         }
-        //    .alert("오류", isPresented: .constant(store.state.hasError)) {
-        //      Button("확인") {
-        //        store.send(.clearError)
-        //      }
-        //    } message: {
-        //      Text(store.state.topRankingError ?? store.state.filtersError ?? "")
-        //    }
     }
-}
+} 
