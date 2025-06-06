@@ -38,6 +38,11 @@ struct FilterFeedState: Equatable {
   // MARK: - UI State
   var isRefreshing = false
   
+  // MARK: - User State Preservation
+  var lastViewedFilterIndex: Int = 0
+  var shouldRestoreScrollPosition = false
+  var viewReturnedFromDetail = false
+  
   // MARK: - Computed Properties
   var currentTopRankingFilters: [Filter] {
     return topRankingFilters[selectedRankingType] ?? []

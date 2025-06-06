@@ -55,6 +55,20 @@ final class FilterFeedReducer: ObservableObject {
       print("Filter tapped: \(filterId)")
       // 향후 필터 상세 화면 이동 구현
       
+    case .saveScrollPosition(let index):
+      state.lastViewedFilterIndex = index
+      print("📍 [State] 스크롤 위치 저장: \(index)")
+      
+    case .markReturnedFromDetail:
+      state.viewReturnedFromDetail = true
+      state.shouldRestoreScrollPosition = true
+      print("🔄 [State] 상세화면에서 돌아옴 - 스크롤 위치 복원 예정")
+      
+    case .resetViewState:
+      state.viewReturnedFromDetail = false
+      state.shouldRestoreScrollPosition = false
+      print("🔄 [State] 뷰 상태 리셋")
+      
     case .clearError:
       state.topRankingError = nil
       state.filtersError = nil
@@ -101,6 +115,7 @@ final class FilterFeedReducer: ObservableObject {
   
   private func loadFilters(refresh: Bool) async {
     print("\n🔍 [FilterFeed] loadFilters 시작 - refresh: \(refresh)")
+    print("    현재 상태: hasInitiallyLoadedFilters=\(state.hasInitiallyLoadedFilters), filters.count=\(state.filters.count)")
     
     // 새로고침이 아닌데 이미 로드했고 데이터가 있으면 스킵
     if !refresh && state.hasInitiallyLoadedFilters && !state.filters.isEmpty {
@@ -108,8 +123,7 @@ final class FilterFeedReducer: ObservableObject {
       return
     }
     
-    // 토큰 상태 체크
-    TokenStorage.printTokenStatus()
+    print("📞 [FilterFeed] API 호출 진행 - 조건 통과")
     
     // 새로고침이 아닌데 재시도 횟수 초과 시 중단
     if !refresh && !state.shouldAllowRetry {
@@ -180,13 +194,12 @@ final class FilterFeedReducer: ObservableObject {
   }
   
   private func loadMoreFilters() async {
-    guard !state.isLoadingMore && state.hasMoreFilters && state.shouldAllowRetry else { 
-      if !state.shouldAllowRetry {
-        print("❌ [FilterFeed] loadMoreFilters - 최대 재시도 횟수 초과로 중단")
-      }
+    guard !state.isLoadingMore && state.hasMoreFilters else { 
+      print("🔄 [FilterFeed] loadMoreFilters - 가드 조건: isLoadingMore=\(state.isLoadingMore), hasMoreFilters=\(state.hasMoreFilters)")
       return 
     }
     
+    print("🚀 [FilterFeed] loadMoreFilters 시작 - nextCursor: \(state.nextCursor ?? "nil")")
     state.isLoadingMore = true
     
     do {
@@ -197,34 +210,24 @@ final class FilterFeedReducer: ObservableObject {
         orderBy: .latest
       )
       
-      print("🌐 [FilterFeed] 추가 로딩 API 호출 시작 (재시도: \(state.retryCount))")
+      print("🌐 [FilterFeed] 추가 로딩 API 호출 시작")
       let response = try await fetchFiltersUseCase.execute(request)
+      print("✅ [FilterFeed] 추가 로딩 성공 - \(response.data.count)개 필터 추가됨")
       
       state.filters.append(contentsOf: response.data)
       state.nextCursor = response.nextCursor
       state.hasMoreFilters = response.hasNext
       
+      print("📊 [FilterFeed] 현재 총 \(state.filters.count)개 필터, hasMore: \(state.hasMoreFilters)")
+      
       // 새로 추가된 필터의 좋아요 상태 업데이트
       let newLikedIds = Set(response.data.filter { $0.isLiked }.map { $0.id })
       state.likedFilterIds.formUnion(newLikedIds)
       
-      // 성공 시 재시도 상태 초기화
-      state.resetRetryState()
-      
     } catch {
       print("❌ [FilterFeed] Error loading more filters: \(error)")
-      
-      // 재시도 횟수 증가
-      state.incrementRetryCount()
-      
-      // 적절한 오류 메시지 설정
-      if state.hasReachedMaxRetry {
-        state.filtersError = "추가 필터를 불러올 수 없습니다.\n잠시 후 새로고침해주세요."
-        state.lastErrorMessage = "최대 재시도 횟수(\(state.maxRetryCount)회)에 도달했습니다."
-        state.hasMoreFilters = false // 더 이상 로드하지 않도록 설정
-      } else {
-        state.filtersError = "추가 필터 로딩 중 오류가 발생했습니다. (재시도: \(state.retryCount)/\(state.maxRetryCount))"
-      }
+      // 페이지네이션 실패 시에만 에러 표시, hasMoreFilters는 그대로 유지
+      state.filtersError = "추가 필터를 불러오는 중 오류가 발생했습니다."
     }
     
     state.isLoadingMore = false

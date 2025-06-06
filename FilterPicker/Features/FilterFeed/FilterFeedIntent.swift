@@ -21,6 +21,11 @@ enum FilterFeedIntent: Equatable {
   case toggleLike(String) // filterId
   case filterTapped(String) // filterId
   
+  // MARK: - State Preservation
+  case saveScrollPosition(Int) // lastViewedIndex
+  case markReturnedFromDetail
+  case resetViewState
+  
   // MARK: - Error Handling
   case clearError
 } 
