@@ -16,6 +16,9 @@ struct FilterPickerApp: App {
     init() {
         // 카카오 SDK 초기화
         KakaoSDK.initSDK(appKey: AppConfig.kakaoNativeAppKey)
+        
+        // 이미지 캐시 초기화 (싱글톤이므로 미리 초기화)
+        _ = ImageCacheManager.shared
     }
     
     var body: some Scene {
@@ -25,6 +28,18 @@ struct FilterPickerApp: App {
                     if AuthApi.isKakaoTalkLoginUrl(url) {
                         _ = AuthController.handleOpenUrl(url: url)
                     }
+                }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didReceiveMemoryWarningNotification)) { _ in
+                    // 메모리 경고 시 캐시 정리
+                    ImageCacheManager.shared.handleMemoryWarning()
+                }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
+                    // 백그라운드 진입 시 캐시 최적화
+                    ImageCacheManager.shared.handleAppDidEnterBackground()
+                }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)) { _ in
+                    // 앱 종료 시 리소스 정리
+                    ImageCacheManager.shared.handleAppWillTerminate()
                 }
         }
     }
