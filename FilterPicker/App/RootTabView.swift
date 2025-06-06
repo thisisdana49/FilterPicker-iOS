@@ -30,31 +30,49 @@ struct RootTabView: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            Group {
-                switch selectedTab {
-                case .home:
-                    NavigationView {
+            // 모든 탭의 View를 미리 생성하고 ZStack으로 배치
+            ZStack {
+                // Home Tab
+                NavigationView {
                     MainView()
-                    }
-                    .navigationViewStyle(StackNavigationViewStyle())
-                case .feed:
-                    NavigationView {
-                    FeedView()
-                    }
-                    .navigationViewStyle(StackNavigationViewStyle())
-                case .filter:
-                    NavigationView {
-                    FilterFeedView()
-                    }
-                    .navigationViewStyle(StackNavigationViewStyle())
-                case .search:
-                    NavigationView {
-                    SearchView()
-                    }
-                    .navigationViewStyle(StackNavigationViewStyle())
-                case .profile:
-                    MyPageView()
                 }
+                .navigationViewStyle(StackNavigationViewStyle())
+                .opacity(selectedTab == .home ? 1 : 0)
+                .zIndex(selectedTab == .home ? 1 : 0)
+                .animation(.easeInOut(duration: 0.2), value: selectedTab)
+                
+                // Feed Tab  
+                NavigationView {
+                    FeedView()
+                }
+                .navigationViewStyle(StackNavigationViewStyle())
+                .opacity(selectedTab == .feed ? 1 : 0)
+                .zIndex(selectedTab == .feed ? 1 : 0)
+                .animation(.easeInOut(duration: 0.2), value: selectedTab)
+                
+                // Filter Tab
+                NavigationView {
+                    FilterFeedView()
+                }
+                .navigationViewStyle(StackNavigationViewStyle())
+                .opacity(selectedTab == .filter ? 1 : 0)
+                .zIndex(selectedTab == .filter ? 1 : 0)
+                .animation(.easeInOut(duration: 0.2), value: selectedTab)
+                
+                // Search Tab
+                NavigationView {
+                    SearchView()
+                }
+                .navigationViewStyle(StackNavigationViewStyle())
+                .opacity(selectedTab == .search ? 1 : 0)
+                .zIndex(selectedTab == .search ? 1 : 0)
+                .animation(.easeInOut(duration: 0.2), value: selectedTab)
+                
+                // Profile Tab
+                MyPageView()
+                    .opacity(selectedTab == .profile ? 1 : 0)
+                    .zIndex(selectedTab == .profile ? 1 : 0)
+                    .animation(.easeInOut(duration: 0.2), value: selectedTab)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.systemBackground))
