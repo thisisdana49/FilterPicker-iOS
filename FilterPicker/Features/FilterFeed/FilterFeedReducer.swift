@@ -44,6 +44,8 @@ final class FilterFeedReducer: ObservableObject {
       await loadMoreFilters()
       
     case .refreshFilters:
+      // 새로고침 시 초기 로드 상태 리셋
+      state.resetInitialLoadState()
       await loadFilters(refresh: true)
       
     case .toggleLike(let filterId):
@@ -62,6 +64,12 @@ final class FilterFeedReducer: ObservableObject {
   // MARK: - Private Methods
   
   private func loadTopRanking() async {
+    // 이미 로드했고 데이터가 있으면 스킵
+    if state.hasInitiallyLoadedTopRanking && !state.topRankingFilters.isEmpty {
+      print("🔄 [FilterFeed] Top Ranking 이미 로드됨 - API 호출 스킵")
+      return
+    }
+    
     state.isLoadingTopRanking = true
     state.topRankingError = nil
     
@@ -74,6 +82,10 @@ final class FilterFeedReducer: ObservableObject {
         .purchase: MockData.topRankingFilters.shuffled(),
         .latest: MockData.topRankingFilters.reversed()
       ]
+      
+      // 초기 로드 완료 표시
+      state.hasInitiallyLoadedTopRanking = true
+      
     } catch {
       state.topRankingError = "Top Ranking을 불러올 수 없습니다."
     }
@@ -89,6 +101,12 @@ final class FilterFeedReducer: ObservableObject {
   
   private func loadFilters(refresh: Bool) async {
     print("\n🔍 [FilterFeed] loadFilters 시작 - refresh: \(refresh)")
+    
+    // 새로고침이 아닌데 이미 로드했고 데이터가 있으면 스킵
+    if !refresh && state.hasInitiallyLoadedFilters && !state.filters.isEmpty {
+      print("🔄 [FilterFeed] Filters 이미 로드됨 - API 호출 스킵")
+      return
+    }
     
     // 토큰 상태 체크
     TokenStorage.printTokenStatus()
@@ -137,6 +155,9 @@ final class FilterFeedReducer: ObservableObject {
       
       // 성공 시 재시도 상태 초기화
       state.resetRetryState()
+      
+      // 초기 로드 완료 표시
+      state.hasInitiallyLoadedFilters = true
       
     } catch {
       print("❌ [FilterFeed] Error loading filters: \(error)")

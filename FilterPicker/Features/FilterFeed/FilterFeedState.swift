@@ -22,6 +22,10 @@ struct FilterFeedState: Equatable {
   var nextCursor: String?
   var hasMoreFilters = true
   
+  // MARK: - Initial Load State
+  var hasInitiallyLoadedTopRanking = false
+  var hasInitiallyLoadedFilters = false
+  
   // MARK: - Retry Logic
   var retryCount: Int = 0
   var maxRetryCount: Int = 3
@@ -74,6 +78,11 @@ struct FilterFeedState: Equatable {
     retryCount = 0
     hasReachedMaxRetry = false
     lastErrorMessage = nil
+  }
+  
+  mutating func resetInitialLoadState() {
+    hasInitiallyLoadedTopRanking = false
+    hasInitiallyLoadedFilters = false
   }
   
   mutating func incrementRetryCount() {
