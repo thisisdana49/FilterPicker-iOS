@@ -64,7 +64,6 @@ struct RootTabView: View {
                     .navigationViewStyle(StackNavigationViewStyle())
                     .opacity(selectedTab == .home ? 1 : 0)
                     .zIndex(selectedTab == .home ? 1 : 0)
-                    .animation(.easeInOut(duration: 0.2), value: selectedTab)
                 }
                 
                 // Feed Tab  
@@ -75,7 +74,6 @@ struct RootTabView: View {
                     .navigationViewStyle(StackNavigationViewStyle())
                     .opacity(selectedTab == .feed ? 1 : 0)
                     .zIndex(selectedTab == .feed ? 1 : 0)
-                    .animation(.easeInOut(duration: 0.2), value: selectedTab)
                 }
                 
                 // Filter Tab
@@ -87,7 +85,6 @@ struct RootTabView: View {
                     .navigationViewStyle(StackNavigationViewStyle())
                     .opacity(selectedTab == .filter ? 1 : 0)
                     .zIndex(selectedTab == .filter ? 1 : 0)
-                    .animation(.easeInOut(duration: 0.2), value: selectedTab)
                 }
                 
                 // Search Tab
@@ -98,7 +95,6 @@ struct RootTabView: View {
                     .navigationViewStyle(StackNavigationViewStyle())
                     .opacity(selectedTab == .search ? 1 : 0)
                     .zIndex(selectedTab == .search ? 1 : 0)
-                    .animation(.easeInOut(duration: 0.2), value: selectedTab)
                 }
                 
                 // Profile Tab
@@ -106,11 +102,10 @@ struct RootTabView: View {
                     MyPageView()
                         .opacity(selectedTab == .profile ? 1 : 0)
                         .zIndex(selectedTab == .profile ? 1 : 0)
-                        .animation(.easeInOut(duration: 0.2), value: selectedTab)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(.systemBackground))
+            .background(Color.black)  // 모든 View와 통일된 검정 배경
             .environmentObject(tabBarVisibility)
             .onChange(of: selectedTab) { newTab in
                 // 탭 선택 시 해당 탭을 로드된 목록에 추가
