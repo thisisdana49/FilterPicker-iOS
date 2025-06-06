@@ -9,7 +9,7 @@ import Foundation
 
 protocol FilterDetailRepository {
     func getFilterDetail(filterId: String) async throws -> FilterDetailResponse
-    func toggleLike(filterId: String) async throws
+    func toggleLike(filterId: String, likeStatus: Bool) async throws -> LikeResponse
 }
 
 final class DefaultFilterDetailRepository: FilterDetailRepository {
@@ -23,7 +23,7 @@ final class DefaultFilterDetailRepository: FilterDetailRepository {
         return try await apiService.getFilterDetail(filterId: filterId)
     }
     
-    func toggleLike(filterId: String) async throws {
-        _ = try await apiService.toggleLike(filterId: filterId)
+    func toggleLike(filterId: String, likeStatus: Bool) async throws -> LikeResponse {
+        return try await apiService.toggleLike(filterId: filterId, likeStatus: likeStatus)
     }
 } 

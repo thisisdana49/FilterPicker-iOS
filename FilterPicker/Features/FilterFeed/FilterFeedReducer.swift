@@ -244,7 +244,16 @@ final class FilterFeedReducer: ObservableObject {
     }
     
     do {
-      try await toggleLikeUseCase.execute(filterId: filterId, isLiked: currentlyLiked)
+      let newLikeStatus = try await toggleLikeUseCase.execute(filterId: filterId, currentlyLiked: currentlyLiked)
+      
+      // 서버 응답에 따라 최종 상태 동기화
+      if newLikeStatus {
+        state.likedFilterIds.insert(filterId)
+      } else {
+        state.likedFilterIds.remove(filterId)
+      }
+      
+      print("✅ Filter like status updated: \(filterId) -> \(newLikeStatus)")
     } catch {
       // 실패 시 롤백
       if currentlyLiked {

@@ -9,7 +9,7 @@ import Foundation
 
 protocol FilterDetailAPIService {
     func getFilterDetail(filterId: String) async throws -> FilterDetailResponse
-    func toggleLike(filterId: String) async throws -> EmptyResponse
+    func toggleLike(filterId: String, likeStatus: Bool) async throws -> LikeResponse
 }
 
 final class DefaultFilterDetailAPIService: FilterDetailAPIService {
@@ -28,10 +28,11 @@ final class DefaultFilterDetailAPIService: FilterDetailAPIService {
         return try await apiService.request(request)
     }
     
-    func toggleLike(filterId: String) async throws -> EmptyResponse {
+    func toggleLike(filterId: String, likeStatus: Bool) async throws -> LikeResponse {
         let request = APIRequest(
             path: "/v1/filters/\(filterId)/like",
-            method: .post
+            method: .post,
+            body: ["like_status": likeStatus]
         )
         
         return try await apiService.request(request)

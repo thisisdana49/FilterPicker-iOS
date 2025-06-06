@@ -121,6 +121,7 @@
 		3EDB576B2DEEE04900FAD663 /* PhotoMetadataExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB576A2DEEE04900FAD663 /* PhotoMetadataExtractor.swift */; };
 		3EDB576D2DEF0E6600FAD663 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB576C2DEF0E6600FAD663 /* ImageProcessor.swift */; };
 		3EDB576F2DEF18F500FAD663 /* FilterUploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB576E2DEF18F500FAD663 /* FilterUploadService.swift */; };
+		3EDB57972DF2F25B00FAD663 /* LikeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDB57962DF2F25B00FAD663 /* LikeModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -238,6 +239,7 @@
 		3EDB576A2DEEE04900FAD663 /* PhotoMetadataExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMetadataExtractor.swift; sourceTree = "<group>"; };
 		3EDB576C2DEF0E6600FAD663 /* ImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
 		3EDB576E2DEF18F500FAD663 /* FilterUploadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterUploadService.swift; sourceTree = "<group>"; };
+		3EDB57962DF2F25B00FAD663 /* LikeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -509,6 +511,7 @@
 			children = (
 				3E3CF1552DD5F0B300B5D650 /* AuthTokenResponse.swift */,
 				3E3CF1722DD7321200B5D650 /* TokenResponse.swift */,
+				3EDB57962DF2F25B00FAD663 /* LikeModels.swift */,
 				3E3CF1792DD9ACB300B5D650 /* ErrorResponse.swift */,
 				3EAE758B2DE2EBBC007DBA05 /* UserProfile.swift */,
 				3EAE75DF2DE71F47007DBA05 /* UserModels.swift */,
@@ -833,6 +836,7 @@
 				3E3CF1652DD5FB2500B5D650 /* AuthReducer.swift in Sources */,
 				3E3CF1FE2DDDB5EB00B5D650 /* FilterRepository.swift in Sources */,
 				3EAE75842DE2E4A4007DBA05 /* MyPageStore.swift in Sources */,
+				3EDB57972DF2F25B00FAD663 /* LikeModels.swift in Sources */,
 				3EAE75D02DE7159C007DBA05 /* LikeButton.swift in Sources */,
 				3EAE75852DE2E4A4007DBA05 /* MyPageState.swift in Sources */,
 				3EAE75862DE2E4A4007DBA05 /* MyPageReducer.swift in Sources */,

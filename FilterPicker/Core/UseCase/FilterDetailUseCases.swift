@@ -26,7 +26,7 @@ final class DefaultGetFilterDetailUseCase: GetFilterDetailUseCase {
 
 // MARK: - Toggle Filter Like UseCase
 protocol ToggleFilterDetailLikeUseCase {
-    func execute(filterId: String) async throws
+    func execute(filterId: String, currentlyLiked: Bool) async throws -> Bool
 }
 
 final class DefaultToggleFilterDetailLikeUseCase: ToggleFilterDetailLikeUseCase {
@@ -36,7 +36,10 @@ final class DefaultToggleFilterDetailLikeUseCase: ToggleFilterDetailLikeUseCase 
         self.repository = repository
     }
     
-    func execute(filterId: String) async throws {
-        try await repository.toggleLike(filterId: filterId)
+    func execute(filterId: String, currentlyLiked: Bool) async throws -> Bool {
+        // 현재 상태의 반대로 토글
+        let newLikeStatus = !currentlyLiked
+        let response = try await repository.toggleLike(filterId: filterId, likeStatus: newLikeStatus)
+        return response.likeStatus
     }
 } 
