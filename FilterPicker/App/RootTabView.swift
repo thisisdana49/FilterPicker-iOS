@@ -24,12 +24,32 @@ class TabBarVisibilityManager: ObservableObject {
     }
 }
 
+// MARK: - Scroll Reset Manager
+class ScrollResetManager: ObservableObject {
+    @Published var scrollToTopTrigger: UUID = UUID()
+    
+    func resetScroll() {
+        scrollToTopTrigger = UUID()
+    }
+}
+
 struct RootTabView: View {
     @State private var selectedTab: TabItem = .home
     @StateObject private var tabBarVisibility = TabBarVisibilityManager()
     
     // MARK: - Lazy Loading State
     @State private var loadedTabs: Set<TabItem> = [.home] // 홈탭은 기본 로드
+    
+    // MARK: - Scroll Reset State
+    @StateObject private var scrollManager = ScrollResetManager()
+    
+    private func resetScrollForTab(_ tab: TabItem) {
+        // 현재 선택된 탭이 해당 탭일 때만 스크롤 리셋
+        if selectedTab == tab {
+            scrollManager.resetScroll()
+            print("📜 [RootTab] \(tab) 탭 스크롤 리셋 트리거")
+        }
+    }
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -39,6 +59,7 @@ struct RootTabView: View {
                 if loadedTabs.contains(.home) {
                     NavigationView {
                         MainView()
+                            .environmentObject(scrollManager)
                     }
                     .navigationViewStyle(StackNavigationViewStyle())
                     .opacity(selectedTab == .home ? 1 : 0)
@@ -61,6 +82,7 @@ struct RootTabView: View {
                 if loadedTabs.contains(.filter) {
                     NavigationView {
                         FilterFeedView()
+                            .environmentObject(scrollManager)
                     }
                     .navigationViewStyle(StackNavigationViewStyle())
                     .opacity(selectedTab == .filter ? 1 : 0)
@@ -104,7 +126,12 @@ struct RootTabView: View {
             
             // 탭바 숨김 상태에 따라 조건부 렌더링
             if !tabBarVisibility.isTabBarHidden {
-                CustomTabBarView(selectedTab: $selectedTab)
+                CustomTabBarView(
+                    selectedTab: $selectedTab,
+                    onTabReselected: { tab in
+                        resetScrollForTab(tab)
+                    }
+                )
                     .padding(.horizontal, 16)
                     .padding(.bottom, 12)
                     .ignoresSafeArea(.keyboard, edges: .bottom)

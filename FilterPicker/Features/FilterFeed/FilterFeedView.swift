@@ -11,6 +11,7 @@ struct FilterFeedView: View {
     @StateObject private var store = FilterFeedStore()
     @State private var isCreateFilterPresented = false
     @EnvironmentObject var tabBarVisibility: TabBarVisibilityManager
+    @EnvironmentObject var scrollManager: ScrollResetManager
     
     var body: some View {
         ZStack {
@@ -35,90 +36,100 @@ struct FilterFeedView: View {
                 )
                 
                 // 메인 콘텐츠
-                ScrollView {
-                    LazyVStack(spacing: 40) {
-                        // Top Ranking 섹션
-                        TopRankingSectionView(
-                            selectedRankingType: Binding(
-                                get: { store.state.selectedRankingType },
-                                set: { store.send(.changeRankingType($0)) }
-                            ),
-                            popularityRanking: store.state.topRankingFilters[.popularity] ?? [],
-                            purchaseRanking: store.state.topRankingFilters[.purchase] ?? [],
-                            latestRanking: store.state.topRankingFilters[.latest] ?? [],
-                            onFilterTapped: { filter in
-                                store.send(.filterTapped(filter.id))
-                            }
-                        )
-                        .padding(.top, 20)
-                        .redacted(reason: store.state.shouldShowTopRankingSkeleton ? .placeholder : [])
-                        
-                        // Filter Feed 섹션
-                        FilterFeedSectionView(
-                            filters: store.state.updatedFilters,
-                            onFilterTapped: { filter in
-                                store.send(.filterTapped(filter.id))
-                            },
-                            onLikeTapped: { filter in
-                                store.send(.toggleLike(filter.id))
-                            }
-                        )
-                        .redacted(reason: store.state.shouldShowFiltersSkeleton ? .placeholder : [])
-                        
-                        // 로딩 더 보기 인디케이터
-                        if store.state.isLoadingMore {
-                            ProgressView()
-                                .padding()
-                        }
-                        
-                        // 무한 스크롤을 위한 트리거
-                        if store.state.hasMoreFilters && !store.state.isLoadingMore {
-                            Color.clear
-                                .frame(height: 1)
-                                .onAppear {
-                                    store.send(.loadMoreFilters)
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        LazyVStack(spacing: 40) {
+                            // Top Ranking 섹션
+                            TopRankingSectionView(
+                                selectedRankingType: Binding(
+                                    get: { store.state.selectedRankingType },
+                                    set: { store.send(.changeRankingType($0)) }
+                                ),
+                                popularityRanking: store.state.topRankingFilters[.popularity] ?? [],
+                                purchaseRanking: store.state.topRankingFilters[.purchase] ?? [],
+                                latestRanking: store.state.topRankingFilters[.latest] ?? [],
+                                onFilterTapped: { filter in
+                                    store.send(.filterTapped(filter.id))
                                 }
-                        }
-                        
-                        // 최대 재시도 도달 시 오류 메시지
-                        if store.state.hasReachedMaxRetry {
-                            VStack(spacing: 16) {
-                                Image(systemName: "exclamationmark.triangle")
-                                    .font(.system(size: 48))
-                                    .foregroundColor(.yellow)
-                                
-                                Text("네트워크 오류")
-                                    .font(.title3)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.white)
-                                
-                                Text(store.state.filtersError ?? "알 수 없는 오류가 발생했습니다.")
-                                    .font(.body)
-                                    .foregroundColor(.gray)
-                                    .multilineTextAlignment(.center)
-                                    .padding(.horizontal, 20)
-                                
-                                Button(action: {
-                                    store.send(.refreshFilters)
-                                }) {
-                                    HStack {
-                                        Image(systemName: "arrow.clockwise")
-                                        Text("새로고침")
+                            )
+                            .padding(.top, 20)
+                            .redacted(reason: store.state.shouldShowTopRankingSkeleton ? .placeholder : [])
+                            
+                            // Filter Feed 섹션
+                            FilterFeedSectionView(
+                                filters: store.state.updatedFilters,
+                                onFilterTapped: { filter in
+                                    store.send(.filterTapped(filter.id))
+                                },
+                                onLikeTapped: { filter in
+                                    store.send(.toggleLike(filter.id))
+                                }
+                            )
+                            .redacted(reason: store.state.shouldShowFiltersSkeleton ? .placeholder : [])
+                            
+                            // 로딩 더 보기 인디케이터
+                            if store.state.isLoadingMore {
+                                ProgressView()
+                                    .padding()
+                            }
+                            
+                            // 무한 스크롤을 위한 트리거
+                            if store.state.hasMoreFilters && !store.state.isLoadingMore {
+                                Color.clear
+                                    .frame(height: 1)
+                                    .onAppear {
+                                        store.send(.loadMoreFilters)
                                     }
-                                    .font(.body)
-                                    .foregroundColor(.black)
-                                    .padding(.horizontal, 24)
-                                    .padding(.vertical, 12)
-                                    .background(Color.white)
-                                    .cornerRadius(8)
-                                }
-                                .padding(.top, 8)
                             }
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 60)
+                            
+                            // 최대 재시도 도달 시 오류 메시지
+                            if store.state.hasReachedMaxRetry {
+                                VStack(spacing: 16) {
+                                    Image(systemName: "exclamationmark.triangle")
+                                        .font(.system(size: 48))
+                                        .foregroundColor(.yellow)
+                                    
+                                    Text("네트워크 오류")
+                                        .font(.title3)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white)
+                                    
+                                    Text(store.state.filtersError ?? "알 수 없는 오류가 발생했습니다.")
+                                        .font(.body)
+                                        .foregroundColor(.gray)
+                                        .multilineTextAlignment(.center)
+                                        .padding(.horizontal, 20)
+                                    
+                                    Button(action: {
+                                        store.send(.refreshFilters)
+                                    }) {
+                                        HStack {
+                                            Image(systemName: "arrow.clockwise")
+                                            Text("새로고침")
+                                        }
+                                        .font(.body)
+                                        .foregroundColor(.black)
+                                        .padding(.horizontal, 24)
+                                        .padding(.vertical, 12)
+                                        .background(Color.white)
+                                        .cornerRadius(8)
+                                    }
+                                    .padding(.top, 8)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 60)
+                            }
                         }
+                        .padding(.bottom, 100) // 탭바 영역을 위한 패딩
+                        .id("top")  // LazyVStack 전체를 앵커로 사용
                     }
-                    .padding(.bottom, 100) // 탭바 영역을 위한 패딩
+                    .onChange(of: scrollManager.scrollToTopTrigger) { _ in
+                        // ScrollResetManager 트리거가 변경되면 맨 위로 스크롤
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            proxy.scrollTo("top", anchor: .top)
+                        }
+                        print("📜 [FilterFeed] 탭 재선택으로 스크롤 맨 위로 이동")
+                    }
                 }
             }
             .background(Color.black)
