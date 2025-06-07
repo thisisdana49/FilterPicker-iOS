@@ -116,7 +116,7 @@ struct CachedImageView_Previews: PreviewProvider {
             
             // Fit 모드
             if let url = URL(string: "https://example.com/image3.jpg") {
-                CachedImageView(url: url, contentMode: .fit)
+                CachedImageView(url: url, contentMode: .fill)
                     .frame(width: 200, height: 150)
                     .cornerRadius(12)
             }

@@ -50,17 +50,20 @@ struct TodayCreatorSectionView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(store.state.updatedHotTrendFilters.prefix(5), id: \.filterId) { filter in
-                            if let url = URL(string: filter.filteredImageURL) {
-                                URLImageView(url: url, showOverlay: false)
-                                    .frame(width: 110, height: 80)
-                                    .cornerRadius(12)
-                                    .clipped()
-                            } else {
-                                Rectangle()
-                                    .fill(Color.gray30)
-                                    .frame(width: 110, height: 80)
-                                    .cornerRadius(12)
+                            NavigationLink(destination: FilterDetailView(filterId: filter.filterId)) {
+                                if let url = URL(string: filter.filteredImageURL) {
+                                    URLImageView(url: url, showOverlay: false)
+                                        .frame(width: 110, height: 80)
+                                        .cornerRadius(12)
+                                        .clipped()
+                                } else {
+                                    Rectangle()
+                                        .fill(Color.gray30)
+                                        .frame(width: 110, height: 80)
+                                        .cornerRadius(12)
+                                }
                             }
+                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                     .padding(.horizontal, 20)
