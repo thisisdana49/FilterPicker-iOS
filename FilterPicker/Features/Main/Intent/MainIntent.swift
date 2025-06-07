@@ -9,4 +9,5 @@ enum MainIntent {
     case setTodayAuthor(TodayAuthor)
     case setLoading(Bool)
     case setError(Error?)
+    case toggleLike(String) // filterId
 } 

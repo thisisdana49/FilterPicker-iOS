@@ -6,6 +6,7 @@ struct TrendingFilterCardView: View {
     let scale: CGFloat
     let cardWidth: CGFloat
     let cardHeight: CGFloat
+    let onLikeTapped: () -> Void
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -32,16 +33,21 @@ struct TrendingFilterCardView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    HStack(spacing: 4) {
-                        Image(systemName: "heart.fill")
-                            .foregroundColor(.white)
-                        Text("\(filter.likeCount)")
-                            .fontStyle(.caption1)
-                            .foregroundColor(.gray30)
+                    Button(action: {
+                        onLikeTapped()
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: filter.isLiked ? "heart.fill" : "heart")
+                                .foregroundColor(filter.isLiked ? .red : .white)
+                            Text("\(filter.likeCount)")
+                                .fontStyle(.caption1)
+                                .foregroundColor(.gray30)
+                        }
+                        .padding(8)
+                        .background(Color.black.opacity(0.4))
+                        .cornerRadius(8)
                     }
-                    .padding(8)
-                    .background(Color.black.opacity(0.4))
-                    .cornerRadius(8)
+                    .buttonStyle(PlainButtonStyle())
                     .padding([.bottom, .trailing], 12)
                 }
             }

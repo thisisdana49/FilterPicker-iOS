@@ -49,7 +49,7 @@ struct TodayCreatorSectionView: View {
                 // 캐러셀: 상위 5개 필터 이미지
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
-                        ForEach(store.state.hotTrendFilters.prefix(5), id: \.filterId) { filter in
+                        ForEach(store.state.updatedHotTrendFilters.prefix(5), id: \.filterId) { filter in
                             if let url = URL(string: filter.filteredImageURL) {
                                 URLImageView(url: url, showOverlay: false)
                                     .frame(width: 110, height: 80)

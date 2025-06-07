@@ -16,7 +16,7 @@ struct TrendingFilterSectionView: View {
         let cardWidth = UIScreen.main.bounds.width * (200.0 / 390.0)
         let cardHeight = cardWidth * (240.0 / 200.0)
         let spacing: CGFloat = 0
-        let filters = store.state.hotTrendFilters
+        let filters = store.state.updatedHotTrendFilters
         
         VStack(alignment: .leading, spacing: 0) {
             HStack {
@@ -43,7 +43,10 @@ struct TrendingFilterSectionView: View {
                                 isCenter: isCenter,
                                 scale: scale,
                                 cardWidth: cardWidth,
-                                cardHeight: cardHeight
+                                cardHeight: cardHeight,
+                                onLikeTapped: {
+                                    store.dispatch(.toggleLike(filter.filterId))
+                                }
                             )
                         }
                     }
