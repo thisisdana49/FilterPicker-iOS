@@ -13,6 +13,7 @@ struct FilterDetailView: View {
     @StateObject private var store = FilterDetailStore()
     @State private var dragPosition: CGFloat = 0.5 // 드래그 위치 (0.0 ~ 1.0)
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var tabBarVisibility: TabBarVisibilityManager
     
     var body: some View {
         GeometryReader { geometry in
@@ -413,6 +414,12 @@ struct FilterDetailView: View {
         .ignoresSafeArea(.all)
         .onAppear {
             store.dispatch(.loadFilterDetail(filterId: filterId))
+            tabBarVisibility.hideTabBar()
+            print("🔒 [FilterDetailView] 탭바 숨김")
+        }
+        .onDisappear {
+            tabBarVisibility.showTabBar()
+            print("🔓 [FilterDetailView] 탭바 표시")
         }
         .onChange(of: store.state.filterDetail) { filterDetail in
             // 필터 상세 로딩 완료 후 주소 로딩

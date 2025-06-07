@@ -12,15 +12,21 @@ class TabBarVisibilityManager: ObservableObject {
     @Published var isTabBarHidden: Bool = false
     
     func hideTabBar() {
-        isTabBarHidden = true
+        withAnimation(.easeInOut(duration: 0.3)) {
+            isTabBarHidden = true
+        }
     }
     
     func showTabBar() {
-        isTabBarHidden = false
+        withAnimation(.easeInOut(duration: 0.3)) {
+            isTabBarHidden = false
+        }
     }
     
     func forceShowTabBar() {
-        isTabBarHidden = false
+        withAnimation(.easeInOut(duration: 0.3)) {
+            isTabBarHidden = false
+        }
     }
 }
 
@@ -130,7 +136,11 @@ struct RootTabView: View {
                     .padding(.horizontal, 16)
                     .padding(.bottom, 12)
                     .ignoresSafeArea(.keyboard, edges: .bottom)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .bottom).combined(with: .opacity),
+                        removal: .move(edge: .bottom).combined(with: .opacity)
+                    ))
+                    .animation(.easeInOut(duration: 0.3), value: tabBarVisibility.isTabBarHidden)
             }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
