@@ -6,10 +6,28 @@ struct TrendingFilterCardView: View {
     let scale: CGFloat
     let cardWidth: CGFloat
     let cardHeight: CGFloat
+    let isDragging: Bool
     let onLikeTapped: () -> Void
 
     var body: some View {
-        NavigationLink(destination: FilterDetailView(filterId: filter.filterId)) {
+        Group {
+            if isDragging {
+                // 드래그 중일 때는 NavigationLink 비활성화
+                cardContent
+            } else {
+                // 드래그 중이 아닐 때만 NavigationLink 활성화
+                NavigationLink(destination: FilterDetailView(filterId: filter.filterId)) {
+                    cardContent
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+        }
+        .scaleEffect(scale)
+        .shadow(radius: isCenter ? 8 : 2)
+        .animation(.easeInOut(duration: 0.3), value: isCenter)
+    }
+    
+    private var cardContent: some View {
             ZStack(alignment: .topLeading) {
                 if let url = URL(string: filter.filteredImageURL) {
                     URLImageView(url: url, showOverlay: false)
@@ -54,10 +72,5 @@ struct TrendingFilterCardView: View {
                 }
             }
             .frame(width: cardWidth, height: cardHeight)
-        }
-        .buttonStyle(PlainButtonStyle())
-        .scaleEffect(scale)
-        .shadow(radius: isCenter ? 8 : 2)
-        .animation(.easeInOut(duration: 0.3), value: isCenter)
     }
 } 
