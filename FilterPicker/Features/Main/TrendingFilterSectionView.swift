@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TrendingFilterSectionView: View {
+struct TrendingFilterSectionscaleAspectFillView: View {
     @ObservedObject var store: MainStore
     @State private var dragOffset: CGFloat = 0
     @State private var currentIndex: Int = 0

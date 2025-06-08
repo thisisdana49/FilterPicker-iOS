@@ -26,8 +26,9 @@ struct TodayCreatorSectionView: View {
             if let author = store.state.todayAuthor {
                 HStack(alignment: .top, spacing: 16) {
                     if let url = URL(string: author.profileImageURL) {
-                        URLImageView(url: url, showOverlay: false)
+                        URLImageView(url: url, showOverlay: false, contentMode: .fill)
                             .frame(width: 64, height: 64)
+                            .clipped()
                             .clipShape(Circle())
                     } else {
                         Circle()
@@ -52,10 +53,10 @@ struct TodayCreatorSectionView: View {
                         ForEach(store.state.updatedHotTrendFilters.prefix(5), id: \.filterId) { filter in
                             NavigationLink(destination: FilterDetailView(filterId: filter.filterId)) {
                                 if let url = URL(string: filter.filteredImageURL) {
-                                    URLImageView(url: url, showOverlay: false)
+                                    URLImageView(url: url, showOverlay: false, contentMode: .fill)
                                         .frame(width: 110, height: 80)
-                                        .cornerRadius(12)
                                         .clipped()
+                                        .cornerRadius(12)
                                 } else {
                                     Rectangle()
                                         .fill(Color.gray30)

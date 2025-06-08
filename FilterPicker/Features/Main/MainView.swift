@@ -27,7 +27,7 @@ struct MainView: View {
                     .padding(0)
                     
                     TrendingBannerSectionView()
-                    TrendingFilterSectionView(store: store)
+                    TrendingFilterSectionscaleAspectFillView(store: store)
                     TodayCreatorSectionView(store: store)
                 }
                 .id("top")  // VStack 전체를 앵커로 사용

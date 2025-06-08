@@ -20,7 +20,7 @@ struct Creator: Codable, Equatable {
   /// 프로필 이미지 URL
   var profileImageURL: String {
     guard let profileImage = profileImage else { return "" }
-    return AppConfig.baseURL + "/v1/" + profileImage
+    return AppConfig.baseURL + "/v1" + profileImage
   }
   
   enum CodingKeys: String, CodingKey {

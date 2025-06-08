@@ -30,8 +30,7 @@ struct TrendingFilterCardView: View {
     private var cardContent: some View {
             ZStack(alignment: .topLeading) {
                 if let url = URL(string: filter.filteredImageURL) {
-                    URLImageView(url: url, showOverlay: false)
-                        .scaledToFill()
+                    URLImageView(url: url, showOverlay: false, contentMode: .fill)
                         .frame(width: cardWidth, height: cardHeight)
                         .clipped()
                         .cornerRadius(20)

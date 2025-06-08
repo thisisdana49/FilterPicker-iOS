@@ -27,9 +27,10 @@ final class ImageCacheManager {
     // 디스크 캐시 디렉토리
     private let diskCacheDirectory: URL
     
-    // 현재 진행 중인 요청들 (중복 방지)
+    // 현재 진행 중인 요청들 (중복 방지) - 스레드 안전성을 위한 동기화
     private var loadingTasks: [String: Task<UIImage?, Error>] = [:]
     private let taskQueue = DispatchQueue(label: "image.cache.tasks", attributes: .concurrent)
+    private let loadingTasksLock = NSLock()
     
     private init() {
         // 메모리 캐시 설정
@@ -55,7 +56,7 @@ final class ImageCacheManager {
     // MARK: - Public Methods
     
     func loadImage(from url: URL) async -> UIImage? {
-        let cacheKey = cacheKey(for: url)
+        let cacheKey = generateCacheKey(for: url)
         
         // 1. 메모리 캐시 확인
         if let cachedImage = memoryCache.object(forKey: cacheKey as NSString) {
@@ -73,38 +74,42 @@ final class ImageCacheManager {
         
         // 3. 중복 요청 방지 및 네트워크 요청
         return await withCheckedContinuation { continuation in
-            taskQueue.async {
-                // 이미 진행 중인 작업이 있는지 확인
-                if let existingTask = self.loadingTasks[cacheKey] {
-                    print("⏳ [ImageCache] 기존 요청 대기: \(url.lastPathComponent)")
-                    
-                    // 기존 작업의 결과를 기다림
-                    Task {
-                        let result = try? await existingTask.value
-                        continuation.resume(returning: result)
+            // 스레드 안전한 딕셔너리 접근
+            loadingTasksLock.lock()
+            let existingTask = loadingTasks[cacheKey]
+            loadingTasksLock.unlock()
+            
+            if let existingTask = existingTask {
+                print("⏳ [ImageCache] 기존 요청 대기: \(url.lastPathComponent)")
+                
+                // 기존 작업의 결과를 기다림
+                Task {
+                    let result = try? await existingTask.value
+                    continuation.resume(returning: result)
+                }
+            } else {
+                print("🌐 [ImageCache] 새로운 네트워크 요청 시작: \(url.lastPathComponent)")
+                
+                // 새로운 작업 생성
+                let newTask = Task<UIImage?, Error> {
+                    defer {
+                        self.loadingTasksLock.lock()
+                        self.loadingTasks.removeValue(forKey: cacheKey)
+                        self.loadingTasksLock.unlock()
                     }
-                } else {
-                    print("🌐 [ImageCache] 새로운 네트워크 요청 시작: \(url.lastPathComponent)")
                     
-                    // 새로운 작업 생성
-                    let newTask = Task<UIImage?, Error> {
-                        defer {
-                            self.taskQueue.async(flags: .barrier) {
-                                self.loadingTasks.removeValue(forKey: cacheKey)
-                            }
-                        }
-                        
-                        return await self.downloadImage(from: url, cacheKey: cacheKey)
-                    }
-                    
-                    // 작업 등록
-                    self.loadingTasks[cacheKey] = newTask
-                    
-                    // 새 작업의 결과를 기다림
-                    Task {
-                        let result = try? await newTask.value
-                        continuation.resume(returning: result)
-                    }
+                    return await self.downloadImage(from: url, cacheKey: cacheKey)
+                }
+                
+                // 작업 등록 (스레드 안전)
+                loadingTasksLock.lock()
+                loadingTasks[cacheKey] = newTask
+                loadingTasksLock.unlock()
+                
+                // 새 작업의 결과를 기다림
+                Task {
+                    let result = try? await newTask.value
+                    continuation.resume(returning: result)
                 }
             }
         }
@@ -145,11 +150,24 @@ final class ImageCacheManager {
     }
     
     private func createThumbnail(from image: UIImage) -> UIImage {
-        let targetSize = ImageCacheConfig.thumbnailSize
-        let renderer = UIGraphicsImageRenderer(size: targetSize)
+        let maxSize = max(ImageCacheConfig.thumbnailSize.width, ImageCacheConfig.thumbnailSize.height)
+        
+        let originalSize = image.size
+        let aspectRatio = originalSize.width / originalSize.height
+        
+        let newSize: CGSize
+        if originalSize.width > originalSize.height {
+            // 가로가 더 긴 경우
+            newSize = CGSize(width: maxSize, height: maxSize / aspectRatio)
+        } else {
+            // 세로가 더 긴 경우
+            newSize = CGSize(width: maxSize * aspectRatio, height: maxSize)
+        }
+        
+        let renderer = UIGraphicsImageRenderer(size: newSize)
         
         return renderer.image { _ in
-            image.draw(in: CGRect(origin: .zero, size: targetSize))
+            image.draw(in: CGRect(origin: .zero, size: newSize))
         }
     }
     
@@ -191,7 +209,7 @@ final class ImageCacheManager {
         return image
     }
     
-    private func cacheKey(for url: URL) -> String {
+    private func generateCacheKey(for url: URL) -> String {
         // URL을 해시화하여 파일명으로 사용
         let data = url.absoluteString.data(using: .utf8)!
         let hash = SHA256.hash(data: data)
@@ -301,12 +319,15 @@ final class ImageCacheManager {
     }
     
     func handleAppWillTerminate() {
-        // 앱 종료 시 진행 중인 작업들 정리
-        taskQueue.async(flags: .barrier) {
-            for (_, task) in self.loadingTasks {
-                task.cancel()
-            }
-            self.loadingTasks.removeAll()
+        // 앱 종료 시 진행 중인 작업들 정리 (스레드 안전)
+        loadingTasksLock.lock()
+        let tasks = Array(loadingTasks.values)
+        loadingTasks.removeAll()
+        loadingTasksLock.unlock()
+        
+        // 작업들 취소
+        for task in tasks {
+            task.cancel()
         }
         
         print("🛑 [ImageCache] 앱 종료: 진행 중인 작업들 정리 완료")
