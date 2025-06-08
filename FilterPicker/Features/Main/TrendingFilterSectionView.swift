@@ -77,7 +77,7 @@ struct TrendingFilterSectionscaleAspectFillView: View {
                                 
                                 // 세로 움직임이 우세하면 카드 스와이프 무시
                                 if verticalDistance > horizontalDistance * 1.2 {
-                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                    withAnimation(.easeInOut(duration: 0.4)) {
                                         dragOffset = 0
                                     }
                                     isDragging = false
@@ -93,7 +93,7 @@ struct TrendingFilterSectionscaleAspectFillView: View {
                                     newIndex = max(currentIndex - 1, 0)
                                 }
                                 
-                                withAnimation(.easeInOut(duration: 0.3)) {
+                                withAnimation(.easeInOut(duration: 0.4)) {
                                     currentIndex = newIndex
                                     dragOffset = 0
                                 }
@@ -115,7 +115,8 @@ struct TrendingFilterSectionscaleAspectFillView: View {
                             Circle()
                                 .frame(width: 6, height: 6)
                                 .foregroundColor(index == currentIndex ? .white : .white.opacity(0.3))
-                                .animation(.easeInOut(duration: 0.2), value: currentIndex)
+                                .scaleEffect(index == currentIndex ? 1.2 : 1.0)
+                                .animation(.easeInOut(duration: 0.4), value: currentIndex)
                         }
                     }
                     .frame(maxWidth: .infinity)

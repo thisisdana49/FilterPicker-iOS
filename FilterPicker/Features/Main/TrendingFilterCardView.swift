@@ -23,8 +23,13 @@ struct TrendingFilterCardView: View {
             }
         }
         .scaleEffect(scale)
-        .shadow(radius: isCenter ? 8 : 2)
-        .animation(.easeInOut(duration: 0.3), value: isCenter)
+        .shadow(
+            radius: isCenter ? 8 : 2,
+            x: 0,
+            y: isCenter ? 4 : 2
+        )
+        .animation(.easeInOut(duration: 0.4), value: isCenter)
+        .animation(.easeInOut(duration: 0.4), value: scale)
     }
     
     private var cardContent: some View {
@@ -35,7 +40,9 @@ struct TrendingFilterCardView: View {
                         .clipped()
                         .cornerRadius(20)
                         .overlay(
-                            Color.black.opacity(isCenter ? 0 : 0.6)
+                            Color.black
+                                .opacity(isCenter ? 0 : 0.6)
+                                .animation(.easeInOut(duration: 0.4), value: isCenter)
                         )
                 } else {
                     Rectangle()
@@ -47,6 +54,8 @@ struct TrendingFilterCardView: View {
                     .fontStyle(.mulgyeolCaption1)
                     .foregroundColor(.gray30)
                     .padding([.top, .leading], 12)
+                    .opacity(isCenter ? 1.0 : 0.7)
+                    .animation(.easeInOut(duration: 0.4), value: isCenter)
                 VStack {
                     Spacer()
                     HStack {
@@ -62,8 +71,14 @@ struct TrendingFilterCardView: View {
                                     .foregroundColor(.gray30)
                             }
                             .padding(8)
-                            .background(Color.black.opacity(0.4))
+                            .background(
+                                Color.black
+                                    .opacity(isCenter ? 0.4 : 0.2)
+                                    .animation(.easeInOut(duration: 0.4), value: isCenter)
+                            )
                             .cornerRadius(8)
+                            .opacity(isCenter ? 1.0 : 0.8)
+                            .animation(.easeInOut(duration: 0.4), value: isCenter)
                         }
                         .buttonStyle(PlainButtonStyle())
                         .padding([.bottom, .trailing], 12)
