@@ -9,11 +9,33 @@ import SwiftUI
 import Combine
 import CryptoKit
 
+// MARK: - Image Quality Levels
+enum ImageQuality {
+    case thumbnail  // 작은 이미지용 (최대 300px)
+    case standard   // 중간 이미지용 (최대 600px) 
+    case high       // 큰 이미지용 (최대 1200px)
+    
+    var maxSize: CGFloat {
+        switch self {
+        case .thumbnail: return 300
+        case .standard: return 600
+        case .high: return 1200
+        }
+    }
+    
+    var suffix: String {
+        switch self {
+        case .thumbnail: return "_thumb"
+        case .standard: return "_std" 
+        case .high: return "_high"
+        }
+    }
+}
+
 // MARK: - Image Cache Configuration
 struct ImageCacheConfig {
-    static let memoryCapacity: Int = 50 * 1024 * 1024 // 50MB
-    static let diskCapacity: Int = 100 * 1024 * 1024 // 100MB
-    static let thumbnailSize: CGSize = CGSize(width: 300, height: 300)
+    static let memoryCapacity: Int = 80 * 1024 * 1024 // 80MB (증가)
+    static let diskCapacity: Int = 200 * 1024 * 1024 // 200MB (증가)
     static let cacheDirectoryName = "ImageCache"
 }
 
@@ -55,8 +77,8 @@ final class ImageCacheManager {
     
     // MARK: - Public Methods
     
-    func loadImage(from url: URL) async -> UIImage? {
-        let cacheKey = generateCacheKey(for: url)
+    func loadImage(from url: URL, quality: ImageQuality = .standard) async -> UIImage? {
+        let cacheKey = generateCacheKey(for: url, quality: quality)
         
         // 1. 메모리 캐시 확인
         if let cachedImage = memoryCache.object(forKey: cacheKey as NSString) {
@@ -98,7 +120,7 @@ final class ImageCacheManager {
                         self.loadingTasksLock.unlock()
                     }
                     
-                    return await self.downloadImage(from: url, cacheKey: cacheKey)
+                    return await self.downloadImage(from: url, cacheKey: cacheKey, quality: quality)
                 }
                 
                 // 작업 등록 (스레드 안전)
@@ -117,7 +139,7 @@ final class ImageCacheManager {
     
     // MARK: - Private Methods
     
-    private func downloadImage(from url: URL, cacheKey: String) async -> UIImage? {
+    private func downloadImage(from url: URL, cacheKey: String, quality: ImageQuality) async -> UIImage? {
         do {
             var request = URLRequest(url: url)
             request.setValue(AppConfig.apiKey, forHTTPHeaderField: "SesacKey")
@@ -134,14 +156,14 @@ final class ImageCacheManager {
                 return nil
             }
             
-            // 썸네일 생성 (메모리 절약)
-            let thumbnailImage = createThumbnail(from: originalImage)
+            // 품질에 따른 이미지 리사이징
+            let processedImage = createImageWithQuality(from: originalImage, quality: quality)
             
             // 캐시에 저장
-            saveToCaches(image: thumbnailImage, key: cacheKey)
+            saveToCaches(image: processedImage, key: cacheKey)
             
             print("✅ [ImageCache] 다운로드 완료: \(url.lastPathComponent)")
-            return thumbnailImage
+            return processedImage
             
         } catch {
             print("❌ [ImageCache] 네트워크 오류: \(error.localizedDescription)")
@@ -149,10 +171,15 @@ final class ImageCacheManager {
         }
     }
     
-    private func createThumbnail(from image: UIImage) -> UIImage {
-        let maxSize = max(ImageCacheConfig.thumbnailSize.width, ImageCacheConfig.thumbnailSize.height)
-        
+    private func createImageWithQuality(from image: UIImage, quality: ImageQuality) -> UIImage {
+        let maxSize = quality.maxSize
         let originalSize = image.size
+        
+        // 이미 충분히 작으면 원본 반환
+        if max(originalSize.width, originalSize.height) <= maxSize {
+            return image
+        }
+        
         let aspectRatio = originalSize.width / originalSize.height
         
         let newSize: CGSize
@@ -209,9 +236,10 @@ final class ImageCacheManager {
         return image
     }
     
-    private func generateCacheKey(for url: URL) -> String {
-        // URL을 해시화하여 파일명으로 사용
-        let data = url.absoluteString.data(using: .utf8)!
+    private func generateCacheKey(for url: URL, quality: ImageQuality) -> String {
+        // URL + 품질 정보를 해시화하여 파일명으로 사용
+        let keyString = url.absoluteString + quality.suffix
+        let data = keyString.data(using: .utf8)!
         let hash = SHA256.hash(data: data)
         return hash.compactMap { String(format: "%02x", $0) }.joined()
     }
@@ -394,7 +422,7 @@ final class CachedImageLoader: ObservableObject {
     
     private var loadTask: Task<Void, Never>?
     
-    func load(from url: URL) {
+    func load(from url: URL, quality: ImageQuality = .standard) {
         // 기존 작업 취소
         loadTask?.cancel()
         
@@ -406,7 +434,7 @@ final class CachedImageLoader: ObservableObject {
         isLoading = true
         
         loadTask = Task {
-            let loadedImage = await ImageCacheManager.shared.loadImage(from: url)
+            let loadedImage = await ImageCacheManager.shared.loadImage(from: url, quality: quality)
             
             await MainActor.run {
                 if !Task.isCancelled {

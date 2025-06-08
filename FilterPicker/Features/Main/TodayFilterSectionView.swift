@@ -33,7 +33,7 @@ struct TodayFilterSectionView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let todayFilter = store.state.todayFilter {
                 if let url = URL(string: todayFilter.filteredImageURL) {
-                    URLImageView(url: url, showOverlay: true, contentMode: .fill)
+                    URLImageView(url: url, showOverlay: true, contentMode: .fill, quality: .high)
                         .frame(width: UIScreen.main.bounds.width, height: 555)
                         .clipped()
                 }

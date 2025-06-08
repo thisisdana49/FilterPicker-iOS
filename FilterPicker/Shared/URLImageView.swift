@@ -14,11 +14,13 @@ struct CachedImageView: View {
     let url: URL
     let showOverlay: Bool
     let contentMode: ContentMode
+    let quality: ImageQuality
     
-    init(url: URL, showOverlay: Bool = false, contentMode: ContentMode = .fill) {
+    init(url: URL, showOverlay: Bool = false, contentMode: ContentMode = .fill, quality: ImageQuality = .standard) {
         self.url = url
         self.showOverlay = showOverlay
         self.contentMode = contentMode
+        self.quality = quality
     }
     
     var body: some View {
@@ -68,7 +70,7 @@ struct CachedImageView: View {
             }
         }
         .onAppear {
-            loader.load(from: url)
+            loader.load(from: url, quality: quality)
         }
         .onDisappear {
             // View가 사라질 때 로딩 취소 (메모리 절약)

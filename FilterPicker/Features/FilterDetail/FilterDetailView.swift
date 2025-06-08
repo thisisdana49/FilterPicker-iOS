@@ -80,14 +80,14 @@ struct FilterDetailView: View {
                                 ZStack {
                                     // Before 이미지 (오른쪽, 배경)
                                     if let beforeURL = URL(string: filterDetail.originalImageURL) {
-                                        URLImageView(url: beforeURL, showOverlay: false, contentMode: .fill)
+                                        URLImageView(url: beforeURL, showOverlay: false, contentMode: .fill, quality: .high)
                                             .frame(width: geometry.size.width, height: geometry.size.width * 4/3)
                                             .clipped()
                                     }
                                     
                                     // After 이미지 (왼쪽, 마스킹 적용)
                                     if let afterURL = URL(string: filterDetail.filteredImageURL) {
-                                        URLImageView(url: afterURL, showOverlay: false, contentMode: .fill)
+                                        URLImageView(url: afterURL, showOverlay: false, contentMode: .fill, quality: .high)
                                             .frame(width: geometry.size.width, height: geometry.size.width * 4/3)
                                             .clipped()
                                             .mask(
