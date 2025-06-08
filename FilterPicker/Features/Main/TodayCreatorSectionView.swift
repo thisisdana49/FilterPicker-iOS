@@ -108,7 +108,10 @@ struct TodayCreatorSectionView: View {
         .padding(.horizontal, 20)
         .padding(.bottom, 68)
         .onAppear {
-            store.dispatch(.fetchTodayAuthor)
+            // 이미 로드된 경우 재요청하지 않음
+            if !store.state.hasLoadedTodayAuthor {
+                store.dispatch(.fetchTodayAuthor)
+            }
         }
     }
 }

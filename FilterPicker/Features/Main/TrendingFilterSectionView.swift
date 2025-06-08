@@ -128,7 +128,10 @@ struct TrendingFilterSectionscaleAspectFillView: View {
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 20)
         .onAppear {
-            store.dispatch(.fetchHotTrendFilters)
+            // 이미 로드된 경우 재요청하지 않음
+            if !store.state.hasLoadedHotTrendFilters {
+                store.dispatch(.fetchHotTrendFilters)
+            }
         }
     }
 }

@@ -19,12 +19,16 @@ final class MainStore: ObservableObject {
     func dispatch(_ intent: MainIntent) {
         switch intent {
         case .fetchTodayFilter:
+            // 이미 로드되었으면 재요청하지 않음
+            guard !state.hasLoadedTodayFilter else { return }
+            
             Task {
                 do {
                     state.isLoading = true
                     state.error = nil
                     let todayFilter = try await filterRepository.fetchTodayFilter()
                     state.todayFilter = todayFilter
+                    state.hasLoadedTodayFilter = true
                     state.isLoading = false
                 } catch {
                     state.error = error
@@ -33,12 +37,16 @@ final class MainStore: ObservableObject {
             }
             
         case .fetchHotTrendFilters:
+            // 이미 로드되었으면 재요청하지 않음
+            guard !state.hasLoadedHotTrendFilters else { return }
+            
             Task {
                 do {
                     state.isLoading = true
                     state.error = nil
                     let filters = try await filterRepository.fetchHotTrendFilters()
                     state.hotTrendFilters = filters
+                    state.hasLoadedHotTrendFilters = true
                     state.isLoading = false
                 } catch {
                     state.error = error
@@ -59,12 +67,16 @@ final class MainStore: ObservableObject {
             state.error = error
             
         case .fetchTodayAuthor:
+            // 이미 로드되었으면 재요청하지 않음
+            guard !state.hasLoadedTodayAuthor else { return }
+            
             Task {
                 do {
                     state.isLoading = true
                     state.error = nil
                     let response = try await filterRepository.fetchTodayAuthor()
                     state.todayAuthor = response.author
+                    state.hasLoadedTodayAuthor = true
                     state.isLoading = false
                 } catch {
                     state.error = error
@@ -79,6 +91,19 @@ final class MainStore: ObservableObject {
             Task {
                 await toggleLike(filterId: filterId)
             }
+            
+        // MARK: - 강제 새로고침 케이스들
+        case .refreshTodayFilter:
+            state.hasLoadedTodayFilter = false
+            dispatch(.fetchTodayFilter)
+            
+        case .refreshHotTrendFilters:
+            state.hasLoadedHotTrendFilters = false
+            dispatch(.fetchHotTrendFilters)
+            
+        case .refreshTodayAuthor:
+            state.hasLoadedTodayAuthor = false
+            dispatch(.fetchTodayAuthor)
         }
     }
     

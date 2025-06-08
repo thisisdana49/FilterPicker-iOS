@@ -77,7 +77,10 @@ struct TodayFilterSectionView: View {
         .frame(height: 555)
         .padding(.horizontal, 20)
         .onAppear {
-            store.dispatch(.fetchTodayFilter)
+            // 이미 로드된 경우 재요청하지 않음
+            if !store.state.hasLoadedTodayFilter {
+                store.dispatch(.fetchTodayFilter)
+            }
         }
     }
 }
