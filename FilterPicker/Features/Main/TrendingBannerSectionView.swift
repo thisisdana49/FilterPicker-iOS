@@ -28,12 +28,27 @@ struct TrendingBannerSectionView: View {
                 .frame(width: bannerWidth, height: 120)
                 .animation(.easeInOut, value: currentIndex)
                 .gesture(
-                    DragGesture()
+                    DragGesture(minimumDistance: 25)
                         .onEnded { value in
-                            if value.translation.width < -30 {
-                                withAnimation { currentIndex = (currentIndex + 1) % banners.count }
-                            } else if value.translation.width > 30 {
-                                withAnimation { currentIndex = (currentIndex - 1 + banners.count) % banners.count }
+                            let horizontalDistance = abs(value.translation.width)
+                            let verticalDistance = abs(value.translation.height)
+                            
+                            // 세로 움직임이 가로 움직임보다 1.5배 이상 크면 배너 스와이프 무시
+                            if verticalDistance > horizontalDistance * 1.5 {
+                                return
+                            }
+                            
+                            // 가로 움직임이 우세할 때만 배너 변경
+                            if horizontalDistance > verticalDistance {
+                                if value.translation.width < -40 {
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        currentIndex = (currentIndex + 1) % banners.count
+                                    }
+                                } else if value.translation.width > 40 {
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        currentIndex = (currentIndex - 1 + banners.count) % banners.count
+                                    }
+                                }
                             }
                         }
                 )

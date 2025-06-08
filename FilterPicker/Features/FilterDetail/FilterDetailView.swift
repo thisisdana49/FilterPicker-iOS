@@ -13,6 +13,7 @@ struct FilterDetailView: View {
     @StateObject private var store = FilterDetailStore()
     @State private var dragPosition: CGFloat = 0.5 // 드래그 위치 (0.0 ~ 1.0)
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var tabBarVisibility: TabBarVisibilityManager
     
     var body: some View {
         GeometryReader { geometry in
@@ -79,16 +80,14 @@ struct FilterDetailView: View {
                                 ZStack {
                                     // Before 이미지 (오른쪽, 배경)
                                     if let beforeURL = URL(string: filterDetail.originalImageURL) {
-                                        URLImageView(url: beforeURL, showOverlay: false)
-                                            .aspectRatio(contentMode: .fill)
+                                        URLImageView(url: beforeURL, showOverlay: false, contentMode: .fill, quality: .high)
                                             .frame(width: geometry.size.width, height: geometry.size.width * 4/3)
                                             .clipped()
                                     }
                                     
                                     // After 이미지 (왼쪽, 마스킹 적용)
                                     if let afterURL = URL(string: filterDetail.filteredImageURL) {
-                                        URLImageView(url: afterURL, showOverlay: false)
-                                            .aspectRatio(contentMode: .fill)
+                                        URLImageView(url: afterURL, showOverlay: false, contentMode: .fill, quality: .high)
                                             .frame(width: geometry.size.width, height: geometry.size.width * 4/3)
                                             .clipped()
                                             .mask(
@@ -338,8 +337,9 @@ struct FilterDetailView: View {
                                         if let profileImageURL = filterDetail.creator.profileImage,
                                            !profileImageURL.isEmpty,
                                            let url = URL(string: filterDetail.creator.profileImageURL) {
-                                            URLImageView(url: url, showOverlay: false)
+                                            URLImageView(url: url, showOverlay: false, contentMode: .fill)
                                                 .frame(width: 48, height: 48)
+                                                .clipped()
                                                 .clipShape(Circle())
                                         } else {
                                             Circle()
@@ -413,6 +413,12 @@ struct FilterDetailView: View {
         .ignoresSafeArea(.all)
         .onAppear {
             store.dispatch(.loadFilterDetail(filterId: filterId))
+            tabBarVisibility.hideTabBar()
+            print("🔒 [FilterDetailView] 탭바 숨김")
+        }
+        .onDisappear {
+            tabBarVisibility.showTabBar()
+            print("🔓 [FilterDetailView] 탭바 표시")
         }
         .onChange(of: store.state.filterDetail) { filterDetail in
             // 필터 상세 로딩 완료 후 주소 로딩

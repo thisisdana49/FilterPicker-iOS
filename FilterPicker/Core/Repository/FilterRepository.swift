@@ -14,8 +14,7 @@ protocol FilterRepositoryProtocol {
     
     // 새로운 필터 목록 API
     func fetchFilters(_ request: FilterListRequest) async throws -> FilterListResponse
-    func likeFilter(filterId: String) async throws -> Void
-    func unlikeFilter(filterId: String) async throws -> Void
+    func toggleLike(filterId: String, likeStatus: Bool) async throws -> LikeResponse
 }
 
 final class FilterRepository: FilterRepositoryProtocol {
@@ -78,24 +77,14 @@ final class FilterRepository: FilterRepositoryProtocol {
         }
     }
     
-    func likeFilter(filterId: String) async throws -> Void {
-        print("🌐 [Request] POST /v1/filters/\(filterId)/like")
+    func toggleLike(filterId: String, likeStatus: Bool) async throws -> LikeResponse {
+        print("🌐 [Request] POST /v1/filters/\(filterId)/like - likeStatus: \(likeStatus)")
         do {
-            try await filterAPIService.likeFilter(filterId: filterId)
-            print("✅ [Success] Filter liked: \(filterId)")
+            let response = try await filterAPIService.toggleLike(filterId: filterId, likeStatus: likeStatus)
+            print("✅ [Success] Filter like toggled: \(filterId), result: \(response.likeStatus)")
+            return response
         } catch {
-            print("❌ [Error] LikeFilter: \(error)")
-            throw error
-        }
-    }
-    
-    func unlikeFilter(filterId: String) async throws -> Void {
-        print("🌐 [Request] DELETE /v1/filters/\(filterId)/like")
-        do {
-            try await filterAPIService.unlikeFilter(filterId: filterId)
-            print("✅ [Success] Filter unliked: \(filterId)")
-        } catch {
-            print("❌ [Error] UnlikeFilter: \(error)")
+            print("❌ [Error] ToggleLike: \(error)")
             throw error
         }
     }

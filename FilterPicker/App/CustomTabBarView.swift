@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CustomTabBarView: View {
     @Binding var selectedTab: TabItem
+    var onTabReselected: ((TabItem) -> Void)?
     
     var body: some View {
         ZStack {
@@ -31,7 +32,15 @@ struct CustomTabBarView: View {
             HStack(spacing: 0) {
                 ForEach(TabItem.allCases) { tab in
                     Button(action: {
-                        selectedTab = tab
+                        if selectedTab == tab {
+                            // 현재 선택된 탭을 다시 선택한 경우
+                            onTabReselected?(tab)
+                            print("🔄 [TabBar] \(tab) 탭 재선택 - 스크롤 맨 위로")
+                        } else {
+                            // 다른 탭 선택
+                            selectedTab = tab
+                            print("🎯 [TabBar] \(tab) 탭 선택")
+                        }
                     }) {
                         Image(tab.iconAssetName(isSelected: selectedTab == tab))
                             .renderingMode(.template)

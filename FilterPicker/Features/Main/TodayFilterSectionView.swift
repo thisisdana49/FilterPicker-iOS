@@ -33,8 +33,7 @@ struct TodayFilterSectionView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let todayFilter = store.state.todayFilter {
                 if let url = URL(string: todayFilter.filteredImageURL) {
-                    URLImageView(url: url, showOverlay: true)
-                        .scaledToFill()
+                    URLImageView(url: url, showOverlay: true, contentMode: .fill, quality: .high)
                         .frame(width: UIScreen.main.bounds.width, height: 555)
                         .clipped()
                 }
@@ -78,7 +77,10 @@ struct TodayFilterSectionView: View {
         .frame(height: 555)
         .padding(.horizontal, 20)
         .onAppear {
-            store.dispatch(.fetchTodayFilter)
+            // 이미 로드된 경우 재요청하지 않음
+            if !store.state.hasLoadedTodayFilter {
+                store.dispatch(.fetchTodayFilter)
+            }
         }
     }
 }

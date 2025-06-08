@@ -6,49 +6,85 @@ struct TrendingFilterCardView: View {
     let scale: CGFloat
     let cardWidth: CGFloat
     let cardHeight: CGFloat
+    let isDragging: Bool
+    let onLikeTapped: () -> Void
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            if let url = URL(string: filter.filteredImageURL) {
-                URLImageView(url: url, showOverlay: false)
-                    .scaledToFill()
-                    .frame(width: cardWidth, height: cardHeight)
-                    .clipped()
-                    .cornerRadius(20)
-                    .overlay(
-                        Color.black.opacity(isCenter ? 0 : 0.6)
-                    )
+        Group {
+            if isDragging {
+                // 드래그 중일 때는 NavigationLink 비활성화
+                cardContent
             } else {
-                Rectangle()
-                    .fill(Color.gray30)
-                    .frame(width: cardWidth, height: cardHeight)
-                    .cornerRadius(20)
-            }
-            Text(filter.title)
-                .fontStyle(.mulgyeolCaption1)
-                .foregroundColor(.gray30)
-                .padding([.top, .leading], 12)
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    HStack(spacing: 4) {
-                        Image(systemName: "heart.fill")
-                            .foregroundColor(.white)
-                        Text("\(filter.likeCount)")
-                            .fontStyle(.caption1)
-                            .foregroundColor(.gray30)
-                    }
-                    .padding(8)
-                    .background(Color.black.opacity(0.4))
-                    .cornerRadius(8)
-                    .padding([.bottom, .trailing], 12)
+                // 드래그 중이 아닐 때만 NavigationLink 활성화
+                NavigationLink(destination: FilterDetailView(filterId: filter.filterId)) {
+                    cardContent
                 }
+                .buttonStyle(PlainButtonStyle())
             }
         }
-        .frame(width: cardWidth, height: cardHeight)
         .scaleEffect(scale)
-        .shadow(radius: isCenter ? 8 : 2)
-        .animation(.easeInOut(duration: 0.3), value: isCenter)
+        .shadow(
+            radius: isCenter ? 8 : 2,
+            x: 0,
+            y: isCenter ? 4 : 2
+        )
+        .animation(.easeInOut(duration: 0.4), value: isCenter)
+        .animation(.easeInOut(duration: 0.4), value: scale)
+    }
+    
+    private var cardContent: some View {
+            ZStack(alignment: .topLeading) {
+                if let url = URL(string: filter.filteredImageURL) {
+                    URLImageView(url: url, showOverlay: false, contentMode: .fill, quality: .thumbnail)
+                        .frame(width: cardWidth, height: cardHeight)
+                        .clipped()
+                        .cornerRadius(20)
+                        .overlay(
+                            Color.black
+                                .opacity(isCenter ? 0 : 0.6)
+                                .animation(.easeInOut(duration: 0.4), value: isCenter)
+                        )
+                } else {
+                    Rectangle()
+                        .fill(Color.gray30)
+                        .frame(width: cardWidth, height: cardHeight)
+                        .cornerRadius(20)
+                }
+                Text(filter.title)
+                    .fontStyle(.mulgyeolCaption1)
+                    .foregroundColor(.gray30)
+                    .padding([.top, .leading], 12)
+                    .opacity(isCenter ? 1.0 : 0.7)
+                    .animation(.easeInOut(duration: 0.4), value: isCenter)
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            onLikeTapped()
+                        }) {
+                            HStack(spacing: 4) {
+                                Image(systemName: filter.isLiked ? "heart.fill" : "heart")
+                                    .foregroundColor(filter.isLiked ? .red : .white)
+                                Text("\(filter.likeCount)")
+                                    .fontStyle(.caption1)
+                                    .foregroundColor(.gray30)
+                            }
+                            .padding(8)
+                            .background(
+                                Color.black
+                                    .opacity(isCenter ? 0.4 : 0.2)
+                                    .animation(.easeInOut(duration: 0.4), value: isCenter)
+                            )
+                            .cornerRadius(8)
+                            .opacity(isCenter ? 1.0 : 0.8)
+                            .animation(.easeInOut(duration: 0.4), value: isCenter)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .padding([.bottom, .trailing], 12)
+                    }
+                }
+            }
+            .frame(width: cardWidth, height: cardHeight)
     }
 } 

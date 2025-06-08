@@ -10,8 +10,7 @@ import Combine
 
 protocol FilterAPIService {
   func fetchFilters(_ request: FilterListRequest) async throws -> FilterListResponse
-  func likeFilter(filterId: String) async throws -> Void
-  func unlikeFilter(filterId: String) async throws -> Void
+  func toggleLike(filterId: String, likeStatus: Bool) async throws -> LikeResponse
 }
 
 final class DefaultFilterAPIService: FilterAPIService {
@@ -31,22 +30,14 @@ final class DefaultFilterAPIService: FilterAPIService {
     return try await apiService.request(apiRequest)
   }
   
-  func likeFilter(filterId: String) async throws -> Void {
+  func toggleLike(filterId: String, likeStatus: Bool) async throws -> LikeResponse {
     let apiRequest = APIRequest(
       path: "/v1/filters/\(filterId)/like",
-      method: .post
+      method: .post,
+      body: ["like_status": likeStatus]
     )
     
-    let _: EmptyResponse = try await apiService.request(apiRequest)
-  }
-  
-  func unlikeFilter(filterId: String) async throws -> Void {
-    let apiRequest = APIRequest(
-      path: "/v1/filters/\(filterId)/like",
-      method: .delete
-    )
-    
-    let _: EmptyResponse = try await apiService.request(apiRequest)
+    return try await apiService.request(apiRequest)
   }
 }
 

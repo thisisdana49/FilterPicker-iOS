@@ -14,13 +14,18 @@ final class FilterFeedStore: ObservableObject {
   private let reducer: FilterFeedReducer
   private var cancellables = Set<AnyCancellable>()
   
-  init(reducer: FilterFeedReducer = FilterFeedReducer()) {
+  // MARK: - Singleton Pattern
+  static let shared = FilterFeedStore()
+  
+  private init(reducer: FilterFeedReducer = FilterFeedReducer()) {
     self.reducer = reducer
     
     // Reducer의 상태 변경을 Store에 동기화
     reducer.$state
       .assign(to: \.state, on: self)
       .store(in: &cancellables)
+    
+    print("📦 [FilterFeedStore] 싱글톤 Store 초기화됨")
   }
   
   func send(_ intent: FilterFeedIntent) {

@@ -20,6 +20,7 @@ final class DefaultAPIService: APIService {
         // 1. 토큰이 1분 내 만료되는지 체크하고 필요시 미리 갱신
         if TokenStorage.shouldRefreshAccessToken() && !TokenStorage.isRefreshTokenExpired() {
             print("🔄 [Proactive] 토큰이 1분 내 만료 예정 - 미리 갱신 시작")
+            TokenStorage.printTokenStatus()  // 갱신이 필요한 경우에만 토큰 상태 출력
             try await ensureValidToken()
         }
         
@@ -33,21 +34,13 @@ final class DefaultAPIService: APIService {
 
         // MARK: - 🔍 로그 요청 출력
         print("🌐 [Request] \(request.method.rawValue) \(request.path)")
-        if let body = request.body {
-            print("📤 Body: \(body)")
-        }
+        // if let body = request.body {
+        //     print("📤 Body: \(body)")
+        // }
         
-        // CURL 명령어 출력
-        print("🐚 [CURL] \(urlRequest.curlString)")
+        // CURL 명령어 출력 - 디버깅 시에만 필요
+        // print("🐚 [CURL] \(urlRequest.curlString)")
         
-        // 토큰 상태 로그
-        if let accessToken = TokenStorage.accessToken {
-            let isExpired = TokenStorage.isAccessTokenExpired()
-            print("🔑 AccessToken: \(isExpired ? "만료됨" : "유효함")")
-        } else {
-            print("🚫 AccessToken: 없음")
-        }
-
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
 
         guard let httpResponse = response as? HTTPURLResponse else {
@@ -56,12 +49,12 @@ final class DefaultAPIService: APIService {
 
         // MARK: - 🔍 로그 응답 출력
         print("📬 [Response] Status: \(httpResponse.statusCode)")
-        if let jsonString = String(data: data, encoding: .utf8) {
-            print("📦 Data: \(jsonString)")
-        }
+        // if let jsonString = String(data: data, encoding: .utf8) {
+        //     print("📦 Data: \(jsonString)")
+        // }
 
-        // 상태코드별 처리 디버깅
-        print("🔍 [Debug] 상태코드 체크 시작: \(httpResponse.statusCode)")
+        // 상태코드별 처리 디버깅 - 에러 시에만 출력하도록 수정
+        // print("🔍 [Debug] 상태코드 체크 시작: \(httpResponse.statusCode)")
         
         // 429 응답 처리 (Too Many Requests)
         if httpResponse.statusCode == 429 {
@@ -78,6 +71,9 @@ final class DefaultAPIService: APIService {
         // 419 응답 처리 (액세스 토큰 만료 - Reactive 처리)
         if httpResponse.statusCode == 419 {
             print("⚠️ [Reactive] 419 응답: AccessToken 만료 감지")
+            print("⚠️ [Reactive] 요청 URL: \(request.path ?? "알 수 없음")")
+            print("⚠️ [Reactive] 현재 토큰 상태:")
+            TokenStorage.printTokenStatus()
             
             // Reactive 토큰 갱신 후 재시도
             try await ensureValidToken()
@@ -107,11 +103,16 @@ final class DefaultAPIService: APIService {
     }
     
     private func ensureValidToken() async throws {
+        print("🔍 [TokenRefresh] ensureValidToken() 호출됨")
+        
         // 이미 토큰 갱신 중인 경우 기존 작업 재사용
         if let existingTask = refreshTask {
+            print("⏳ [TokenRefresh] 기존 토큰 갱신 작업 대기 중...")
             _ = try await existingTask.value
             return
         }
+        
+        print("🚀 [TokenRefresh] 새로운 토큰 갱신 작업 시작")
         
         // 새로운 토큰 갱신 작업 생성
         let task = Task<TokenResponse, Error> {
@@ -133,8 +134,12 @@ final class DefaultAPIService: APIService {
     }
     
     private func refreshToken() async throws -> TokenResponse {
-        print("🔑 [TokenRefresh] Refresh Token 갱신 시작")
+        print("\n🚨 [TokenRefresh] ⚠️ refreshToken() 호출됨!")
+        print("🚨 [TokenRefresh] 현재 토큰 상태 확인:")
         TokenStorage.printTokenStatus()
+        print("🚨 [TokenRefresh] 호출 위치 추적을 위한 Thread 정보:")
+        print("    Thread: \(Thread.current)")
+        print("🚨 [TokenRefresh] 토큰 갱신 시작\n")
         
         guard let refreshToken = TokenStorage.refreshToken else {
             print("❌ [TokenRefresh] RefreshToken이 없습니다")
@@ -243,3 +248,30 @@ private extension DefaultAPIService {
         return urlRequest
     }
 }
+
+// MARK: - URLRequest CURL Extension
+//extension URLRequest {
+//    var curlString: String {
+//        guard let url = self.url else { return "❌ Invalid URL" }
+//        
+//        var curlCommand = "curl -X \(self.httpMethod ?? "GET")"
+//        
+//        // URL 추가
+//        curlCommand += " '\(url.absoluteString)'"
+//        
+//        // 헤더 추가
+//        if let headers = self.allHTTPHeaderFields {
+//            for (key, value) in headers {
+//                curlCommand += " \\\n  -H '\(key): \(value)'"
+//            }
+//        }
+//        
+//        // Body 추가 (있는 경우)
+//        if let httpBody = self.httpBody,
+//           let bodyString = String(data: httpBody, encoding: .utf8) {
+//            curlCommand += " \\\n  -d '\(bodyString)'"
+//        }
+//        
+//        return curlCommand
+//    }
+//}

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ToggleLikeUseCase {
-  func execute(filterId: String, isLiked: Bool) async throws -> Void
+  func execute(filterId: String, currentlyLiked: Bool) async throws -> Bool
 }
 
 final class DefaultToggleLikeUseCase: ToggleLikeUseCase {
@@ -18,11 +18,10 @@ final class DefaultToggleLikeUseCase: ToggleLikeUseCase {
     self.repository = repository
   }
   
-  func execute(filterId: String, isLiked: Bool) async throws -> Void {
-    if isLiked {
-      try await repository.unlikeFilter(filterId: filterId)
-    } else {
-      try await repository.likeFilter(filterId: filterId)
-    }
+  func execute(filterId: String, currentlyLiked: Bool) async throws -> Bool {
+    // 현재 상태의 반대로 토글
+    let newLikeStatus = !currentlyLiked
+    let response = try await repository.toggleLike(filterId: filterId, likeStatus: newLikeStatus)
+    return response.likeStatus
   }
 } 

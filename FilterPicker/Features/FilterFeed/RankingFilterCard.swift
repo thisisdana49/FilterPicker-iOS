@@ -42,9 +42,9 @@ struct RankingFilterCard: View {
           
           // 필터 이미지 (필터 적용된 이미지)
           if let url = URL(string: filter.filteredImageURL) {
-            URLImageView(url: url, showOverlay: true)
-              .aspectRatio(contentMode: .fill)
+            URLImageView(url: url, showOverlay: true, contentMode: .fill)
               .frame(width: 140, height: 140)
+              .clipped()
               .clipShape(Circle())
               .overlay(
                 Circle()

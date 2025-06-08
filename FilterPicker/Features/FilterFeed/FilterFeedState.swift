@@ -22,11 +22,26 @@ struct FilterFeedState: Equatable {
   var nextCursor: String?
   var hasMoreFilters = true
   
+  // MARK: - Initial Load State
+  var hasInitiallyLoadedTopRanking = false
+  var hasInitiallyLoadedFilters = false
+  
+  // MARK: - Retry Logic
+  var retryCount: Int = 0
+  var maxRetryCount: Int = 3
+  var hasReachedMaxRetry: Bool = false
+  var lastErrorMessage: String?
+  
   // MARK: - Filter State
   var likedFilterIds: Set<String> = []
   
   // MARK: - UI State
   var isRefreshing = false
+  
+  // MARK: - User State Preservation
+  var lastViewedFilterIndex: Int = 0
+  var shouldRestoreScrollPosition = false
+  var viewReturnedFromDetail = false
   
   // MARK: - Computed Properties
   var currentTopRankingFilters: [Filter] {
@@ -56,6 +71,40 @@ struct FilterFeedState: Equatable {
   }
   
   var hasError: Bool {
-    return topRankingError != nil || filtersError != nil
+    return topRankingError != nil || filtersError != nil || hasReachedMaxRetry
+  }
+  
+  var shouldAllowRetry: Bool {
+    return retryCount < maxRetryCount && !hasReachedMaxRetry
+  }
+  
+  // MARK: - Skeleton State Computed Properties
+  var shouldShowTopRankingSkeleton: Bool {
+    // 로딩 중이고 아직 데이터가 없을 때만 스켈레톤 표시
+    return isLoadingTopRanking && topRankingFilters.isEmpty
+  }
+  
+  var shouldShowFiltersSkeleton: Bool {
+    // 로딩 중이고 아직 데이터가 없을 때만 스켈레톤 표시
+    return isLoadingFilters && filters.isEmpty
+  }
+  
+  // MARK: - Retry Reset Methods
+  mutating func resetRetryState() {
+    retryCount = 0
+    hasReachedMaxRetry = false
+    lastErrorMessage = nil
+  }
+  
+  mutating func resetInitialLoadState() {
+    hasInitiallyLoadedTopRanking = false
+    hasInitiallyLoadedFilters = false
+  }
+  
+  mutating func incrementRetryCount() {
+    retryCount += 1
+    if retryCount >= maxRetryCount {
+      hasReachedMaxRetry = true
+    }
   }
 } 

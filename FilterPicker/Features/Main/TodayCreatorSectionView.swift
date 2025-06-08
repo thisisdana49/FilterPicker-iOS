@@ -26,8 +26,9 @@ struct TodayCreatorSectionView: View {
             if let author = store.state.todayAuthor {
                 HStack(alignment: .top, spacing: 16) {
                     if let url = URL(string: author.profileImageURL) {
-                        URLImageView(url: url, showOverlay: false)
+                        URLImageView(url: url, showOverlay: false, contentMode: .fill)
                             .frame(width: 64, height: 64)
+                            .clipped()
                             .clipShape(Circle())
                     } else {
                         Circle()
@@ -49,18 +50,21 @@ struct TodayCreatorSectionView: View {
                 // 캐러셀: 상위 5개 필터 이미지
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
-                        ForEach(store.state.hotTrendFilters.prefix(5), id: \.filterId) { filter in
-                            if let url = URL(string: filter.filteredImageURL) {
-                                URLImageView(url: url, showOverlay: false)
-                                    .frame(width: 110, height: 80)
-                                    .cornerRadius(12)
-                                    .clipped()
-                            } else {
-                                Rectangle()
-                                    .fill(Color.gray30)
-                                    .frame(width: 110, height: 80)
-                                    .cornerRadius(12)
+                        ForEach(store.state.updatedHotTrendFilters.prefix(5), id: \.filterId) { filter in
+                            NavigationLink(destination: FilterDetailView(filterId: filter.filterId)) {
+                                if let url = URL(string: filter.filteredImageURL) {
+                                    URLImageView(url: url, showOverlay: false, contentMode: .fill)
+                                        .frame(width: 110, height: 80)
+                                        .clipped()
+                                        .cornerRadius(12)
+                                } else {
+                                    Rectangle()
+                                        .fill(Color.gray30)
+                                        .frame(width: 110, height: 80)
+                                        .cornerRadius(12)
+                                }
                             }
+                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                     .padding(.horizontal, 20)
@@ -104,7 +108,10 @@ struct TodayCreatorSectionView: View {
         .padding(.horizontal, 20)
         .padding(.bottom, 68)
         .onAppear {
-            store.dispatch(.fetchTodayAuthor)
+            // 이미 로드된 경우 재요청하지 않음
+            if !store.state.hasLoadedTodayAuthor {
+                store.dispatch(.fetchTodayAuthor)
+            }
         }
     }
 }

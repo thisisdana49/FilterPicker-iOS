@@ -62,10 +62,6 @@ enum TokenStorage {
     static func isAccessTokenExpired() -> Bool {
         guard let expiration = accessTokenExpiration else { return true }
         let isExpired = Date() >= expiration
-        print("🔑 AccessToken 상태:")
-        print("   - 만료 시간: \(expiration)")
-        print("   - 남은 시간: \(Int(expiration.timeIntervalSince(Date())))초")
-        print("   - 만료 여부: \(isExpired ? "만료됨" : "유효함")")
         return isExpired
     }
     
@@ -73,19 +69,12 @@ enum TokenStorage {
         guard let expiration = accessTokenExpiration else { return true }
         let timeUntilExpiration = expiration.timeIntervalSince(Date())
         let shouldRefresh = timeUntilExpiration <= 60 // 1분 이내 만료
-        print("🔄 AccessToken 갱신 필요 여부:")
-        print("   - 만료까지 남은 시간: \(Int(timeUntilExpiration))초")
-        print("   - 갱신 필요: \(shouldRefresh ? "예" : "아니오")")
         return shouldRefresh
     }
     
     static func isRefreshTokenExpired() -> Bool {
         guard let expiration = refreshTokenExpiration else { return true }
         let isExpired = Date() >= expiration
-        print("🔄 RefreshToken 상태:")
-        print("   - 만료 시간: \(expiration)")
-        print("   - 남은 시간: \(Int(expiration.timeIntervalSince(Date())))초")
-        print("   - 만료 여부: \(isExpired ? "만료됨" : "유효함")")
         return isExpired
     }
     

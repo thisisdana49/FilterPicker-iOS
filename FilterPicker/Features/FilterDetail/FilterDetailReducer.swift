@@ -83,9 +83,30 @@ struct FilterDetailReducer {
             newState.filterDetail = currentDetail
             
             do {
-                try await toggleLikeUseCase.execute(filterId: filterId)
+                let newLikeStatus = try await toggleLikeUseCase.execute(filterId: filterId, currentlyLiked: originalIsLiked)
+                
+                // 서버 응답에 따라 최종 상태 동기화
+                let finalDetail = FilterDetailResponse(
+                    filterId: currentDetail.filterId,
+                    category: currentDetail.category,
+                    title: currentDetail.title,
+                    description: currentDetail.description,
+                    files: currentDetail.files,
+                    price: currentDetail.price,
+                    creator: currentDetail.creator,
+                    photoMetadata: currentDetail.photoMetadata,
+                    filterValues: currentDetail.filterValues,
+                    isLiked: newLikeStatus,
+                    isDownloaded: currentDetail.isDownloaded,
+                    likeCount: newLikeStatus ? originalLikeCount + 1 : originalLikeCount - 1,
+                    buyerCount: currentDetail.buyerCount,
+                    comments: currentDetail.comments,
+                    createdAt: currentDetail.createdAt,
+                    updatedAt: currentDetail.updatedAt
+                )
+                newState.filterDetail = finalDetail
                 newState.isLikeLoading = false
-                print("✅ 좋아요 토글 성공")
+                print("✅ 좋아요 토글 성공: \(newLikeStatus)")
             } catch {
                 // 실패 시 롤백
                 let rolledBackDetail = FilterDetailResponse(

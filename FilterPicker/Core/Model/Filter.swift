@@ -25,14 +25,14 @@ struct Filter: Identifiable, Codable, Equatable {
   /// 필터가 적용된 이미지 URL (첫 번째 파일)
   var filteredImageURL: String {
     guard let firstFile = files.first else { return "" }
-    return AppConfig.baseURL + "/v1/" + firstFile
+    return AppConfig.baseURL + "/v1" + firstFile
   }
   
   /// 원본 이미지 URL (두 번째 파일, 없으면 첫 번째 파일)
   var originalImageURL: String {
     let targetFile = files.last ?? files.first ?? ""
     guard !targetFile.isEmpty else { return "" }
-    return AppConfig.baseURL + "/v1/" + targetFile
+    return AppConfig.baseURL + "/v1" + targetFile
   }
   
   // MARK: - Legacy computed properties (backward compatibility)
