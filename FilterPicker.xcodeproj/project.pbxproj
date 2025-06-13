@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E1A54192DFC772C003FD6BD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A54182DFC772C003FD6BD /* GoogleService-Info.plist */; };
 		3E237BE42DE1A76200423E9E /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E237BE32DE1A76200423E9E /* RootTabView.swift */; };
 		3E237BE62DE1A82400423E9E /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E237BE52DE1A82400423E9E /* CustomTabBarView.swift */; };
 		3E3CF1502DD5676B00B5D650 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF14F2DD5676B00B5D650 /* APIService.swift */; };
@@ -125,6 +126,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E1A54182DFC772C003FD6BD /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3E237BE32DE1A76200423E9E /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
 		3E237BE52DE1A82400423E9E /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
 		3E3CF14F2DD5676B00B5D650 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 		3EC86A072DD21A5500949918 /* FilterPicker */ = {
 			isa = PBXGroup;
 			children = (
+				3E1A54182DFC772C003FD6BD /* GoogleService-Info.plist */,
 				3E3CF17B2DD9B91200B5D650 /* FilterPicker.entitlements */,
 				3EC86A382DD36D7300949918 /* Info.plist */,
 				3EC86A1C2DD353CD00949918 /* App */,
@@ -732,6 +735,7 @@
 				3E3CF1A62DDA064900B5D650 /* Mulgyeol-Regular.ttf in Resources */,
 				3E3CF1A22DDA063900B5D650 /* Pretendard-Regular.ttf in Resources */,
 				3EC86A092DD21A5500949918 /* Assets.xcassets in Resources */,
+				3E1A54192DFC772C003FD6BD /* GoogleService-Info.plist in Resources */,
 				3EC86A332DD36C5700949918 /* Base.xcconfig in Resources */,
 				3EC86A372DD36C6B00949918 /* Release.xcconfig in Resources */,
 			);
