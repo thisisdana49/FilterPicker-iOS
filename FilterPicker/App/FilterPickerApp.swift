@@ -8,10 +8,22 @@
 import SwiftUI
 import KakaoSDKCommon
 import KakaoSDKAuth
+import FirebaseCore
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    FirebaseApp.configure()
+    return true
+  }
+}
 
 @main
 struct FilterPickerApp: App {
 //    @StateObject private var store = AppStore()
+    
+    // Firebase 설정을 위한 app delegate 등록
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     init() {
         // 카카오 SDK 초기화
