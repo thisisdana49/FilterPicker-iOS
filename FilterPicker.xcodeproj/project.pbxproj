@@ -10,6 +10,7 @@
 		3E1A54192DFC772C003FD6BD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A54182DFC772C003FD6BD /* GoogleService-Info.plist */; };
 		3E1A541C2DFC7882003FD6BD /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 3E1A541B2DFC7882003FD6BD /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		3E1A541E2DFC7882003FD6BD /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3E1A541D2DFC7882003FD6BD /* FirebaseCrashlytics */; };
+		3E1A54202DFC8CE2003FD6BD /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 3E1A541F2DFC8CE2003FD6BD /* FirebaseMessaging */; };
 		3E237BE42DE1A76200423E9E /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E237BE32DE1A76200423E9E /* RootTabView.swift */; };
 		3E237BE62DE1A82400423E9E /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E237BE52DE1A82400423E9E /* CustomTabBarView.swift */; };
 		3E3CF1502DD5676B00B5D650 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3CF14F2DD5676B00B5D650 /* APIService.swift */; };
@@ -251,6 +252,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E1A54202DFC8CE2003FD6BD /* FirebaseMessaging in Frameworks */,
 				3E3CF1842DD9D06400B5D650 /* KakaoSDKCommon in Frameworks */,
 				3E3CF1822DD9D06400B5D650 /* KakaoSDKAuth in Frameworks */,
 				3E1A541E2DFC7882003FD6BD /* FirebaseCrashlytics in Frameworks */,
@@ -686,6 +688,7 @@
 				3E3CF1852DD9D06400B5D650 /* KakaoSDKUser */,
 				3E1A541B2DFC7882003FD6BD /* FirebaseAnalyticsWithoutAdIdSupport */,
 				3E1A541D2DFC7882003FD6BD /* FirebaseCrashlytics */,
+				3E1A541F2DFC8CE2003FD6BD /* FirebaseMessaging */,
 			);
 			productName = FilterPicker;
 			productReference = 3EC869E82DD21A0E00949918 /* FilterPicker.app */;
@@ -999,6 +1002,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FilterPicker/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1037,6 +1041,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FilterPicker/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1112,6 +1117,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3E1A541A2DFC7882003FD6BD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCrashlytics;
+		};
+		3E1A541F2DFC8CE2003FD6BD /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3E1A541A2DFC7882003FD6BD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 		3E3CF1812DD9D06400B5D650 /* KakaoSDKAuth */ = {
 			isa = XCSwiftPackageProductDependency;
